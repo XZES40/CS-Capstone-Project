@@ -1,6 +1,8 @@
-we will make an elite XML/XSLT change server that can perform redundant archive changes in a high-volume environment. 
-Customer applications ought to have the capacity to submit XML reports and get changed substance.
-Because old version system open and close each time, it waste lots of system source. To avoid that way, we will create cache files,
-and put all files into memory, so we can get files quickly.
-The source libraries will be the Apache Xerces-C and Apache Xalan-C items. 
-The server ought to likewise incorporate bolster ICU in XML parsers and report serialization.
+%%%
+% Project abstract, with a concise introduction to the problem you are trying to solve and your proposed solution.
+%%%
+This document outlines the problem, and proposed solution, for creating a high-throughput and OS-agnostic XML/XSLT translation server. 
+While XML/XSLT document transformation is not new, existing systems do not meet industry needs for high-volume transformation; existing systems spend resources blindly compiling documents at each request, even if they were previously processed.
+Our proposed solution is to cache parsed documents in memory, in the XML/XSLT transformer and XML parser, to avoid spending computing resources re-compiling documents which have already been processed.
+The project will be developed with the Apache Xerces-C, Xalan-C, and ICU libraries for XSLT transformation, XML parsing, and Unicode support respectively.
+As a stretch-goal will design our code to target multiple operating systems, and create installation packages for our supported platforms.
