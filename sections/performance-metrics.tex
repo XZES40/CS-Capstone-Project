@@ -1,1 +1,20 @@
-As the requirement of client, they want the functioning and user interface correctly. This is all they want. We will make test that our server will transfer millions of files without any problem, and also we will have error check, so system will not die by one simple mistake.  The user interface should be easy to use without any instruction. 
+%
+% Performance metrics:
+%   How will you measure whether or not your solution meets your defined needs and functions well?
+%
+\section*{Performance Metrics}
+
+This application will need to have transformation correctness and a user interface.
+
+The transformation correctness can be verified by taking known input documents with a predictable output document and verifying that they produce the correct results.
+We will also verify that our caching layers do not find false-positives nor false-negatives.
+These tests can be largely automated for convenience.
+
+Our user interface can be anything from a native GUI, to a command-line interface, to a website.
+For simplicity we will target a command-line interface.
+That said we will be producing an HTTP web-api, so additional interfaces can be built by interacting with our application via common HTTP requests.
+
+% As the requirement of client, they want the functioning and user interface correctly.
+% This is all they want.
+% We will make test that our server will transfer millions of files without any problem, and also we will have error check, so system will not die by one simple mistake.
+% The user interface should be easy to use without any instruction.

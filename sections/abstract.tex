@@ -1,8 +1,11 @@
 %%%
 % Project abstract, with a concise introduction to the problem you are trying to solve and your proposed solution.
-%%%
-This document outlines the problem, and proposed solution, for creating a high-throughput and OS-agnostic XML/XSLT translation server. 
-While XML/XSLT document transformation is not new, existing systems do not meet industry needs for high-volume transformation; existing systems spend resources blindly compiling documents at each request, even if they were previously processed.
+%
+% Project abstract
+%   With a concise introduction to the problem you are trying to solve and your proposed solution.
+% 
+This document outlines the problem, and proposed solution, for creating a high-throughput and multi-platform XML/XSLT translation server. 
+While XML/XSLT document transformation is not new, existing systems do not meet industry needs for high-volume document transformation; blindly spending resources fully compiling documents at each request, even if they were previously processed.
 Our proposed solution is to cache parsed documents in memory, in the XML/XSLT transformer and XML parser, to avoid spending computing resources re-compiling documents which have already been processed.
 The project will be developed with the Apache Xerces-C, Xalan-C, and ICU libraries for XSLT transformation, XML parsing, and Unicode support respectively.
-As a stretch-goal will design our code to target multiple operating systems, and create installation packages for our supported platforms.
+As a stretch-goal this project will be design to target multiple operating systems, and create installation packages for each supported platforms.

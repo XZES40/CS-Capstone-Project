@@ -1,1 +1,26 @@
-The solution that we have proposed is creating index file or to cache parsed documents in the memory, and our code target to multiple platform. This system will be developed with the Apache Xalan-C, Xercer-C, XML parsing, and it will auto conver encode to Unicode
+% 
+% Proposed solution:
+%   What is your solution going to be able to do?
+%   How does this meet the needs of the problem?
+%   What do you think you will show at Expo?
+%   Exact details not necessary, but you should have a high level view of what will be presented.
+% 
+\section*{Proposed Solution}
+
+Our solution to this problem (as hinted in the problem statement) is to create an HTTP protocol XML/XSLT transformation server with two layers of caching: one at the XML Parsing layer and another at the XSLT transformation layer.
+Caching at these two layers would bypass time consuming document compilation and web-requests, speeding up the transformation process greatly.
+
+The server application will accept an XML document and an XML rule-file, and produce an output document.
+Both the input document and rule-file will be cached after being processed.
+Some checking will need occur to ensure that new or modified documents are not ignored and that the cache for a given document is up to date.
+
+After initially processing and caching (or retrieving) the documents they will be passed to the XML parser.
+The parser will fetch and cache (or retrieve) a catalog of additional files needed for document processing.
+Ideally, given an identical set of input files, minimal processing (verification really) will take place and a cached response will be returned quickly.
+To create this server application we will use the Apache Xalan-C, Apache Xerces-C, and the Unicode Consortium ICU libraries. \cite{xalan,xerces,icu}
+
+Time permitting we will also design our application to easily target multiple platforms (Linux, BSD, Windows) by having the application interface with an API rather than system-specific interfaces.
+Furthermore we we hope to package our application for our supported platforms to allow for easy installation.
+
+% The solution that we have proposed is creating index file or to cache parsed documents in the memory, and our code target to multiple platform.
+% This system will be developed with the Apache Xalan-C, Xercer-C, XML parsing, and it will auto conver encode to Unicode
