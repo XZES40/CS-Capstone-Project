@@ -5,3 +5,5 @@ build/
 *.log
 *.out
 *.ps
+*.blg
+*.bbl

@@ -1,0 +1,16 @@
+% 
+% Problem definition
+%   With a description of the problem you are trying to solve.
+% 
+\section*{Problem Definition}
+
+Extensible Markup Language/Extensible Stylesheet Language Transformations (XML/XSLT) are common computational tasks requiring the compilation of XML/XSLT documents and the transformation of those into a desired output file.
+Existing transformation systems accomplish this task by compiling the desired input files, running transformations on them, and producing an output document.
+These systems unconditionally compile input documents, even if they have been processed before.
+While this works for a small number of requests it does not scale well as it may spend resources processing documents which have already been used.
+There is not a suitable XML/XSLT server which is able to detect a reoccurring document and bypass its compilation by pulling the compiled document (or transformation) from a cache.
+
+% We want create new high volume translation server.
+% Although XML document translation server is existed, it no longer meets the requirement of industry.
+% Old system spends lots of resource on compiling document at each time, even if document have been processed last time.
+% This behavior consumes tones of source and wastes time.
