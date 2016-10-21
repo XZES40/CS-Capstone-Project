@@ -1,4 +1,4 @@
-\documentclass[draftclsnofoot,onecolumn,letterpaper,10pt]{extras/IEEEtran}
+\documentclass[draftclsnofoot,onecolumn,letterpaper,10pt,compsoc]{IEEEtran}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Preamble
@@ -6,14 +6,18 @@
 %% This means you need to source local files as `extras/file_name` instead of `file_name`.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}                                        
+\graphicspath{ {figures/} }
 \usepackage{amssymb}                                         
 \usepackage{amsmath}                                         
 \usepackage{amsthm}                                          
+\usepackage{caption}
 
 \usepackage{alltt}                                           
 \usepackage{float}
 \usepackage{color}
 \usepackage{url}
+
+\usepackage{pst-gantt}
 
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
@@ -35,7 +39,10 @@
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage[english]{babel}
-\usepackage{extras/titling}
+\usepackage{titling}
+
+\newcommand{\subparagraph}{}
+\usepackage{titlesec}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -62,3 +69,21 @@
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
 }
+
+\newcommand{\namesigdate}[2][5cm]{%
+  \begin{tabular}{@{}p{#1}@{}}
+    #2 \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Signature}} \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Date}}
+  \end{tabular}
+}
+
+\newcommand{\subsubsubsection}[1]{%
+  \begin{flushleft}
+  \paragraph{#1}
+  \end{flushleft}
+}
+
+\newpsstyle{Important}{fillstyle=solid, fillcolor=red}
+\newpsstyle{NotImportant}{fillstyle=vlines }
+
