@@ -1,4 +1,25 @@
 \section{Specific requirements}
+1. You must have an XML declaration statement.
+<?xml version = “ 1.0 ” standalone = “yes/no” encoding= “ UTF-8”?>
+The purpose of a declaration is to tell the browser or other handlers that the document is an XML document. The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file. 
+2. Is there a DTD file?
+The document must have a corresponding DTD file, and strictly comply with the DTD file specification. The DTD file's declaration statement follows the XML declaration statement.
+<!DOCTYPE type-of-doc SYSTEM/PUBLIC “dtd-name”>
+3. Note your capitalization
+In the XML file, the case is a difference.
+4. Quotes attributes values
+5. All identifiers must have a corresponding end tag.
+1. You must have an XML declaration statement.
+<?xml version = “ 1.0 ” standalone = “yes/no” encoding= “ UTF-8”?>
+The purpose of a declaration is to tell the browser or other handlers that the document is an XML document. The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file. 
+2. Is there a DTD file?
+The document must have a corresponding DTD file, and strictly comply with the DTD file specification. The DTD file's declaration statement follows the XML declaration statement.
+<!DOCTYPE type-of-doc SYSTEM/PUBLIC “dtd-name”>
+3. Note your capitalization
+In the XML file, the case is a difference.
+4. Quotes attributes values
+5. All identifiers must have a corresponding end tag.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This section of the SRS should contain all of the software requirements to a level of detail sufficient to enable designers to design a system to satisfy those requirements, and testers to test that the system satisfies those requirements.
@@ -13,6 +34,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{External interfaces}
+The system provides external interface, or system call external interface, often using XML format as the interface data transfer format.
+1. The use of Xstream library can be directly javabean into XML file, of course, can also be XML file data into java bean.
+2. Spring MVC + freemarker framework, get request to put the data into the ModelMap, dispatchServlet use freemarker template engine, the ModelMap data will be rendered to. Ftl file, generate the page. Use this principle, direct call freemarker template engine rendering method, the data is rendered to. Ftl file, generate the required XML format data. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should be a detailed description of all inputs into and outputs from the software system. It should complement the interface descriptions in 5.2 and should not repeat information there.
@@ -32,6 +57,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Functions}
+%String utf8_decode (string $data)
+This function decodes data encoded in UTF-8 to ISO-8859-1.
+%string utf8_encode ( string $data )
+This function converts the data string to UTF-8 encoding and returns the encoded string.
+%string xml_error_string ( int $code )
+Obtain an XML parser error string based on the given code.
+%int xml_get_current_byte_index ( resource $parser )
+Gets the current byte index of the specified XML parser
+%int xml_get_current_column_number ( resource $parser )
+Gets the current column number of the specified XML parser
+%int xml_get_current_line_number ( resource $parser )
+Gets the current line number of the specified XML parser
+int xml_parse_into_struct ( resource $parser , string $data , array &$values [, array &$index ] )
+This function parses the XML file into two corresponding arrays, and the index parameter contains a pointer to the corresponding value in the values array. The last two array parameters can be passed to the function by the pointer.
+%int xml_parse ( resource $parser , string $data [, bool $is_final = false ] )
+Xml_parse () Parses an XML document. The handler for the configured event is called indefinitely as needed
+
+%I get syntax problem, so I add comments here.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Functional requirements should define the fundamental actions that must take place in the software in accepting and processing the inputs and in processing and generating the outputs.
@@ -52,6 +96,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Performance requirements}
+1. DOM( Document Object Model)
+The DOM is the official W3C standard for representing XML documents in a platform-independent and language-independent manner. A DOM is a collection of nodes or pieces of information organized in a hierarchical structure. This hierarchy allows the developer to find specific information in the tree. Analysis of the structure is usually required to load the entire document and structure hierarchy, and then to do any work. Because it is based on the level of information, so DOM is considered to be tree-based or object-based.
+2. SAX (Simple API for XML)
+Analysis can start immediately, rather than waiting for all the data to be processed. Also, because the application only checks data when reading data, there is no need to store the data in memory. This is a huge advantage for large documents. In fact, the application does not even have to parse the entire document; it can stop resolving when a condition is met.
+3. JDOM(Java-based Document Object Model)
+The goal of JDOM is to become a Java-specific document model that simplifies interaction with XML and is faster than using the DOM implementation.
+4. DOM4J(Document Object Model for Java)
+Although DOM4J represents a completely independent development results, but initially, it is a smart JDOM branch. It incorporates a number of features beyond the basic XML document representation, including integrated XPath support, XML Schema support, and event-based processing for large documents or fluidized documents. It also provides the option of building document representations that have parallel access through the DOM4J API and the standard DOM interface. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection should specify both the static and the dynamic numerical requirements placed on the software or on human interaction with the software as a whole.
@@ -72,6 +124,14 @@
 
 \subsection{Logical database requirements}
 
+1. XMLEnabledDatabase(XEDB)
+That can handle the XML database. Which is characterized by the expansion of the original database system on XML data processing capabilities, so that it can adapt to XML data storage and query needs. It is common practice to add an XML mapping layer above the database system, which can be provided by the database vendor or by a third-party vendor. The mapping layer manages the storage and retrieval of XML data, but the original XML metadata and structure may be lost, and the results of the data retrieval can not be guaranteed to be in the original XML form. The basic storage units of XEDB are closely related to the specific implementation.
+2. NativeXMLDatabase(NXD)
+The XML database which is characterized by a natural way to deal with XML data to XML documents as the basic logical storage units for XML data storage and query characteristics of the design of the applicable data model and processing methods.
+3. HybridXMLDatabase(HXD)
+It is a hybrid XML database. According to the needs of the application, can be regarded as XEDB or NXD database, a typical example is Ozone.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the logical requirements for any information that is to be placed into a database.
 % This may include the following:
@@ -85,11 +145,23 @@
 
 \subsection{Design constraints}
 
+In XML technology, you can write a document to constrain an XML document writing specification, which is called XML constraints. In XML Schema technology has a technical term to describe the process, the XML Schema document declaration element binding to a namespace, after the XML file through the URI which is namespace to tell the parsing engine, XML document In the preparation of the elements from where, who is bound.
+DTD (Document Type Definition)
+The XML file uses the DOCTYPE declaration statement to specify the DTD file it follows.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify design constraints that can be imposed by other standards, hardware limitations, etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Standards Compliance}
+The XML declaration typically appears as the first line in an XML document. The XML declaration is not required, however, if used it must be the first line in the document and no other content or white space can precede it.
+1. The version number, <?xml version="1.0"?>
+This is mandatory. Although the number might change for future versions of XML, 1.0 is the current version.
+2. The encoding declaration, <?xml version="1.0" encoding="UTF-8"?>
+This is optional. If used, the encoding declaration must appear immediately after the version information in the XML declaration, and must contain a value representing an existing character encoding.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection should specify the requirements derived from existing standards or regulations.
@@ -104,7 +176,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Software System Attributes}
-
+XML elements can include attributes in the opening tag, similar to HTML.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % There are a number of attributes of software that can serve as requirements.
 % It is important that required attributes be specified so that their achievement can be objectively verified.
@@ -113,17 +185,26 @@
 
 \subsubsection{Reliability}
 
+The XML test case model is put forward by using XML to save the test cases generated in the software reliability test. 
+The XML test case file generator and test engine are implemented, and the test cases are read with the test driver to drive the tested program to run. 
+Test Results. Which can automatically and efficiently test the software interface. The test data is separated from the test driver, 
+which is beneficial to the maintenance and reuse of the test data, and has achieved very good results in practical application.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the factors required to establish the required reliability of the software system at time of delivery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Availability}
 
+XML provides a way to describe data and platform-independent,
+has become the de facto standard for data exchange on the Internet.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the factors required to guarantee a defined availability level for the entire system such as checkpoint, recovery, and restart.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Security}
+XML encryption provides an end-to-end security for applications that require secure data exchange of structured data. XML itself is the most popular technique for structuring data, so XML-based encryption becomes a method of dealing with the complex requirements of security in data interchange applications.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the factors that protect the software from accidental or malicious access, use, modification, destruction, or disclosure.
@@ -136,6 +217,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Maintainability}
+In the design of the time, if some of the key parameters into the configuration file, can be used for software deployment and bring more flexibility.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify attributes of software that relate to the ease of maintenance of the software itself.
@@ -144,6 +226,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Portability}
+
+A DTD, such as the priceList DTD, is what gives XML data its portability. If an application is sent a priceList document in XML format and has the priceList DTD, 
+it can process the document according to the rules specified in the DTD.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify attributes of software that relate to the ease of porting the software to other host machines and/or operating systems.
@@ -156,6 +241,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Organizing the specific requirements}
+1. The file must be in Unicode Convert Format -8 (UTF-8).
+2. The file must have a unique migration urlid. The urlid you specify for each file in the command line must be different. If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed. The reason for this is that USMT uses the urlid to define the components in the file.
+3. Each component in the file must have a display name for display in the Config.xml file.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % For anything but trivial systems the detailed requirements tend to be extensive.
@@ -167,6 +256,10 @@
 
 \subsubsection{System mode}
 
+1. The file must be in Unicode Convert Format -8 (UTF-8).
+2. The file must have a unique migration urlid. The urlid you specify for each file in the command line must be different. If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed. The reason for this is that USMT uses the urlid to define the components in the file.
+3. Each component in the file must have a display name for display in the Config.xml file.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems behave quite differently depending on the mode of operation.
 % For example, a control system may have different sets of functions depending on its mode: training, normal, or emergency.
@@ -176,6 +269,8 @@
 
 \subsubsection{User class}
 
+A user-defined simple type is a restriction on the content of an element or attribute. A user-defined simple type always limits the content of the element to a subset of the existing simple types that the element exports
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems provide different sets of functions to different classes of users.
 % For example, an elevator control system presents different capabilities to passengers, maintenance workers, and fire fighters.
@@ -183,6 +278,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Objects}
+The Element object represents an element in an XML document. Elements may contain attributes, other elements, or text. If an element contains text, the text is represented in a text-node.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Objects are real-world entities that have a counterpart within the system.
@@ -195,6 +291,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Feature}
+XML is a text format to describe a file format
+Because XML is described in text form, it is suitable for data exchange in various platform environments. Similarly, the use of text to describe the content, you can cross the barriers of different platforms for normal data exchange.
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A feature is an externally desired service by the system that may require a sequence of inputs to effect the desired result.
@@ -204,6 +305,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Stimulus}
+We can AXIOM stimulus XML. It has a clear design goal: a substantial increase Apache next-generation SOAP protocol stack Axis 2 performance. The result is AXIOM (also called OM), which is different from other object models, because it highlights the lightness of the construct and is built only when needed. Because it is lightweight, it minimizes the stress on system resources, especially the CPU and memory. At the same time, deferred construction allows the use of a portion of the tree when other parts are not yet complete.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems can be best organized by describing their functions in terms of stimuli.
@@ -212,6 +315,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Response}
+Flag the status of the entire software operation. Only when the service response code is 2000, it means that the software for the actual data analysis and processing operations. When the service response code is a different value, it means that due to various exceptions, the software does not carry out actual data analysis and processing, which is equivalent to an error in the system periphery.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems can be best organized by describing all the functions in support of the generation of a response.
@@ -220,6 +324,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Functional hierarchy}
+Root element->element->attribute “category”->text
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % When none of the above organizational schemes prove helpful, the overall functionality can be organized into a hierarchy of functions organized by either common inputs, common outputs, or common internal data access.
@@ -228,6 +333,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Additional comments}
+XML has been widely used in document processing, data storage, Web applications (such as ajax data transmission, template application) and so on. As a structured language, it overcomes the shortcomings of the usual markup language markup fixes, and you can define your own markup to organize your data according to your own wishes. You can define DTDs and XML Schemas to make sure that your XML documents meet your requirements. XSLT can be used to XML documents according to a certain syntax into the document you need.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Whenever a new SRS is contemplated, more than one of the organizational techniques given in 5.3.7.7 may be appropriate.
