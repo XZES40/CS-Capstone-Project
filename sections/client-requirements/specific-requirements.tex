@@ -1,25 +1,22 @@
 \section{Specific requirements}
-1. You must have an XML declaration statement.
-<?xml version = “ 1.0 ” standalone = “yes/no” encoding= “ UTF-8”?>
-The purpose of a declaration is to tell the browser or other handlers that the document is an XML document. The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file. 
-2. Is there a DTD file?
-The document must have a corresponding DTD file, and strictly comply with the DTD file specification. The DTD file's declaration statement follows the XML declaration statement.
-<!DOCTYPE type-of-doc SYSTEM/PUBLIC “dtd-name”>
-3. Note your capitalization
-In the XML file, the case is a difference.
-4. Quotes attributes values
-5. All identifiers must have a corresponding end tag.
-1. You must have an XML declaration statement.
-<?xml version = “ 1.0 ” standalone = “yes/no” encoding= “ UTF-8”?>
-The purpose of a declaration is to tell the browser or other handlers that the document is an XML document. The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file. 
-2. Is there a DTD file?
-The document must have a corresponding DTD file, and strictly comply with the DTD file specification. The DTD file's declaration statement follows the XML declaration statement.
-<!DOCTYPE type-of-doc SYSTEM/PUBLIC “dtd-name”>
-3. Note your capitalization
-In the XML file, the case is a difference.
-4. Quotes attributes values
-5. All identifiers must have a corresponding end tag.
-
+\begin{enumerate}
+   \item You must have an XML declaration statement.
+        \begin{itemize}
+        \item <?xml version = “ 1.0 ” standalone = “yes/no” encoding= “ UTF-8”?>
+        \item The purpose of a declaration is to tell the browser or other handlers that the document is an XML document. The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file. 
+        \end{itemize}
+   \item Is there a DTD file?
+        \begin{itemize}
+        \item The document must have a corresponding DTD file, and strictly comply with the DTD file specification. The DTD file's declaration statement follows the XML declaration statement.
+        <!DOCTYPE type-of-doc SYSTEM/PUBLIC “dtd-name”>
+        \end{itemize}
+    \item Note your capitalization
+        \begin{itemize}
+            \item In the XML file, the case is a difference.
+        \end{itemize}
+    \item Quotes attributes values
+    \item All identifiers must have a corresponding end tag.
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This section of the SRS should contain all of the software requirements to a level of detail sufficient to enable designers to design a system to satisfy those requirements, and testers to test that the system satisfies those requirements.
@@ -34,9 +31,13 @@ In the XML file, the case is a difference.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{External interfaces}
+
 The system provides external interface, or system call external interface, often using XML format as the interface data transfer format.
-1. The use of Xstream library can be directly javabean into XML file, of course, can also be XML file data into java bean.
-2. Spring MVC + freemarker framework, get request to put the data into the ModelMap, dispatchServlet use freemarker template engine, the ModelMap data will be rendered to. Ftl file, generate the page. Use this principle, direct call freemarker template engine rendering method, the data is rendered to. Ftl file, generate the required XML format data. 
+
+\begin{enumerate}
+  \item The use of Xstream library can be directly javabean into XML file, of course, can also be XML file data into java bean.
+  \item Spring MVC + freemarker framework, get request to put the data into the ModelMap, dispatchServlet use freemarker template engine, the ModelMap data will be rendered to. Ftl file, generate the page. Use this principle, direct call freemarker template engine rendering method, the data is rendered to. Ftl file, generate the required XML format data.
+\end{enumerate}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,14 +97,24 @@ Xml_parse () Parses an XML document. The handler for the configured event is cal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Performance requirements}
-1. DOM( Document Object Model)
-The DOM is the official W3C standard for representing XML documents in a platform-independent and language-independent manner. A DOM is a collection of nodes or pieces of information organized in a hierarchical structure. This hierarchy allows the developer to find specific information in the tree. Analysis of the structure is usually required to load the entire document and structure hierarchy, and then to do any work. Because it is based on the level of information, so DOM is considered to be tree-based or object-based.
-2. SAX (Simple API for XML)
-Analysis can start immediately, rather than waiting for all the data to be processed. Also, because the application only checks data when reading data, there is no need to store the data in memory. This is a huge advantage for large documents. In fact, the application does not even have to parse the entire document; it can stop resolving when a condition is met.
-3. JDOM(Java-based Document Object Model)
-The goal of JDOM is to become a Java-specific document model that simplifies interaction with XML and is faster than using the DOM implementation.
-4. DOM4J(Document Object Model for Java)
-Although DOM4J represents a completely independent development results, but initially, it is a smart JDOM branch. It incorporates a number of features beyond the basic XML document representation, including integrated XPath support, XML Schema support, and event-based processing for large documents or fluidized documents. It also provides the option of building document representations that have parallel access through the DOM4J API and the standard DOM interface. 
+\begin{enumerate}
+    \item DOM( Document Object Model)
+    \begin{itemize}
+        \item The DOM is the official W3C standard for representing XML documents in a platform-independent and language-independent manner. A DOM is a collection of nodes or pieces of information organized in a hierarchical structure. This hierarchy allows the developer to find specific information in the tree. Analysis of the structure is usually required to load the entire document and structure hierarchy, and then to do any work. Because it is based on the level of information, so DOM is considered to be tree-based or object-based.
+    \end{itemize}
+    \item SAX (Simple API for XML)
+    \begin{itemize}
+        \item Analysis can start immediately, rather than waiting for all the data to be processed. Also, because the application only checks data when reading data, there is no need to store the data in memory. This is a huge advantage for large documents. In fact, the application does not even have to parse the entire document; it can stop resolving when a condition is met.
+    \end{itemize}
+    \item JDOM(Java-based Document Object Model)
+    \begin{itemize}
+        \item The goal of JDOM is to become a Java-specific document model that simplifies interaction with XML and is faster than using the DOM implementation.
+    \end{itemize}
+    \item DOM4J(Document Object Model for Java)
+    \begin{itemize}
+        \item Although DOM4J represents a completely independent development results, but initially, it is a smart JDOM branch. It incorporates a number of features beyond the basic XML document representation, including integrated XPath support, XML Schema support, and event-based processing for large documents or fluidized documents. It also provides the option of building document representations that have parallel access through the DOM4J API and the standard DOM interface. 
+    \end{itemize}
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection should specify both the static and the dynamic numerical requirements placed on the software or on human interaction with the software as a whole.
@@ -124,13 +135,20 @@ Although DOM4J represents a completely independent development results, but init
 
 \subsection{Logical database requirements}
 
-1. XMLEnabledDatabase(XEDB)
-That can handle the XML database. Which is characterized by the expansion of the original database system on XML data processing capabilities, so that it can adapt to XML data storage and query needs. It is common practice to add an XML mapping layer above the database system, which can be provided by the database vendor or by a third-party vendor. The mapping layer manages the storage and retrieval of XML data, but the original XML metadata and structure may be lost, and the results of the data retrieval can not be guaranteed to be in the original XML form. The basic storage units of XEDB are closely related to the specific implementation.
-2. NativeXMLDatabase(NXD)
-The XML database which is characterized by a natural way to deal with XML data to XML documents as the basic logical storage units for XML data storage and query characteristics of the design of the applicable data model and processing methods.
-3. HybridXMLDatabase(HXD)
-It is a hybrid XML database. According to the needs of the application, can be regarded as XEDB or NXD database, a typical example is Ozone.
-
+\begin{enumerate}
+    \item XMLEnabledDatabase(XEDB)
+    \begin{itemize}
+        \item That can handle the XML database. Which is characterized by the expansion of the original database system on XML data processing capabilities, so that it can adapt to XML data storage and query needs. It is common practice to add an XML mapping layer above the database system, which can be provided by the database vendor or by a third-party vendor. The mapping layer manages the storage and retrieval of XML data, but the original XML metadata and structure may be lost, and the results of the data retrieval can not be guaranteed to be in the original XML form. The basic storage units of XEDB are closely related to the specific implementation.
+    \end{itemize}
+    \item NativeXMLDatabase(NXD)
+    \begin{itemize}
+        \item The XML database which is characterized by a natural way to deal with XML data to XML documents as the basic logical storage units for XML data storage and query characteristics of the design of the applicable data model and processing methods.
+    \end{itemize}
+    \item HybridXMLDatabase(HXD)
+    \begin{itemize}
+        \item It is a hybrid XML database. According to the needs of the application, can be regarded as XEDB or NXD database, a typical example is Ozone.
+    \end{itemize}
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the logical requirements for any information that is to be placed into a database.
@@ -156,10 +174,16 @@ The XML file uses the DOCTYPE declaration statement to specify the DTD file it f
 
 \subsubsection{Standards Compliance}
 The XML declaration typically appears as the first line in an XML document. The XML declaration is not required, however, if used it must be the first line in the document and no other content or white space can precede it.
-1. The version number, <?xml version="1.0"?>
-This is mandatory. Although the number might change for future versions of XML, 1.0 is the current version.
-2. The encoding declaration, <?xml version="1.0" encoding="UTF-8"?>
-This is optional. If used, the encoding declaration must appear immediately after the version information in the XML declaration, and must contain a value representing an existing character encoding.
+\begin{enumerate}
+    \item The version number, <?xml version="1.0"?>
+    \begin{itemize}
+        \item This is mandatory. Although the number might change for future versions of XML, 1.0 is the current version.
+    \end{itemize}
+    \item The encoding declaration, <?xml version="1.0" encoding="UTF-8"?>
+    \begin{itemize}
+        \item This is optional. If used, the encoding declaration must appear immediately after the version information in the XML declaration, and must contain a value representing an existing character encoding.
+    \end{itemize}
+\end{enumerate}
 
 
 
@@ -241,9 +265,12 @@ it can process the document according to the rules specified in the DTD.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Organizing the specific requirements}
-1. The file must be in Unicode Convert Format -8 (UTF-8).
-2. The file must have a unique migration urlid. The urlid you specify for each file in the command line must be different. If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed. The reason for this is that USMT uses the urlid to define the components in the file.
-3. Each component in the file must have a display name for display in the Config.xml file.
+\begin{enumerate}
+    \item The file must be in Unicode Convert Format -8 (UTF-8).
+    \item The file must have a unique migration urlid. The urlid you specify for each file in the command line must be different. If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed. The reason for this is that USMT uses the urlid to define the components in the file.
+    \item Each component in the file must have a display name for display in the Config.xml file.
+\end{enumerate}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -256,9 +283,11 @@ it can process the document according to the rules specified in the DTD.
 
 \subsubsection{System mode}
 
-1. The file must be in Unicode Convert Format -8 (UTF-8).
-2. The file must have a unique migration urlid. The urlid you specify for each file in the command line must be different. If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed. The reason for this is that USMT uses the urlid to define the components in the file.
-3. Each component in the file must have a display name for display in the Config.xml file.
+\begin{enumerate}
+    \item The file must be in Unicode Convert Format -8 (UTF-8).
+    \item The file must have a unique migration urlid. The urlid you specify for each file in the command line must be different. If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed. The reason for this is that USMT uses the urlid to define the components in the file.
+    \item Each component in the file must have a display name for display in the Config.xml file.
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems behave quite differently depending on the mode of operation.
@@ -295,8 +324,6 @@ XML is a text format to describe a file format
 Because XML is described in text form, it is suitable for data exchange in various platform environments. Similarly, the use of text to describe the content, you can cross the barriers of different platforms for normal data exchange.
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A feature is an externally desired service by the system that may require a sequence of inputs to effect the desired result.
 % For example, in a telephone system, features include local call, call forwarding, and conference call.
@@ -325,7 +352,7 @@ Flag the status of the entire software operation. Only when the service response
 
 \subsubsection{Functional hierarchy}
 Root element->element->attribute “category”->text
-
+%need more information
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % When none of the above organizational schemes prove helpful, the overall functionality can be organized into a hierarchy of functions organized by either common inputs, common outputs, or common internal data access.
 % Data flow diagrams and data dictionaries can be used to show the relationships between and among the functions and data.

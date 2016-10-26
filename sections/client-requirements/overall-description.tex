@@ -27,15 +27,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{System interfaces}
-1. Data base
-2. User and manager
-3. XML servers
 
-our server has 3 layer of actor, first layer is user part, such as reader and manager. 
-Second layer is XML servers, which contain XML parese and other XML transformation part.
-Third layer is our database where we store our data. 
-User can connect to webpage and send requeset to XML servers,
-and then XML servers will search from database and query data out, after that XML server can complie to Unicode type file and give back to user. 
+\begin{enumerate}
+  \item Data base
+  \item User and manager
+  \item XML servers
+\end{enumerate}
+
+Our server has 3 layer of actor, first layer is user part, such as reader and manager. 
+Second layer is XML servers, which contain XML parse and other XML transformation part.Third layer is our database where we store our data. 
+User can connect to webpage and send request to XML servers,and then XML servers will search from database and query data out, after that XML server can compile to Unicode type file and give back to user.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,9 +45,9 @@ and then XML servers will search from database and query data out, after that XM
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{User interfaces}
-our application require at least 800x600 resolution and 256 color monitor, and also stanrad keyboard, and mouse is option.
-Managers are able to control database in their experience after see the GUI of tansfer management application.
-Uesr just need click webpage request, and other things is working behind the webpage.
+Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
+Managers can control database in their experience after see the GUI of transfer management application.
+User just need click webpage request, and other things is working behind the webpage.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify 
@@ -61,7 +62,7 @@ Uesr just need click webpage request, and other things is working behind the web
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Hardware interfaces}
-We will support windows, unix based opreation system, ios and android.
+We will support windows, Unix based operation  system, iOS and android.
 We will create API for our application, so we can easy to move application to any platform.
 GUI is required rather than line by line terminal control.
 
@@ -74,7 +75,7 @@ GUI is required rather than line by line terminal control.
 
 \subsubsection{Software interfaces}
 SQL database is required for our application. Version of SQL is newer than SQL2003
-UNIX or Linux based on opreation system is required, such as mac os, debin, center os. All of opreation system should be newest version.
+UNIX or Linux based on operation system is required, such as mac OS, debin, center OS. All of operation system should be newest version.
 
 %GUI support package??
 
@@ -127,15 +128,14 @@ XML is the most important and commonly used form of the most commonly used data 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should
 % 3. Define the requirements for any data or initialization sequences that are specific to a given site, mission, 
-& or operational mode (e.g., grid values, safety limits, etc.);
+% or operational mode (e.g., grid values, safety limits, etc.);
 % 2. Specify the site or mission-related features that should be modified to adapt the software to a particular installation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Product functions}
-Our XML server are commom XML documents transfer servers. The big differenet bewtteen nomral XML server and our XML server is that
-we create cache for our server, so this prevernt xml server complie each time which is really waste system source.
-So user can easily click webpage requeset and receive file that they want. Our server just quickly grab data from database, complie files, and send back to user.
-we also create server management application for manager, and it's graphic interface application, so people really easy to use.
+Our XML server are common XML documents transfer servers. The big different between normal XML server and our XML server is that we create cache for our server, so this prevent xml server compile each time which is waste system source.
+So, user can easily click webpage request and receive file that they want. Our server just quickly grab data from database, compile files, and send back to user.
+we also create server management application for manager, and it is graphic interface application, so people easy to use.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should provide a summary of the major functions that the software will perform.
@@ -152,8 +152,8 @@ we also create server management application for manager, and it's graphic inter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{User characteristics}
-User should understand the basical computer knowledge. They better be above high school educational level, 
-and they should has experience with windows application interface. Manager should understand C or C++ programming language, if manager want know how software working.
+User should understand the basically computer knowledge. They better be above high school educational level, 
+and they should have experience with windows application interface. Manager should understand C or C++ programming language, if manager want know how software working.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should describe those general characteristics of the intended 
 % users of the product including educational level, experience, and technical expertise.
@@ -162,9 +162,12 @@ and they should has experience with windows application interface. Manager shoul
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Constraints}
-1. our application is open source, but copying code is forbid.
-2. application should running larger severs.
-7. C++ and C programming language is the first order language.
+
+\begin{enumerate}
+  \item our application is open source, but copying code is forbid.
+  \item application should be running at larger severs.
+  \item C++ and C programming language is the first order language.
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should provide a general description of any other items that will limit the developer's options.
@@ -184,9 +187,9 @@ and they should has experience with windows application interface. Manager shoul
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Assumptions and dependencies}
-our application is working with a debin system on Intel servers. If debin is not installed, we can take other Linux operation system.
-If SQL database is not working, we also can take mysql or SQL MS Access.
-If GUI of our application is broken, user can using command line to acess our application.
+Our application is working with a debin system on Intel servers. If debin is not installed, we can take other Linux operation system.
+If SQL database is not working, we also can take MySQL or SQL MS Access.
+If GUI of our application is broken, user can be using command line to access our application.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
