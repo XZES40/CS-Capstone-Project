@@ -6,6 +6,8 @@
 % Instead, it provides a background for those requirements, which are defined in detail in Section 3 of the SRS, and makes them easier to understand.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The following sections of this document outline the factors that affect the creation of XZES40-Transformer at a high-level.
+
 \subsection{Product perspective}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should put the product into perspective with other related products.
@@ -27,20 +29,19 @@
 
 \subsubsection{System interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This should list each system interface and identify the functionality of the software to accomplish the system requirement 
-% and the interface description to match the system.
+% This should list each system interface and identify the functionality of the software to accomplish the system requirement and the interface description to match the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-  \item Data base
-  \item User and manager
-  \item XML servers
-\end{enumerate}
-
-Our server has 3 layer of actor, first layer is user part, such as reader and manager.
-Second layer is XML servers, which contain XML parse and other XML transformation part.
-Third layer is our database where we store our data.
-User can connect to webpage and send request to XML servers,and then XML servers will search from database and query data out, after that XML server can compile to Unicode type file and give back to user.
+% \begin{enumerate}
+%   \item Data base
+%   \item User and manager
+%   \item XML servers
+% \end{enumerate}
+% 
+% Our server has 3 layer of actor, first layer is user part, such as reader and manager.
+% Second layer is XML servers, which contain XML parse and other XML transformation part.
+% Third layer is our database where we store our data.
+% User can connect to webpage and send request to XML servers,and then XML servers will search from database and query data out, after that XML server can compile to Unicode type file and give back to user.
 
 \subsubsection{User interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,13 +52,86 @@ User can connect to webpage and send request to XML servers,and then XML servers
 % 2. All the aspects of optimizing the interface with the person who must use the system.
 %    This may simply comprise a list of do's and don'ts on how the system will appear to the user.
 %    One example may be a requirement for the option of long or short error messages.
-%    Like all others, these requirements should be verifiable, e.g., “a clerk typist grade 4 can do function X in Z min after 1 h of training” 
-%    rather than “a typist can do function X.” (This may also be specified in the Software System Attributes under a section titled Ease of Use.)
+%    Like all others, these requirements should be verifiable, e.g., “a clerk typist grade 4 can do function X in Z min after 1 h of training” rather than “a typist can do function X.” (This may also be specified in the Software System Attributes under a section titled Ease of Use.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
-Managers can control database in their experience after see the GUI of transfer management application.
-User just need click webpage request, and other things is working behind the webpage.
+XZES40-Transformer ought to have two user interfaces:
+
+\begin{description}
+  \item {
+    [Command-Line Interface (CLI)]
+    This will be the first user interface developed for XZES40-Transformer and will be used to demonstrate the program at the Engineering Expo.
+    It will give users a simple interface with XZES40-Transformer with the following flags:
+    \begin{description}
+      \item {
+        [\inlinecode{--xml-file=}]
+        Specifies the input XML document.
+      }
+      \item {
+        [\inlinecode{--xslt-file=}]
+        Specifies the input XSLT document.
+      }
+      \item {
+        [\inlinecode{--server=}]
+        Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
+      }
+      \item {
+        [\inlinecode{--output-file=}] (optional)
+        Specifies a file to write out to.  Otherwise writes to \inclinecode{STDOUT}.
+      }
+      \item {
+        [\inlinecode{--port=}] (optional)
+        Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
+      }
+      \item {
+        [\inlinecode{--username=}] (optional)
+        Specifies a user name if one is required.
+      }
+      \item {
+        [\inlinecode{--password=}] (optional)
+        Specifies the user's password if one is required.
+      }
+      \item {
+        [\inlinecode{--help=}] (optional)
+        Prints out a help menu (describing these flags)
+      }
+    \end{description}
+  }
+  \item {
+    [Web Interface]
+    Time permitting we will create a website to interface with XZES40-Transformer.
+    It will consists of a form with the following fields:
+    \begin{description}
+      \item {
+        [XML File] A file upload field for the XML document.
+      }
+      \item {
+        [XSLT File] A file upload field for the XSLT document.
+      }
+      \item {
+        [Output Filename] (optional)
+        The filename of the output document.
+        If one is not specified a name will be generated of the following format \inlinecode{document-transform-<date>.xml>}.
+      }
+      \item {
+        [Username] (optional)
+        Specifies a user name if one is required.
+      }
+      \item {
+        [Password] (optional)
+        Specifies the user's password if one is required.
+      }
+    \end{description}
+  }
+\end{description}
+
+It will be assumed that the user of our application uses our application on a fairly modern monitor.
+The web interface should be accessed via a color monitor and the command line interface requires that of any text-based interface.
+Users should be able to use the command-line interface from any Unix host and the web-interface from any computer with a browser .
+
+% Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
+% Managers can control database in their experience after see the GUI of transfer management application.
+% User just need click webpage request, and other things is working behind the webpage.
 
 \subsubsection{Hardware interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,9 +141,13 @@ User just need click webpage request, and other things is working behind the web
 % For example, terminal support may specify full-screen support as opposed to line-by-line support.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We will support windows, Unix based operation  system, iOS and android.
-We will create API for our application, so we can easy to move application to any platform.
-GUI is required rather than line by line terminal control.
+XZES-Transformer will be targeted to run on an x86-64 desktop computer.
+Any computer with a browser will be able to access the web-interface.
+Any Unix machine will be able to access the application via the Command-line Interface.
+
+% We will support windows, Unix based operation  system, iOS and android.
+% We will create API for our application, so we can easy to move application to any platform.
+% GUI is required rather than line by line terminal control.
 
 \subsubsection{Software interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,15 +160,76 @@ GUI is required rather than line by line terminal control.
 % - Version number;
 % - Source.
 % For each interface, the following should be provided:
-% -  Discussion of the purpose of the interfacing software as related to this software product.
-% -  Definition of the interface in terms of message content and format.
-%    It is not necessary to detail any well-documented interface, but a reference to the document defining the interface is required.
+% - Discussion of the purpose of the interfacing software as related to this software product.
+% - Definition of the interface in terms of message content and format.
+%   It is not necessary to detail any well-documented interface, but a reference to the document defining the interface is required.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-SQL database is required for our application.
-Version of SQL is newer than SQL2003
-UNIX or Linux based on operation system is required, such as mac OS, debin, center OS.
-All of operation system should be newest version.
+Below is a list of software required for the XZES-40 (on the host and on remote systems).
+
+\begin{description}
+  \item {
+    \begin{description}
+      \item {
+        [Name]: Xerces-C++ XML Parser
+        [Mnemonic]: Xerces-C
+        [Specification Number]: XML 1.0 specification is implemented.
+        [Version Number]: 3.1.4 (Recent)
+        [Source]: \url{http://xerces.apache.org/xerces-c/}
+        [Host or Client]: Host
+      }
+    \end{description}
+  }
+  \item {
+    \begin{description}
+      \item {
+        [Name]: Xalan-C++ XSLT Processor 
+        [Mnemonic]: Xalan-C
+        [Specification Number]: XML 1.0 specification is implemented.
+        [Version Number]: 1.10 (Recent)
+        [Source]: \url{http://xalan.apache.org/xalan-c/}
+        [Host or Client]: Host
+      }
+    \end{description}
+  }
+  \item {
+    \begin{description}
+      \item {
+        [Name]: Python
+        [Version Number]: 2.7+
+        [Source]: \url{https://www.python.org/}
+        [Host or Client]: Client (required for CLI)
+      }
+    \end{description}
+  }
+  \item {
+    \begin{description}
+      \item {
+        [Name]: International Components for Unicode
+        [Mnemonic]: ICU
+        [Specification Number]: Unicode 9.0
+        [Version Number]: ICU 58
+        [Source]: \url{http://site.icu-project.org/download/58}
+        [Host or Client]: Host
+      }
+    \end{description}
+  }
+  \item {
+    \begin{description}
+      \item {
+        [Name]: Web Browser
+        [Specification Number]: HTML 4.0+
+        [Host or Client]: Host (required for Web Interface)
+      }
+    \end{description}
+  }
+\end{description}
+
+
+% SQL database is required for our application.
+% Version of SQL is newer than SQL2003
+% UNIX or Linux based on operation system is required, such as mac OS, debin, center OS.
+% All of operation system should be newest version.
 
 %GUI support package??
 
@@ -99,15 +238,21 @@ All of operation system should be newest version.
 % This should specify the various interfaces to communications such as local network protocols, etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The data is exchanged between the catalog system and the Enterprise Buyer system via a web browser (HTTP or HTTPS).
-After the data has been sent in XML format to the Enterprise Buyer application server, depending on the OCL version, 
-an ABAP-XSL transformation is carried out or the SAP Business Connector is used up map the XML file in an internal representation.
-The following graphic illustrates the data exchange between the external catalog system and Enterprise Buyer.
+An internet connection between the host and client is required.
+The host and client will be communicating over HTTP or HTTPs.
+
+% The data is exchanged between the catalog system and the Enterprise Buyer system via a web browser (HTTP or HTTPS).
+% After the data has been sent in XML format to the Enterprise Buyer application server, depending on the OCL version, 
+% an ABAP-XSL transformation is carried out or the SAP Business Connector is used up map the XML file in an internal representation.
+% The following graphic illustrates the data exchange between the external catalog system and Enterprise Buyer.
 
 \subsubsection{Memory constraints}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify any applicable characteristics and limits on primary and secondary memory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Since our application will be using memory to cache objects an appropriate amount of memory should be dedicated to our application, depending on how much it is used.
+A minimum of 4Gb should be dedicated to the machine using this application, but the more the better.
 
 \subsubsection{Operations}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
