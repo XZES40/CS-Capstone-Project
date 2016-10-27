@@ -7,7 +7,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Product perspective}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should put the product into perspective with other related products.
 % If the product is independent and totally self-contained, it should be so stated here.
@@ -27,6 +26,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{System interfaces}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This should list each system interface and identify the functionality of the software to accomplish the system requirement 
+% and the interface description to match the system.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{enumerate}
   \item Data base
@@ -34,21 +37,12 @@
   \item XML servers
 \end{enumerate}
 
-Our server has 3 layer of actor, first layer is user part, such as reader and manager. 
-Second layer is XML servers, which contain XML parse and other XML transformation part.Third layer is our database where we store our data. 
+Our server has 3 layer of actor, first layer is user part, such as reader and manager.
+Second layer is XML servers, which contain XML parse and other XML transformation part.
+Third layer is our database where we store our data.
 User can connect to webpage and send request to XML servers,and then XML servers will search from database and query data out, after that XML server can compile to Unicode type file and give back to user.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This should list each system interface and identify the functionality of the software to accomplish the system requirement 
-% and the interface description to match the system.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsubsection{User interfaces}
-Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
-Managers can control database in their experience after see the GUI of transfer management application.
-User just need click webpage request, and other things is working behind the webpage.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify 
 % 1. The logical characteristics of each interface between the software product and its users.
@@ -61,11 +55,11 @@ User just need click webpage request, and other things is working behind the web
 %    rather than “a typist can do function X.” (This may also be specified in the Software System Attributes under a section titled Ease of Use.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Hardware interfaces}
-We will support windows, Unix based operation  system, iOS and android.
-We will create API for our application, so we can easy to move application to any platform.
-GUI is required rather than line by line terminal control.
+Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
+Managers can control database in their experience after see the GUI of transfer management application.
+User just need click webpage request, and other things is working behind the webpage.
 
+\subsubsection{Hardware interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the logical characteristics of each interface between the software product and the hardware components of the system.
 % This includes configuration characteristics (number of ports, instruction sets, etc.).
@@ -73,13 +67,11 @@ GUI is required rather than line by line terminal control.
 % For example, terminal support may specify full-screen support as opposed to line-by-line support.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+We will support windows, Unix based operation  system, iOS and android.
+We will create API for our application, so we can easy to move application to any platform.
+GUI is required rather than line by line terminal control.
+
 \subsubsection{Software interfaces}
-SQL database is required for our application. Version of SQL is newer than SQL2003
-UNIX or Linux based on operation system is required, such as mac OS, debin, center OS. All of operation system should be newest version.
-
-%GUI support package??
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the use of other required software products (e.g., a data management system, an operating system, or a mathematical package),
 % and interfaces with other application systems (e.g., the linkage between an accounts receivable system and a general ledger system).
@@ -95,24 +87,29 @@ UNIX or Linux based on operation system is required, such as mac OS, debin, cent
 %    It is not necessary to detail any well-documented interface, but a reference to the document defining the interface is required.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Communications interfaces}
-The data is exchanged between the catalog system and the Enterprise Buyer system via a web browser (HTTP or HTTPS).
-After the data has been sent in XML format to the Enterprise Buyer application server, depending on the OCL version, 
-an ABAP-XSL transformation is carried out or the SAP Business Connector is used up map the XML file in an internal representation. 
-The following graphic illustrates the data exchange between the external catalog system and Enterprise Buyer. 
+SQL database is required for our application.
+Version of SQL is newer than SQL2003
+UNIX or Linux based on operation system is required, such as mac OS, debin, center OS.
+All of operation system should be newest version.
 
+%GUI support package??
+
+\subsubsection{Communications interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the various interfaces to communications such as local network protocols, etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Memory constraints}
+The data is exchanged between the catalog system and the Enterprise Buyer system via a web browser (HTTP or HTTPS).
+After the data has been sent in XML format to the Enterprise Buyer application server, depending on the OCL version, 
+an ABAP-XSL transformation is carried out or the SAP Business Connector is used up map the XML file in an internal representation.
+The following graphic illustrates the data exchange between the external catalog system and Enterprise Buyer.
 
+\subsubsection{Memory constraints}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify any applicable characteristics and limits on primary and secondary memory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Operations}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the normal and special operations required by the user such as
 % 1. The various modes of operations in the user organization (e.g., user-initiated operations);
@@ -123,8 +120,6 @@ The following graphic illustrates the data exchange between the external catalog
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Site adaptation requirements}
-XML is the most important and commonly used form of the most commonly used data exchange representation on the grid today. XML is a subset of SGML that describes various types of data in a structured way. It allows document creators to create new tags to better describe the data. XML can describe almost all areas of data. It uses strict nested tokens to represent data, and is particularly well suited for multi-site data exchange environments on the Internet. XML itself is extensible and only defines standard syntax. XML is a language for creating industry vocabularies and applications whose basic syntax for the file is defined by the XML schema defined by the W3C Create File. In the grid environment, because of the XML file structure and readability, XML data often as documents or process data to the form of cooperation in circulation, it also needs to use encryption and signature to ensure that XML-based data exchange activities in the information safety. The security of XML language is the foundation of information exchange on grid. To protect the security of XML data exchange, the International Organization for Standardization W3C proposed a series of XML security services, the new standard for XML as a data exchange carrier to provide security applications. These standards include: XML Encryption, XML Sigllature, XML Key Management Specification (XKMS), XML Access Control Markup Language (XACML), etc.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should
 % 3. Define the requirements for any data or initialization sequences that are specific to a given site, mission, 
@@ -132,11 +127,19 @@ XML is the most important and commonly used form of the most commonly used data 
 % 2. Specify the site or mission-related features that should be modified to adapt the software to a particular installation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Product functions}
-Our XML server are common XML documents transfer servers. The big different between normal XML server and our XML server is that we create cache for our server, so this prevent xml server compile each time which is waste system source.
-So, user can easily click webpage request and receive file that they want. Our server just quickly grab data from database, compile files, and send back to user.
-we also create server management application for manager, and it is graphic interface application, so people easy to use.
+XML is the most important and commonly used form of the most commonly used data exchange representation on the grid today.
+XML is a subset of SGML that describes various types of data in a structured way.
+It allows document creators to create new tags to better describe the data.
+XML can describe almost all areas of data.
+It uses strict nested tokens to represent data, and is particularly well suited for multi-site data exchange environments on the Internet.
+XML itself is extensible and only defines standard syntax.
+XML is a language for creating industry vocabularies and applications whose basic syntax for the file is defined by the XML schema defined by the W3C Create File.
+In the grid environment, because of the XML file structure and readability, XML data often as documents or process data to the form of cooperation in circulation, it also needs to use encryption and signature to ensure that XML-based data exchange activities in the information safety.
+The security of XML language is the foundation of information exchange on grid.
+To protect the security of XML data exchange, the International Organization for Standardization W3C proposed a series of XML security services, the new standard for XML as a data exchange carrier to provide security applications.
+These standards include: XML Encryption, XML Sigllature, XML Key Management Specification (XKMS), XML Access Control Markup Language (XACML), etc.
 
+\subsection{Product functions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should provide a summary of the major functions that the software will perform.
 % For example, an SRS for an accounting program may use this part to address customer account maintenance, customer statement,
@@ -151,9 +154,13 @@ we also create server management application for manager, and it is graphic inte
 %    Such a diagram is not intended to show a design of a product, but simply shows the logical relationships among variables.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Our XML server are common XML documents transfer servers.
+The big different between normal XML server and our XML server is that we create cache for our server, so this prevent xml server compile each time which is waste system source.
+So, user can easily click webpage request and receive file that they want.
+Our server just quickly grab data from database, compile files, and send back to user.
+we also create server management application for manager, and it is graphic interface application, so people easy to use.
+
 \subsection{User characteristics}
-User should understand the basically computer knowledge. They better be above high school educational level, 
-and they should have experience with windows application interface. Manager should understand C or C++ programming language, if manager want know how software working.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should describe those general characteristics of the intended 
 % users of the product including educational level, experience, and technical expertise.
@@ -161,14 +168,12 @@ and they should have experience with windows application interface. Manager shou
 % why certain specific requirements are later specified in Section 3 of the SRS.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+User should understand the basically computer knowledge.
+They better be above high school educational level, 
+and they should have experience with windows application interface.
+Manager should understand C or C++ programming language, if manager want know how software working.
+
 \subsection{Constraints}
-
-\begin{enumerate}
-  \item our application is open source, but copying code is forbid.
-  \item application should be running at larger severs.
-  \item C++ and C programming language is the first order language.
-\end{enumerate}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should provide a general description of any other items that will limit the developer's options.
 % These include
@@ -186,12 +191,13 @@ and they should have experience with windows application interface. Manager shou
 % 11 Safety and security considerations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{enumerate}
+  \item our application is open source, but copying code is forbid.
+  \item application should be running at larger severs.
+  \item C++ and C programming language is the first order language.
+\end{enumerate}
+
 \subsection{Assumptions and dependencies}
-Our application is working with a debin system on Intel servers. If debin is not installed, we can take other Linux operation system.
-If SQL database is not working, we also can take MySQL or SQL MS Access.
-If GUI of our application is broken, user can be using command line to access our application.
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should list each of the factors that affect the requirements stated in the SRS.
 % These factors are not design constraints on the software but are, rather, any changes to them that can affect the requirements in the SRS.
@@ -199,8 +205,12 @@ If GUI of our application is broken, user can be using command line to access ou
 % If, in fact, the operating system is not available, the SRS would then have to change accordingly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Apportioning of requirements}
+Our application is working with a debin system on Intel servers.
+If debin is not installed, we can take other Linux operation system.
+If SQL database is not working, we also can take MySQL or SQL MS Access.
+If GUI of our application is broken, user can be using command line to access our application.
 
+\subsection{Apportioning of requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should identify requirements that may be delayed until future versions of the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

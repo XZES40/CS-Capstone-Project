@@ -1,18 +1,15 @@
 \section{Introduction}
 
 \subsection{Purpose}
-The purpose of this document is to present a detailed description of high performance XML/XSLT transformation server.
-This document is intended for people who maintain server and the developers of the system. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Delineate the purpose of the SRS
 % Specify the intended audience of the SRS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The purpose of this document is to present a detailed description of high performance XML/XSLT transformation server.
+This document is intended for people who maintain server and the developers of the system.
+
 \subsection{Scope}
-This software system will create a high performance XML/XSLT transformation server that can perform repetitive document transformations in a high-volume environment. 
-XSLT is used to convert an XML document to another XML document, or other types of documents that can be recognized by the browser, such as HTML and XHTML. 
-In normal, XSLT accomplishes this by converting each XML element to an (X)HTML element. With XSLT, you can add or remove elements and attributes from or to the output file. 
-You can also rearrange elements, perform tests, and decide which elements to hide or display. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1. Identify the software product(s) to be produced by name (e.g., Host DBMS, Report Generator, etc.);
 % 2. Explain what the software product(s) will, and, if necessary, will not do;
@@ -20,33 +17,44 @@ You can also rearrange elements, perform tests, and decide which elements to hid
 % 4. Be consistent with similar statements in higher-level specifications (e.g., the system requirements specification), if they exist.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+This software system will create a high performance XML/XSLT transformation server that can perform repetitive document transformations in a high-volume environment.
+XSLT is used to convert an XML document to another XML document, or other types of documents that can be recognized by the browser, such as HTML and XHTML.
+In normal, XSLT accomplishes this by converting each XML element to an (X)HTML element.
+With XSLT, you can add or remove elements and attributes from or to the output file.
+You can also rearrange elements, perform tests, and decide which elements to hide or display.
+
 \subsection{Definitions, acronyms, and abbreviations}
-XML is a simple and standard way of exchanging raw data between computer programs.
-It is not only easy to be written and read but also solve the application of information exchange between systems. 
-There are two basic needs:
-\begin{enumerate}
-  \item Separate the data from the representation
-  \item Transfer data between different applications
-\end{enumerate}
-In order to make the data easy for people to read and understand, we need to display information or pint out. For example, the data into an HTML file, a PDF file, or even a sound. Similarly, in order to adapt the data to different applications, a data format is converted to another data format, such as the demand format may be a text file, a SQL statement and an HTTP message. XSLT is used to achieve this conversion function of the language. XML is converted to HTML, XSLT is the most important function. 
-XSLT: Extensible Stylesheet Language Transformations
-XML: eXtensible Markup Language
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Provide the definitions of all terms, acronyms, and abbreviations required to properly interpret the SRS.
 % This information may be provided by reference to one or more appendixes in the SRS or by reference to other documents.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{References}
-IEEE. IEEE Std 830-1998 IEEE Recommended Practice for Software Requirements Specifications. IEEE Computer Society, 1998.
+XML is a simple and standard way of exchanging raw data between computer programs.
+It is not only easy to be written and read but also solve the application of information exchange between systems.
+There are two basic needs:
 
+\begin{enumerate}
+  \item Separate the data from the representation
+  \item Transfer data between different applications
+\end{enumerate}
+
+In order to make the data easy for people to read and understand, we need to display information or pint out.
+For example, the data into an HTML file, a PDF file, or even a sound.
+Similarly, in order to adapt the data to different applications, a data format is converted to another data format, such as the demand format may be a text file, a SQL statement and an HTTP message.
+XSLT is used to achieve this conversion function of the language.
+XML is converted to HTML, XSLT is the most important function.
+XSLT: Extensible Stylesheet Language Transformations
+XML: eXtensible Markup Language
+
+\subsection{References}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1. Provide a complete list of all documents referenced elsewhere in the SRS;
 % 2. Identify each document by title, report number (if applicable), date, and publishing organization;
 % 3. Specify the sources from which the references can be obtained.
 % 4. This information may be provided by reference to an appendix or to another document.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% IEEE. IEEE Std 830-1998 IEEE Recommended Practice for Software Requirements Specifications. IEEE Computer Society, 1998.
 
 \cite{xalan}
 \cite{xerces}
@@ -56,13 +64,13 @@ IEEE. IEEE Std 830-1998 IEEE Recommended Practice for Software Requirements Spec
 \bibliography{sections/references}
 
 \subsection{Overview}
-The next chapter, the Overall Description Section, of this document gives an overview of the
-functionality of the product. It describes the informal requirements and is used to establish a context for the technical requirements specification in the next chapter.
-The third chapter, Requirements Specification section, of this document is written primarily for the developers and describes in technical terms the details of the functionality of the product.
-Both sections of the document describe the same software product in its entirety, but are intended for different audiences and thus use different language.
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Describe what the rest of the SRS contains;
 % Explain how the SRS is organized
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The next chapter, the Overall Description Section, of this document gives an overview of the
+functionality of the product.
+It describes the informal requirements and is used to establish a context for the technical requirements specification in the next chapter.
+The third chapter, Requirements Specification section, of this document is written primarily for the developers and describes in technical terms the details of the functionality of the product.
+Both sections of the document describe the same software product in its entirety, but are intended for different audiences and thus use different language.
