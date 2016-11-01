@@ -32,12 +32,19 @@ The following sections of this document outline the factors that affect the crea
 % This should list each system interface and identify the functionality of the software to accomplish the system requirement and the interface description to match the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+XZES40-Transformer application will interface with the outside world through an Apache CGI script.
+This script will wrap our application by passing \inlinecode{POST} requests to the application URL endpoint through to our application.
+Our program will complete the request and pass the transformed document back to the user via the CGI script.
+
+The XZES40-Transformer CGI wrapper script will receive a transformation request in the form of a \inlinecode{HTTP POST} request from a user and respond with the transformed file and an \textbf{OK} status.
+If an error occurs it will respond with a \textbf{SERVER ERROR} response and no file.
+
 % \begin{enumerate}
 %   \item Data base
 %   \item User and manager
 %   \item XML servers
 % \end{enumerate}
-% 
+%
 % Our server has 3 layer of actor, first layer is user part, such as reader and manager.
 % Second layer is XML servers, which contain XML parse and other XML transformation part.
 % Third layer is our database where we store our data.
@@ -46,7 +53,8 @@ The following sections of this document outline the factors that affect the crea
 \subsubsection{User interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify 
-% 1. The logical characteristics of each interface between the software product and its users.
+% 1. The logic
+al characteristics of each interface between the software product and its users.
 %    This includes those configuration characteristics (e.g., required screen formats, page or window layouts, 
 %    content of any reports or menus, or availability of programmable function keys) necessary to accomplish the software requirements.
 % 2. All the aspects of optimizing the interface with the person who must use the system.
@@ -55,79 +63,77 @@ The following sections of this document outline the factors that affect the crea
 %    Like all others, these requirements should be verifiable, e.g., “a clerk typist grade 4 can do function X in Z min after 1 h of training” rather than “a typist can do function X.” (This may also be specified in the Software System Attributes under a section titled Ease of Use.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES40-Transformer ought to have two user interfaces:
+XZES40-Transformer will have one user interface:
 
-\begin{description}
-  \item {
-    \textbf{Command-Line Interface (CLI)}:
-    This will be the first user interface developed for XZES40-Transformer and will be used to demonstrate the program at the Engineering Expo.
-    It will give users a simple interface with XZES40-Transformer with the following flags:
-    \begin{description}
-      \item {
-        [\inlinecode{--xml-file=}]
-        Specifies the input XML document.
-      }
-      \item {
-        [\inlinecode{--xslt-file=}]
-        Specifies the input XSLT document.
-      }
-      \item {
-        [\inlinecode{--server=}]
-        Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
-      }
-      \item {
-        [\inlinecode{--output-file=}] (optional)
-        Specifies a file to write out to.  Otherwise writes to \inlinecode{STDOUT}.
-      }
-      \item {
-        [\inlinecode{--port=}] (optional)
-        Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
-      }
-      \item {
-        [\inlinecode{--username=}] (optional)
-        Specifies a user name if one is required.
-      }
-      \item {
-        [\inlinecode{--password=}] (optional)
-        Specifies the user's password if one is required.
-      }
-      \item {
-        [\inlinecode{--help=}] (optional)
-        Prints out a help menu (describing these flags)
-      }
-    \end{description}
-  }
-  \item {
+%\begin{description}
+%  \item {
+%    \textbf{Command-Line Interface (CLI)}:
+%    This will be the first user interface developed for XZES40-Transformer and will be used to demonstrate the program at the Engineering Expo.
+%    It will give users a simple interface with XZES40-Transformer with the following flags:
+%    \begin{description}
+%      \item {
+%        [\inlinecode{--xml-file=}]
+%        Specifies the input XML document.
+%      }
+%      \item {
+%        [\inlinecode{--xslt-file=}]
+%        Specifies the input XSLT document.
+%      }
+%      \item {
+%        [\inlinecode{--server=}]
+%        Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
+%      }
+%      \item {
+%        [\inlinecode{--output-file=}] (optional)
+%        Specifies a file to write out to.  Otherwise writes to \inlinecode{STDOUT}.
+%      }
+%      \item {
+%        [\inlinecode{--port=}] (optional)
+%        Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
+%      }
+%      \item {
+%        [\inlinecode{--username=}] (optional)
+%        Specifies a user name if one is required.
+%      }
+%      \item {
+%        [\inlinecode{--password=}] (optional)
+%        Specifies the user's password if one is required.
+%      }
+%      \item {
+%        [\inlinecode{--help=}] (optional)
+%        Prints out a help menu (describing these flags)
+%      }
+%    \end{description}
+%  }
     \textbf{Web Interface}:
-    Time permitting we will create a website to interface with XZES40-Transformer.
-    It will consists of a form with the following fields:
+    The website interface for XZES40-Transformer will include of a form with the following fields:
     \begin{description}
       \item {
-        [XML File] A file upload field for the XML document.
+        \textbf{XML File} A file upload field for the XML document.
       }
       \item {
-        [XSLT File] A file upload field for the XSLT document.
+        \textbf{XSLT File} A file upload field for the XSLT document.
       }
       \item {
-        [Output Filename] (optional)
+        \textbf{Output Filename} (optional)
         The filename of the output document.
         If one is not specified a name will be generated of the following format \inlinecode{document-transform-<date>.xml>}.
       }
       \item {
-        [Username] (optional)
+        \textbf{Username} (optional)
         Specifies a user name if one is required.
       }
       \item {
-        [Password] (optional)
+        \textbf{Password} (optional)
         Specifies the user's password if one is required.
       }
     \end{description}
-  }
-\end{description}
+%\end{description}
 
-It will be assumed that the user of our application is viewed on a fairly modern monitor.
-The web interface should be accessed via a color monitor and the command line interface requires that of any text-based interface.
-Users should be able to use the command-line interface from any Unix host and the web-interface from any computer with a browser .
+The website will make a \inlinecode{HTTP POST} request a specified URL endpoint.
+The transformed file will be automatically downloaded by the user's browser. 
+
+The application's web interface will be accessible on any operating system with an internet connection, web browser, input methods (keyboard, mouse, touchscreen, etc), and monitor.
 
 % Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
 % Managers can control database in their experience after see the GUI of transfer management application.
@@ -141,9 +147,10 @@ Users should be able to use the command-line interface from any Unix host and th
 % For example, terminal support may specify full-screen support as opposed to line-by-line support.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES-Transformer will be targeted to run on an x86-64 desktop computer.
+XZES-Transformer will be targeted to run on an x86-64 CPU architecture server.
 Any computer with a browser will be able to access the web-interface.
-Any Unix machine will be able to access the application via the Command-line Interface.
+
+XZES40-Transformer will not have any direct physical interfaces as it is meant to be interacted with over \inlinecode{HTTP/HTTPS}.
 
 % We will support windows, Unix based operation  system, iOS and android.
 % We will create API for our application, so we can easy to move application to any platform.
@@ -175,7 +182,6 @@ Below is a list of software required for the XZES-40 (on the host and on remote 
       \item Specification Number: XML 1.0 specification is implemented.
       \item Version Number: 3.1.4 (Recent)
       \item Source: \url{http://xerces.apache.org/xerces-c/}
-      \item Host or Client: Host
     \end{description}
   }
   \item {
@@ -185,15 +191,6 @@ Below is a list of software required for the XZES-40 (on the host and on remote 
       \item Specification Number: XML 1.0 specification is implemented.
       \item Version Number: 1.10 (Recent)
       \item Source: \url{http://xalan.apache.org/xalan-c/}
-      \item Host or Client: Host
-    \end{description}
-  }
-  \item {
-    \begin{description}
-      \item Name: Python
-      \item Version Number: 2.7+
-      \item Source: \url{https://www.python.org/}
-      \item Host or Client: Client (required for CLI)
     \end{description}
   }
   \item {
@@ -203,16 +200,31 @@ Below is a list of software required for the XZES-40 (on the host and on remote 
       \item Specification Number: Unicode 9.0
       \item Version Number: ICU 58
       \item Source: \url{http://site.icu-project.org/download/58}
-      \item Host or Client: Host
     \end{description}
+  }
+   \item {
+     \begin{description}
+       \item Name: Apache CGI Processing
+       \item Mnemonic: Apache CGI
+       \item Version Number: Apache 2
+       \item Source: \url{http://apache.org}
+     \end{description}
   }
   \item {
-    \begin{description}
-      \item Name: Web Browser
-      \item Specification Number: HTML 4.0+
-      \item Host or Client: Host (required for Web Interface)
-    \end{description}
-  }
+     \begin{description}
+       \item Name: Python2
+       \item Mnemonic: Python
+       \item Version Number: 2.7+
+       \item Source: \url{http://python.org}
+     \end{description}
+   }
+%  \item {
+%    \begin{description}
+%      \item Name: Web Browser
+%      \item Specification Number: HTML 4.0+
+%      \item Host or Client: Host (required for Web Interface)
+%    \end{description}
+%  }
 \end{description}
 
 
@@ -241,7 +253,7 @@ The host and client will be communicating over HTTP or HTTPs.
 % This should specify any applicable characteristics and limits on primary and secondary memory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Since our application will be using memory to cache objects an appropriate amount of memory should be dedicated to our application, depending on how much it is used.
+Since our application will be using memory to cache objects an appropriate amount of memory should be dedicated to our application, depending on how much it is going to be used.
 A minimum of 4Gb should be dedicated to the machine using this application, but the more the better.
 
 \subsubsection{Operations}
@@ -262,17 +274,40 @@ A minimum of 4Gb should be dedicated to the machine using this application, but 
 % 2. Specify the site or mission-related features that should be modified to adapt the software to a particular installation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XML is the most important and commonly used form of the most commonly used data exchange representation on the grid today.
-XML is a subset of SGML that describes various types of data in a structured way.
-It allows document creators to create new tags to better describe the data.
-XML can describe almost all areas of data.
-It uses strict nested tokens to represent data, and is particularly well suited for multi-site data exchange environments on the Internet.
-XML itself is extensible and only defines standard syntax.
-XML is a language for creating industry vocabularies and applications whose basic syntax for the file is defined by the XML schema defined by the W3C Create File.
-In the grid environment, because of the XML file structure and readability, XML data often as documents or process data to the form of cooperation in circulation, it also needs to use encryption and signature to ensure that XML-based data exchange activities in the information safety.
-The security of XML language is the foundation of information exchange on grid.
-To protect the security of XML data exchange, the International Organization for Standardization W3C proposed a series of XML security services, the new standard for XML as a data exchange carrier to provide security applications.
-These standards include: XML Encryption, XML Sigllature, XML Key Management Specification (XKMS), XML Access Control Markup Language (XACML), etc.
+Our application will target the Debian Linux operating system.
+When installing our application a system administrator will acquire a Debian installation file (\inlinecode{xzes40-transformer.deb}), run the installation file, and begin the installed service.
+
+The steps will look as follows:
+\begin{lstlisting}
+Download xzes40-transformer.deb
+$ wget http://example.com/xzes40-transformer.deb
+
+Install the package
+$ dpkg -i xzes40-transformer.deb
+
+Enable the xzes40-transformer Systemd service
+$ systemctl enable xzes40-transformer
+
+Start the Systemd service
+$ systemctl start xzes40-transformer
+\end{lstlisting}
+
+Installation on a new Debian system should require the same procedure as listed above.
+
+Installation on a non-Debian operating system will require a system-specific installation file.
+Creating installation files for Windows, Mac, and other Linux distributions is one of our stretch goals. 
+
+% XML is the most important and commonly used form of the most commonly used data exchange representation on the grid today.
+% XML is a subset of SGML that describes various types of data in a structured way.
+% It allows document creators to create new tags to better describe the data.
+% XML can describe almost all areas of data.
+% It uses strict nested tokens to represent data, and is particularly well suited for multi-site data exchange environments on the Internet.
+% XML itself is extensible and only defines standard syntax.
+% XML is a language for creating industry vocabularies and applications whose basic syntax for the file is defined by the XML schema defined by the W3C Create File.
+% In the grid environment, because of the XML file structure and readability, XML data often as documents or process data to the form of cooperation in circulation, it also needs to use encryption and signature to ensure that XML-based data exchange activities in the information safety.
+% The security of XML language is the foundation of information exchange on grid.
+% To protect the security of XML data exchange, the International Organization for Standardization W3C proposed a series of XML security services, the new standard for XML as a data exchange carrier to provide security applications.
+% These standards include: XML Encryption, XML Sigllature, XML Key Management Specification (XKMS), XML Access % Control Markup Language (XACML), etc.
 
 \subsection{Product functions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -289,11 +324,16 @@ These standards include: XML Encryption, XML Sigllature, XML Key Management Spec
 %    Such a diagram is not intended to show a design of a product, but simply shows the logical relationships among variables.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our XML server are common XML documents transfer servers.
-The big different between normal XML server and our XML server is that we create cache for our server, so this prevent xml server compile each time which is waste system source.
-So, user can easily click webpage request and receive file that they want.
-Our server just quickly grab data from database, compile files, and send back to user.
-we also create server management application for manager, and it is graphic interface application, so people easy to use.
+XZES40-Transformer will perform one function: XML/XSLT document transformation.
+Given an XML and XSLT documents it will return a transformed XML document.
+
+This functionality will be accessible via a web interface.
+
+% Our XML server are common XML documents transfer servers.
+% The big different between normal XML server and our XML server is that we create cache for our server, so this prevent xml server compile each time which is waste system source.
+% So, user can easily click webpage request and receive file that they want.
+% Our server just quickly grab data from database, compile files, and send back to user.
+% we also create server management application for manager, and it is graphic interface application, so people easy to use.
 
 \subsection{User characteristics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -303,10 +343,14 @@ we also create server management application for manager, and it is graphic inte
 % why certain specific requirements are later specified in Section 3 of the SRS.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-User should understand the basically computer knowledge.
-They better be above high school educational level, 
-and they should have experience with windows application interface.
-Manager should understand C or C++ programming language, if manager want know how software working.
+The \textbf{user} of our application is expected to have common web-interface knowledge (e.g., they should know how to navigate a website, upload a file, and download a file).
+
+\textbf{COMPLETE THIS SECTION}
+
+% User should understand the basically computer knowledge.
+% They better be above high school educational level, 
+% and they should have experience with windows application interface.
+% Manager should understand C or C++ programming language, if manager want know how software working.
 
 \subsection{Constraints}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -326,11 +370,20 @@ Manager should understand C or C++ programming language, if manager want know ho
 % 11 Safety and security considerations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-  \item our application is open source, but copying code is forbid.
-  \item application should be running at larger severs.
-  \item C++ and C programming language is the first order language.
-\end{enumerate}
+XZES40-Transformer will be subject to the following limitations:
+
+\begin{itemize}
+  \item It must be licensed under Apache 2.0.
+  \item It must handle memory limitations gracefully.
+  \item It must restart if a fatal error occurs.
+  \item It must run on Debian 8.
+\end{itemize}
+
+% \begin{enumerate}
+%  \item our application is open source, but copying code is forbid.
+%   \item application should be running at larger severs.
+%   \item C++ and C programming language is the first order language.
+% \end{enumerate}
 
 \subsection{Assumptions and dependencies}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,12 +393,38 @@ Manager should understand C or C++ programming language, if manager want know ho
 % If, in fact, the operating system is not available, the SRS would then have to change accordingly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our application is working with a debin system on Intel servers.
-If debin is not installed, we can take other Linux operation system.
-If SQL database is not working, we also can take MySQL or SQL MS Access.
-If GUI of our application is broken, user can be using command line to access our application.
+XZES40-Transformer will be written to interface with an OS agnostic API for any operating-system level operations (e.g., reading and writing from the cache).
+As a result our application will be portable to new operating systems eventually, but to begin with it will only run on Debian.
+If a user attempts to install the Debian package on a non-Debian system the installation will fail.
+Installation of our application from source may work on non-Debian systems, but is not guaranteed.
+
+XZES40-Transformer will assume that the relevant libraries and languages listed under Software Interfaces are already installed.
+The installation package will resolve these dependencies if they are not already installed.
+
+% Our application is working with a debin system on Intel servers.
+% If debin is not installed, we can take other Linux operation system.
+% If SQL database is not working, we also can take MySQL or SQL MS Access.
+% If GUI of our application is broken, user can be using command line to access our application.
 
 \subsection{Apportioning of requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This subsection of the SRS should identify requirements that may be delayed until future versions of the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+XZES40-Transformer will guarantee the following items completed:
+
+\begin{itemize}
+  \item Working transformation application.
+  \item Apache CGI web-interface for the application.
+  \item A Debian installation package.
+\end{itemize}
+
+Given enough time we will add the following features:
+
+\begin{itemize}
+  \item Windows installation package.
+  \item Mac installation package.
+  \item FreeBSD installation package.
+  \item CentOS installation package.
+  \item A command-line interface.
+\end{itemize}
