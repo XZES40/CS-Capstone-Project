@@ -53,8 +53,7 @@ If an error occurs it will respond with a \textbf{SERVER ERROR} response and no 
 \subsubsection{User interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify 
-% 1. The logic
-al characteristics of each interface between the software product and its users.
+% 1. The logical characteristics of each interface between the software product and its users.
 %    This includes those configuration characteristics (e.g., required screen formats, page or window layouts, 
 %    content of any reports or menus, or availability of programmable function keys) necessary to accomplish the software requirements.
 % 2. All the aspects of optimizing the interface with the person who must use the system.
@@ -63,78 +62,12 @@ al characteristics of each interface between the software product and its users.
 %    Like all others, these requirements should be verifiable, e.g., “a clerk typist grade 4 can do function X in Z min after 1 h of training” rather than “a typist can do function X.” (This may also be specified in the Software System Attributes under a section titled Ease of Use.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES40-Transformer will have one user interface:
+XZES40 will have two user interfaces which will access it's functionality over the internet.
 
-%\begin{description}
-%  \item {
-%    \textbf{Command-Line Interface (CLI)}:
-%    This will be the first user interface developed for XZES40-Transformer and will be used to demonstrate the program at the Engineering Expo.
-%    It will give users a simple interface with XZES40-Transformer with the following flags:
-%    \begin{description}
-%      \item {
-%        [\inlinecode{--xml-file=}]
-%        Specifies the input XML document.
-%      }
-%      \item {
-%        [\inlinecode{--xslt-file=}]
-%        Specifies the input XSLT document.
-%      }
-%      \item {
-%        [\inlinecode{--server=}]
-%        Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
-%      }
-%      \item {
-%        [\inlinecode{--output-file=}] (optional)
-%        Specifies a file to write out to.  Otherwise writes to \inlinecode{STDOUT}.
-%      }
-%      \item {
-%        [\inlinecode{--port=}] (optional)
-%        Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
-%      }
-%      \item {
-%        [\inlinecode{--username=}] (optional)
-%        Specifies a user name if one is required.
-%      }
-%      \item {
-%        [\inlinecode{--password=}] (optional)
-%        Specifies the user's password if one is required.
-%      }
-%      \item {
-%        [\inlinecode{--help=}] (optional)
-%        Prints out a help menu (describing these flags)
-%      }
-%    \end{description}
-%  }
-    \textbf{Web Interface}:
-    The website interface for XZES40-Transformer will include of a form with the following fields:
-    \begin{description}
-      \item {
-        \textbf{XML File} A file upload field for the XML document.
-      }
-      \item {
-        \textbf{XSLT File} A file upload field for the XSLT document.
-      }
-      \item {
-        \textbf{Output Filename} (optional)
-        The filename of the output document.
-        If one is not specified a name will be generated of the following format \inlinecode{document-transform-<date>.xml>}.
-      }
-      \item {
-        \textbf{Username} (optional)
-        Specifies a user name if one is required.
-      }
-      \item {
-        \textbf{Password} (optional)
-        Specifies the user's password if one is required.
-      }
-    \end{description}
-%\end{description}
-
-The website will make a \inlinecode{HTTP POST} request a specified URL endpoint.
-The transformed file will be automatically downloaded by the user's browser. 
-
-The application's web interface will be accessible on any operating system with an internet connection, web browser, input methods (keyboard, mouse, touchscreen, etc), and monitor.
-
+\begin{itemize}
+    \item A Website to access XZES40-Transformer via a web-browser.
+    \item A CLI to access XZES40-Transformer via a terminal interface.
+\end{itemize}
 % Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
 % Managers can control database in their experience after see the GUI of transfer management application.
 % User just need click webpage request, and other things is working behind the webpage.

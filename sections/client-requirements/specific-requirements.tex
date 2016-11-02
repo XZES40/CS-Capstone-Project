@@ -11,30 +11,30 @@
 % Before examining specific ways of organizing the requirements it is helpful to understand the various items that comprise requirements as described in 5.3.1 through 5.3.7.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-  \item You must have an XML declaration statement.
-    \begin{itemize}
-      \item \inlinecode{<?xml version="1.0" standalone="yes/no" encoding="UTF-8"?>}
-      \item {
-        The purpose of a declaration is to tell the browser or other handlers th at the document is an XML document.
-        The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file.
-      }
-    \end{itemize}
-    \item Is there a DTD file?
-      \begin{itemize} 
-        \item { 
-          The do cument must have a corresponding DTD file, and strictly comply with the DTD file specification.
-          The DTD file's declaration statement follows the XML declaration statement.
-          \inlinecode{<!DOCTYPE type-of-doc SYSTEM/PUBLIC "dtd-name">}
-        }
-      \end{itemize}
-    \item Note your capitalization
-        \begin{itemize}
-            \item In the XML file, the case is a difference.
-        \end{itemize} 
-    \item Quotes attributes values
-    \item All identifiers must have a corresponding end tag.
-\end{enumerate}
+% \begin{enumerate}
+%   \item You must have an XML declaration statement.
+%     \begin{itemize}
+%       \item \inlinecode{<?xml version="1.0" standalone="yes/no" encoding="UTF-8"?>}
+%       \item {
+%         The purpose of a declaration is to tell the browser or other handlers th at the document is an XML document.
+%         The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file.
+%       }
+%     \end{itemize}
+%     \item Is there a DTD file?
+%       \begin{itemize} 
+%         \item { 
+%           The do cument must have a corresponding DTD file, and strictly comply with the DTD file specification.
+%          The DTD file's declaration statement follows the XML declaration statement.
+%           \inlinecode{<!DOCTYPE type-of-doc SYSTEM/PUBLIC "dtd-name">}
+%         }
+%       \end{itemize}
+%     \item Note your capitalization
+%         \begin{itemize}
+%             \item In the XML file, the case is a difference.
+%         \end{itemize} 
+%     \item Quotes attributes values
+%     \item All identifiers must have a corresponding end tag.
+% \end{enumerate}
 
 \subsection{External interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,17 +55,114 @@
 %   - End messages.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The system provides external interface, or system call external interface, often using XML format as the interface data transfer format.
+XSLT40-Transformer will have two user interfaces: a \textbf{Web Interface} and a \textbf{Commandline Interface (CLI)}.
 
-\begin{enumerate}
-  \item The use of Xstream library can be directly javabean into XML file, of course, can also be XML file data into java bean.
-  \item {
-    Spring MVC + freemarker framework, get request to put the data into the ModelMap, dispatchServlet use freemarker template engine, the ModelMap data will be rendered to.
-    Ftl file, generate the page.
-    Use this principle, direct call freemarker template engine rendering method, the data is rendered to.
-    Ftl file, generate the required XML format data.
-  }
-\end{enumerate}
+\begin{description}
+    \item {
+        \textbf{Web Interface}:
+        The website interface for XZES40-Transformer will include of a form with the following fields:
+        \begin{description}
+            \item {
+              \textbf{XML File} A file upload field for the XML document.
+            }
+            \item {
+              \textbf{XSLT File} A file upload field for the XSLT document.
+            }
+            \item {
+              \textbf{Output Filename} (optional)
+              The filename of the output document.
+              If one is not specified a name will be generated of the following format \inlinecode{document-transform-<date>.xml>}.
+            }
+%            \item {
+%              \textbf{Username} (optional)
+%              Specifies a user name if one is required.
+%            }
+%            \item {
+%              \textbf{Password} (optional)
+%              Specifies the user's password if one is required.
+%            }
+        \end{description}
+
+        The website will make an HTTP \inlinecode{POST} request to the server.
+        This \inlinecode{POST} request will include an XML and XSLT document in it's payload.
+
+        The page will redirect the user to a new page where they can download the transformed file.
+
+        The Web Interface will require a web-browser (supporting HTTP4.0+).
+        
+        \begin{figure}[h]
+        \caption{Prototype of the Web Interface}
+        \centering
+        \includegraphics{figures/website-mockup.jpg}
+        \end{figure}
+    }
+    \item {
+        \textbf{Command-Line Interface (CLI)}:
+        The CLI will give users a text-based interface with XZES40-Transformer.
+        The with the following flags:
+        \begin{description}
+            \item {
+              \textbf{\inlinecode{--xml-file=}}
+              Specifies the input XML document.
+            }
+            \item {
+              \textbf{\inlinecode{--xslt-file=}}
+              Specifies the input XSLT document.
+            }
+            \item {
+              \textbf{\inlinecode{--server=}}
+              Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
+            }
+            \item {
+              \textbf{\inlinecode{--output-file=}} (optional)
+              Specifies a file to write out to.  Otherwise writes to a file of the following format \inlinecode{document-transform-<date>.xml>}.
+            }
+            \item {
+              \textbf{\inlinecode{--port=}} (optional)
+              Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
+            }
+%            \item {
+%              \textbf{\inlinecode{--username=}} (optional)
+%              Specifies a user name if one is required.
+%            }
+%            \item {
+%              \textbf{\inlinecode{--password=}} (optional)
+%              Specifies the user's password if one is required.
+%            }
+            \item {
+              \textbf{\inlinecode{--help=}} (optional)
+              Prints out a help menu (describing these flags)
+            }
+        \end{description}
+
+        The CLI will take the following arguments and make a \inlinecode{POST} request to the server.
+        The transformed file will be automatically downloaded to the user's desired location, or to the current working directory with the automatic file name.
+
+        The CLI requires a UNIX terminal and UNIX shell.
+    }
+    \begin{lstlisting}
+    EXAMPLE OF CLI INTERFACE.
+    \end{lstlisting}
+\end{description}
+
+Both interfaces XZES40-Transformer will require a method of input (keyboard, mouse, touchscreen, etc), an internet connection, and monitor or screen.
+
+As input both interfaces expect one XML 1.0 formatted document and one XSLT 1.0 formatted document.
+These files can be UTF-8 or ASCII character encoding.
+
+As output both interfaces will send the user an XML 1.0 formatted document of UTF-8 character encoding.
+
+% The system provides external interface, or system call external interface, often using XML format as the interface data transfer format.
+% 
+% \begin{enumerate}
+%   \item The use of Xstream library can be directly javabean into XML file, of course, can also be XML file data into java bean.
+%   \item {
+%     Spring MVC + freemarker framework, get request to put the data into the ModelMap, dispatchServlet use freemarker template engine, the ModelMap data will be rendered to.
+%     Ftl file, generate the page.
+%     Use this principle, direct call freemarker template engine rendering method, the data is rendered to.
+%     Ftl file, generate the required XML format data.
+%   }
+% \end{enumerate}
 
 \subsection{Functions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,41 +183,124 @@ The system provides external interface, or system call external interface, often
 % This does not imply that the software design will also be partitioned that way.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{itemize}
-  \item {
-    \inlinecode{string utf8\_decode (string \$data)}: 
-    This function decodes data encoded in UTF-8 to ISO-8859-1.
-  }
-  \item {
-    \inlinecode{string utf8\_encode ( string \$data )}:
-    This function converts the data string to UTF-8 encoding and returns the encoded string.
-  }
-  \item {
-    \inlinecode{string xml\_error\_string ( int \$code )}:
-    Obtain an XML parser error string based on the given code.
-  }
-  \item{
-    \inlinecode{int xml\_get\_current\_byte\_index ( resource \$parser )}:
-    Gets the current byte index of the specified XML parser
-  }
-  \item{
-    \inlinecode{int xml\_get\_current\_column\_number ( resource \$parser )}
-    Gets the current column number of the specified XML parser
-  }
-  \item{
-    \inlinecode{int xml\_get\_current\_line\_number ( resource \$parser )}
-    Gets the current line number of the specified XML parser
-  }
-  \item{
-    \inlinecode{int xml\_parse\_into\_struct ( resource \$parser , string \$data , array \&\$values [, array \&\$index ] )}
-    This function parses the XML file into two corresponding arrays, and the index parameter contains a pointer to the corresponding value in the values array.
-    The last two array parameters can be passed to the function by the pointer.
-  }
-  \item{
-    \inlinecode{int xml\_parse ( resource \$parser , string \$data [, bool \$is\_final = false ] )}
-    Xml\_parse () Parses an XML document.
-    The handler for the configured event is called indefinitely as needed
-  }
+%\begin{itemize}
+%  \item {
+%   \inlinecode{string utf8\_decode (string \$data)}: 
+%    This function decodes data encoded in UTF-8 to ISO-8859-1.
+% }
+% \item {
+%    \inl\begin{itemize}
+% \item {
+%    \inlinecode{string utf8\_decode (string \$data)}: 
+%    This function decodes data encoded in UTF-8 to ISO-8859-1.
+%  }
+%  \item {
+%    \inlinecode{string utf8\_encode ( string \$data )}:
+%    This function converts the data string to UTF-8 encoding and returns the encoded string.
+%  }
+%  \item {
+%    \inlinecode{string xml\_error\_string ( int \$code )}:
+%    Obtain an XML parser error string based on the given code.
+%  }
+%  \item{%   \inlinecode{int xml\_get\_current\_byte\_index ( resource \$parser )}:
+%    Gets the current byte index of the specified XML parser
+%  }
+%  \item{
+%    \inlinecode{int xml\_get\_current\_column\_number ( resource \$parser )}
+%    Gets the current column number of the specified XML parser
+%  }
+%  \item{
+%    \inlinecode{int xml\_get\_current\_line\_number ( resource \$parser )}
+%    Gets the current line number of the specified XML parser
+%  }
+%  \item{
+%    \inlinecode{int xml\_parse\_into\_struct ( resource \$parser , string \$data , array \&\$values [, array \&\$index ] )}
+%    This function parses the XML file into two corresponding arrays, and the index parameter contains a pointer to the corresponding value in the values array.
+%   The last two array parameters can be passed to the function by the pointer.
+% }
+%  \item{
+%    \inlinecode{int xml\_parse ( resource \$parser , string \$data [, bool \$is\_final = false ] )}
+%    Xml\_parse () Parses an XML document.
+%    The handler for the configured event is called indefinitely as needed
+%  }
+%\end{itemize}inecode{string utf8\_encode ( string \$data )}:
+%   This function converts the data string to UTF-8 encoding and returns the encoded string.
+%  }
+%  \item {
+%    \inlinecode{string xml\_error\_string ( int \$code )}:
+%    Obtain an XML parser error string based on the given code.
+%  }
+ % \item{
+  %  \inlinecode{int xml\_get\_current\_byte\_index ( resource \$parser )}:
+   % Gets the current byte index of the specified XML parser
+%  }
+% \item{
+%    \inlinecode{int xml\_get\_current\_column\_number ( resource \$parser )}
+%    Gets the current column number of the specified XML parser
+%  }
+%  \item{
+%    \inlinecode{int xml\_get\_current\_line\_number ( resource \$parser )}
+%    Gets the current line number of the specified XML parser
+%  }
+%  \item{
+%    \inlinecode{int xml\_parse\_into\_struct ( resource \$parser , string \$data , array \&\$values [, array \&\$index ] )}
+%    This function parses the XML file into two corresponding arrays, and the index parameter contains a pointer to the corresponding value in the values array.
+%    The last two array parameters can be passed to the function by the pointer.
+%  }
+%  \item{
+%   \inlinecode{int xml\_parse ( resource \$parser , string \$data [, bool \$is\_final = false ] )}
+%    Xml\_parse () Parses an XML document.
+%   The handler for the configured event is called indefinitely as needed
+%  }
+%\end{itemize}
+
+The following functions will be the core functionality of XZES40-Transformer.
+
+\begin {itemize}
+    \item{
+        \inlinecode{int verify\_file(string input\_filename, int format\_option)}:
+        Open file and verify that it is the correct format (XML 1.0 or XSLT 1.0).
+
+        Returns FILE\_ERROR value if the file cannot be found, FORMAT\_ERROR if the given file is not of the correct format, and VALID if the file is of the correct format.
+        Each return value will be a macro for a unique integer value.
+    }
+    \item{
+        \inlinecode{void transform(string XML\_filename, string XSLT\_filename, string output\_filename)}:
+        % After the server verifies the XML and XSLT file are correct format, the system will transform those files.
+        This function is called to transform the given XML\_FILE with the XSLT\_FILE.
+        If output\_file is defined the file will be written to that location.
+        If output\_file is not defined the new file will be written to STDOUT.
+    }
+    \item{
+        \inlinecode{char * verify_cache(input\_filename)}:
+        Ensures that a given file is cached.
+        Adds the file to cache if it is not already.
+        Returns a pointer to the cached file.
+    }
+    \item{
+        \inlinecode{int check\_cache(input\_filename)}:
+        The system will check if the given file is in the cache.
+        
+        Returns TRUE if the file is in the cache and FALSE if the file is not in the cache.
+    }
+    \item{
+        \inlinecode{int cache(input\_filename)}:
+        The new XML file will be saved in the cache.
+        
+        Returns SUCCESS if the document was successfully cached, FALSE if it was not successfully cached.
+    }
+    \item{
+        \inlinecode{int compile(input\_filename)}:
+        The system will compile the given XML/XSLT file into machine code to later be transformed.
+    }
+    \item{
+        \inlinecode{int perform\_transform(var1, var2)}:
+        Performs the document transformation.
+    }
+    \item{
+        \inlinecode{int clean_cache()}:
+        Removes old documents from the cache which have not been used recently.
+    }
 \end{itemize}
 
 \subsection{Performance requirements}
@@ -141,39 +321,45 @@ The system provides external interface, or system call external interface, often
 % Numerical limits applied to one specific function are normally specified as part of the processing subparagraph description of that function.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-    \item DOM( Document Object Model)
-    \begin{itemize}
-        \item {
-          The DOM is the official W3C standard for representing XML documents in a platform-independent and language-independent manner.
-          A DOM is a collection of nodes or pieces of information organized in a hierarchical structure.
-          This hierarchy allows the developer to find specific information in the tree.
-          Analysis of the structure is usually required to load the entire document and structure hierarchy, and then to do any work.
-          Because it is based on the level of information, so DOM is considered to be tree-based or object-based.
-        }
-    \end{itemize}
-    \item SAX (Simple API for XML)
-    \begin{itemize}
-        \item {
-          Analysis can start immediately, rather than waiting for all the data to be processed.
-          Also, because the application only checks data when reading data, there is no need to store the data in memory.
-          This is a huge advantage for large documents.
-          In fact, the application does not even have to parse the entire document; it can stop resolving when a condition is met.
-        }
-    \end{itemize}
-    \item JDOM(Java-based Document Object Model)
-    \begin{itemize}
-        \item The goal of JDOM is to become a Java-specific document model that simplifies interaction with XML and is faster than using the DOM implementation.
-    \end{itemize}
-    \item DOM4J(Document Object Model for Java)
-    \begin{itemize}
-        \item {
-          Although DOM4J represents a completely independent development results, but initially, it is a smart JDOM branch.
-          It incorporates a number of features beyond the basic XML document representation, including integrated XPath support, XML Schema support, and event-based processing for large documents or fluidized documents.
-          It also provides the option of building document representations that have parallel access through the DOM4J API and the standard DOM interface.
-        }
-    \end{itemize}
-\end{enumerate}
+% XZES40-Transformer application will support 3 or 4 terminals at the same time, and we expect 3 or 4 simultaneous users to be supported.
+% XZES40-Transformer application can handle XML and XSLT file.(?) 
+
+XZES40-Transformer will support X transformations per second and Y concurrent users with Z latency.
+    
+%\begin{enumerate}
+%    \item DOM( Document Object Model)
+%    \begin{itemize}
+%        \item {
+%          The DOM is the official W3C standard for representing XML documents in a platform-independent and language-independent manner.
+%          A DOM is a collection of nodes or pieces of information organized in a hierarchical structure.
+%          This hierarchy allows the developer to find specific information in the tree.
+%          Analysis of the structure is usually required to load the entire document and structure hierarchy, and then to do any work.
+%          Because it is based on the level of information, so DOM is considered to be tree-based or object-based.
+%        }
+%    \end{itemize}
+%    \item SAX (Simple API for XML)
+%    \begin{itemize}
+%        \item {
+%          Analysis can start immediately, rather than waiting for all the data to be processed.
+%          Also, because the application only checks data when reading data, there is no need to store the data in memory.
+%          This is a huge advantage for large documents.
+%          In fact, the application does not even have to parse the entire document; it can stop resolving when a condition is met.
+%       }
+%    \end{itemize}
+%    \item JDOM(Java-based Document Object Model)
+%    \begin{itemize}
+%        \item The goal of JDOM is to become a Java-specific document model that simplifies interaction with XML and is faster than using the DOM implementation.
+%    \end{itemize}
+%    \item DOM4J(Document Object Model for Java)
+%    \begin{itemize}
+%        \item {
+%          Although DOM4J represents a completely independent development results, but initially, it is a smart JDOM branch.
+%          It incorporates a number of features beyond the basic XML document representation, including integrated XPath support, XML Schema support, and event-based processing for large documents or fluidized documents.
+%          It also provides the option of building document representations that have parallel access through the DOM4J API and the standard DOM interface.
+%        }
+%    \end{itemize}
+%\end{enumerate}
+
 
 \subsection{Logical database requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,41 +373,22 @@ The system provides external interface, or system call external interface, often
 %   6. Data retention requirements.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-    \item XMLEnabledDatabase(XEDB)
-    \begin{itemize}
-        \item {
-          That can handle the XML database.
-          Which is characterized by the expansion of the original database system on XML data processing capabilities, so that it can adapt to XML data storage and query needs.
-          It is common practice to add an XML mapping layer above the database system, which can be provided by the database vendor or by a third-party vendor.
-          The mapping layer manages the storage and retrieval of XML data, but the original XML metadata and structure may be lost, and the results of the data retrieval can not be guaranteed to be in the original XML form.
-          The basic storage units of XEDB are closely related to the specific implementation.
-        }
-    \end{itemize}
-    \item NativeXMLDatabase(NXD)
-    \begin{itemize}
-        \item The XML database which is characterized by a natural way to deal with XML data to XML documents as the basic logical storage units for XML data storage and query characteristics of the design of the applicable data model and processing methods.
-    \end{itemize}
-    \item HybridXMLDatabase(HXD)
-    \begin{itemize}
-        \item{
-          It is a hybrid XML database.
-          According to the needs of the application, can be regarded as XEDB or NXD database, a typical example is Ozone.
-        }
-    \end{itemize}
-\end{enumerate}
+XZES40-Transformer application does not require database. 
 
 \subsection{Design constraints}
-
-In XML technology, you can write a document to constrain an XML document writing specification, which is called XML constraints.
-In XML Schema technology has a technical term to describe the process, the XML Schema document declaration element binding to a namespace, after the XML file through the URI which is namespace to tell the parsing engine, XML document In the preparation of the elements from where, who is bound.
-DTD (Document Type Definition)
-The XML file uses the DOCTYPE declaration statement to specify the DTD file it follows.
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify design constraints that can be imposed by other standards, hardware limitations, etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% In XML technology, you can write a document to constrain an XML document writing specification, which is called XML constraints.
+% In XML Schema technology has a technical term to describe the process, the XML Schema document declaration element binding to a namespace, after the XML file through the URI which is namespace to tell the parsing engine, XML document In the preparation of the elements from where, who is bound.
+% DTD (Document Type Definition)
+% The XML file uses the DOCTYPE declaration statement to specify the DTD file it follows.
+
+For the XML compilation and transformation process we are restricted to using the Xerces-C and Xalan-C libraries.
+For document encoding and decoding we have to use the ICU UTF-8 libary.
+
+% OS restriction?
 
 \subsubsection{Standards Compliance}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -236,27 +403,31 @@ The XML file uses the DOCTYPE declaration statement to specify the DTD file it f
 % An audit trace requirement may, for example, state that all changes to a payroll database must be recorded in a trace file with before and after values.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The XML declaration typically appears as the first line in an XML document.
-The XML declaration is not required, however, if used it must be the first line in the document and no other content or white space can precede it.
-\begin{enumerate}
-    \item The version number, <?xml version="1.0"?>
-    \begin{itemize}
-        \item {
-          This is mandatory.
-          Although the number might change for future versions of XML, 1.0 is the current version.
-        }
-    \end{itemize}
-    \item The encoding declaration, <?xml version="1.0" encoding="UTF-8"?>
-    \begin{itemize}
-        \item {
-          This is optional.
-          If used, the encoding declaration must appear immediately after the version information in the XML declaration, and must contain a value representing an existing character encoding.
-        }
-    \end{itemize}
-\end{enumerate}
+Input documents must be correctly formatted XML and XSLT documents.
+Malformed documents will be rejected by the application.
 
+Correctly formatted XML documents follow the W3C outlined XML 1.0 and XSLT 1.0 formats. \cite{xml-spec} \cite{xslt-spec}
 
+Our application will also communicate with users over HTTP/HTTPS, however we are not implementing these standards, just using them to communicate over the internet.
 
+%The XML declaration typically appears as the first line in an XML document.
+%The XML declaration is not required, however, if used it must be the first line in the document and no other content or white space can precede it.
+%\begin{enumerate}
+%    \item The version number, <?xml version="1.0"?>
+%    \begin{itemize}
+%        \item {
+%          This is mandatory.
+%          Although the number might change for future versions of XML, 1.0 is the current version.
+%        }
+%    \end{itemize}
+%    \item The encoding declaration, <?xml version="1.0" encoding="UTF-8"?>
+%    \begin{itemize}
+%        \item {
+%          This is optional.
+%          If used, the encoding declaration must appear immediately after the version information in the XML declaration, and must contain a value representing an existing character encoding.
+%        }
+%    \end{itemize}
+%\end{enumerate}
 
 \subsection{Software System Attributes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,27 +436,32 @@ The XML declaration is not required, however, if used it must be the first line 
 % Subclauses 5.3.6.1 through 5.3.6.5 provide a partial list of examples.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XML elements can include attributes in the opening tag, similar to HTML.
+% XML elements can include attributes in the opening tag, similar to HTML.
 
 \subsubsection{Reliability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the factors required to establish the required reliability of the software system at time of delivery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The XML test case model is put forward by using XML to save the test cases generated in the software reliability test.
-The XML test case file generator and test engine are implemented, and the test cases are read with the test driver to drive the tested program to run.
-Test Results.
-Which can automatically and efficiently test the software interface.
-The test data is separated from the test driver, 
-which is beneficial to the maintenance and reuse of the test data, and has achieved very good results in practical application.
+For XZES40-Transformer to be reliable will require it's cache to be up to date, to avoid transforming documents incorrectly.
+
+% The XML test case model is put forward by using XML to save the test cases generated in the software reliability test.
+% The XML test case file generator and test engine are implemented, and the test cases are read with the test driver to drive the tested program to run.
+% Test Results.
+% Which can automatically and efficiently test the software interface.
+% The test data is separated from the test driver, 
+% which is beneficial to the maintenance and reuse of the test data, and has achieved very good results in practical application.
 
 \subsubsection{Availability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify the factors required to guarantee a defined availability level for the entire system such as checkpoint, recovery, and restart.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XML provides a way to describe data and platform-independent,
-has become the de facto standard for data exchange on the Internet.
+Since XZES40-Transformer will be run as a web-service it should be highly-available during business hours.
+It will be configured to handle heavy workloads and restart if it crashes.
+
+% XML provides a way to describe data and platform-independent,
+% has become the de facto standard for data exchange on the Internet.
 
 \subsubsection{Security}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,8 +474,12 @@ has become the de facto standard for data exchange on the Internet.
 %    5. Check data integrity for critical variables.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XML encryption provides an end-to-end security for applications that require secure data exchange of structured data.
-XML itself is the most popular technique for structuring data, so XML-based encryption becomes a method of dealing with the complex requirements of security in data interchange applications.
+XZES40-Transformer may be used to handle sensitive data, however it is not this team's job to account for that.
+
+If administrators want the application to be secure they may choose to deploy it behind an organization firewall or configure the web-service to use HTTPS instead of HTTP.
+
+% XML encryption provides an end-to-end security for applications that require secure data exchange of structured data.
+% XML itself is the most popular technique for structuring data, so XML-based encryption becomes a method of dealing with the complex requirements of security in data interchange applications.
 
 \subsubsection{Maintainability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -308,12 +488,19 @@ XML itself is the most popular technique for structuring data, so XML-based encr
 % Requirements should not be placed here just because they are thought to be good design practices.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In the design of the time, if some of the key parameters into the configuration file, can be used for software deployment and bring more flexibility.
+Our application will also be deployed as a daemon which will be configured on installation.
+
+% In the design of the time, if some of the key parameters into the configuration file, can be used for software deployment and bring more flexibility.
 
 \subsubsection{Portability}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should specify attributes of software that relate to the ease of porting the software to other host machines and/or operating systems.
 % This may include the following:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some systems provide different sets of functions to different classes of users.
+% For example, an elevator control system presents different capabilities to passengers, maintenance workers, and fire fighters.
+% When organizing this section by user class, the outline in A.3 should be used.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    1. Percentage of components with host-dependent code;
 %    2. Percentage of code that is host dependent;
 %    3. Use of a proven portable language;
@@ -321,9 +508,13 @@ In the design of the time, if some of the key parameters into the configuration 
 %    5. Use of a particular operating system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A DTD, such as the priceList DTD, is what gives XML data its portability.
-If an application is sent a priceList document in XML format and has the priceList DTD, 
-it can process the document according to the rules specified in the DTD.
+As an Open Source project XZES40-Transformer will be designed for portability.
+It will perform all operating-system specific operations via an OS agnostic API.
+When the application is compiled on a new platform it will compile against the given OS api (Windows, Linux, MacOS, etc).
+
+% A DTD, such as the priceList DTD, is what gives XML data its portability.
+% If an application is sent a priceList document in XML format and has the priceList DTD, 
+% it can process the document according to the rules specified in the DTD.
 
 \subsection{Organizing the specific requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -334,16 +525,16 @@ it can process the document according to the rules specified in the DTD.
 % Some of these organizations are described in 5.3.7.1 through 5.3.7.7.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-    \item The file must be in Unicode Convert Format -8 (UTF-8).
-    \item {
-      The file must have a unique migration urlid.
-      The urlid you specify for each file in the command line must be different.
-      If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed.
-      The reason for this is that USMT uses the urlid to define the components in the file.
-    }
-    \item Each component in the file must have a display name for display in the Config.xml file.
-\end{enumerate}
+%\begin{enumerate}
+%    \item The file must be in Unicode Convert Format -8 (UTF-8).
+%    \item {
+%      The file must have a unique migration urlid.
+%      The urlid you specify for each file in the command line must be different.
+%      If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed.
+%    The reason for this is that USMT uses the urlid to define the components in the file.
+%   }
+%   \item Each component in the file must have a display name for display in the Config.xml file.
+%\end{enumerate}
 
 \subsubsection{System mode}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -353,16 +544,19 @@ it can process the document according to the rules specified in the DTD.
 % The choice depends on whether interfaces and performance are dependent on mode.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{enumerate}
-    \item The file must be in Unicode Convert Format -8 (UTF-8).
-    \item {
-      The file must have a unique migration urlid.
-      The urlid you specify for each file in the command line must be different.
-      If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed.
-      The reason for this is that USMT uses the urlid to define the components in the file.
-    }
-    \item Each component in the file must have a display name for display in the Config.xml file.
-\end{enumerate}
+Our application will behave the same in all modes.
+Given a \inlinecode{POST} request to the server it will respond with a file.
+
+% \begin{enumerate}
+%     \item The file must be in Unicode Convert Format -8 (UTF-8).
+%     \item {
+%       The file must have a unique migration urlid.
+%       The urlid you specify for each file in the command line must be different.
+%       If two migrated .xml files have the same urlid, the second .xml file specified on the command line will not be processed.
+%       The reason for this is that USMT uses the urlid to define the components in the file.
+%     }
+%     \item Each component in the file must have a display name for display in the Config.xml file.
+% \end{enumerate}
 
 \subsubsection{User class}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -371,8 +565,10 @@ it can process the document according to the rules specified in the DTD.
 % When organizing this section by user class, the outline in A.3 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A user-defined simple type is a restriction on the content of an element or attribute.
-A user-defined simple type always limits the content of the element to a subset of the existing simple types that the element exports
+Our application does not differentiate between different users, each user will receive the same functionality.
+
+% A user-defined simple type is a restriction on the content of an element or attribute.
+% A user-defined simple type always limits the content of the element to a subset of the existing simple types that the element exports
 
 \subsubsection{Objects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -385,9 +581,23 @@ A user-defined simple type always limits the content of the element to a subset 
 % These are grouped together as classes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The Element object represents an element in an XML document.
-Elements may contain attributes, other elements, or text.
-If an element contains text, the text is represented in a text-node.
+The system will have one object, cached files.
+Each input file will be compiled and cached with metadata about the file like when the cache was created, when it was last used, the filename, and the compiled file contents.
+The object will be accessed from the cache by indexing the file's hash.
+
+For example:
+\begin{lstlisting}[language=c]
+struct document {
+  char * filename;
+  int created;
+  int accessed;
+  void * cached-content;
+}
+\end{lstlisting}
+
+% The Element object represents an element in an XML document.
+% Elements may contain attributes, other elements, or text.
+% If an element contains text, the text is represented in a text-node.
 
 \subsubsection{Feature}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -397,9 +607,15 @@ If an element contains text, the text is represented in a text-node.
 % When organizing this section by feature, the outline in A.5 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XML is a text format to describe a file format
-Because XML is described in text form, it is suitable for data exchange in various platform environments.
-Similarly, the use of text to describe the content, you can cross the barriers of different platforms for normal data exchange.
+The core feature of our application is that it accepts an XML and XSLT document and returns a transformed XML document.
+
+Caching
+
+Parallel computation
+
+% XML is a text format to describe a file format
+% Because XML is described in text form, it is suitable for data exchange in various platform environments.
+% Similarly, the use of text to describe the content, you can cross the barriers of different platforms for normal data exchange.
 
 \subsubsection{Stimulus}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -408,11 +624,15 @@ Similarly, the use of text to describe the content, you can cross the barriers o
 % When organizing this section by stimulus, the outline in A.6 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We can AXIOM stimulus XML.
-It has a clear design goal: a substantial increase Apache next-generation SOAP protocol stack Axis 2 performance.
-The result is AXIOM (also called OM), which is different from other object models, because it highlights the lightness of the construct and is built only when needed.
-Because it is lightweight, it minimizes the stress on system resources, especially the CPU and memory.
-At the same time, deferred construction allows the use of a portion of the tree when other parts are not yet complete.
+Our system has two responses to stimulus:
+
+1. 
+
+% We can AXIOM stimulus XML.
+% It has a clear design goal: a substantial increase Apache next-generation SOAP protocol stack Axis 2 performance.
+% The result is AXIOM (also called OM), which is different from other object models, because it highlights the lightness of the construct and is built only when needed.
+% Because it is lightweight, it minimizes the stress on system resources, especially the CPU and memory.
+% At the same time, deferred construction allows the use of a portion of the tree when other parts are not yet complete.
 
 \subsubsection{Response}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -421,9 +641,9 @@ At the same time, deferred construction allows the use of a portion of the tree 
 % The outline in A.6 (with all occurrences of stimulus replaced with response) should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Flag the status of the entire software operation.
-Only when the service response code is 2000, it means that the software for the actual data analysis and processing operations.
-When the service response code is a different value, it means that due to various exceptions, the software does not carry out actual data analysis and processing, which is equivalent to an error in the system periphery.
+% Flag the status of the entire software operation.
+% Only when the service response code is 2000, it means that the software for the actual data analysis and processing operations.
+% When the service response code is a different value, it means that due to various exceptions, the software does not carry out actual data analysis and processing, which is equivalent to an error in the system periphery.
 
 \subsubsection{Functional hierarchy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -432,7 +652,7 @@ When the service response code is a different value, it means that due to variou
 % When organizing this section by functional hierarchy, the outline in A.7 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Root element->element->attribute “category”->text
+% Root element->element->attribute “category”->text
 %need more information
 
 \subsection{Additional comments}
@@ -449,8 +669,8 @@ Root element->element->attribute “category”->text
 % In any of the outlines given in A.1 through A.8, those sections called “Functional Requirement i” may be described in native language (e.g., English), in pseudocode, in a system definition language, or in four subsections titled: Introduction, Inputs, Processing, and Outputs.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XML has been widely used in document processing, data storage, Web applications (such as ajax data transmission, template application) and so on.
-As a structured language, it overcomes the shortcomings of the usual markup language markup fixes, and you can define your own markup to organize your data according to your own wishes.
-You can define DTDs and XML Schemas to make sure that your XML documents meet your requirements.
-XSLT can be used to XML documents according to a certain syntax into the document you need.
+% XML has been widely used in document processing, data storage, Web applications (such as ajax data transmission, template application) and so on.
+% As a structured language, it overcomes the shortcomings of the usual markup language markup fixes, and you can define your own markup to organize your data according to your own wishes.
+% You can define DTDs and XML Schemas to make sure that your XML documents meet your requirements.
+% XSLT can be used to XML documents according to a certain syntax into the document you need.
 
