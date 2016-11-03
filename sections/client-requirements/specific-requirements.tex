@@ -89,12 +89,6 @@ XSLT40-Transformer will have two user interfaces: a \textbf{Web Interface} and a
         The page will redirect the user to a new page where they can download the transformed file.
 
         The Web Interface will require a web-browser (supporting HTTP4.0+).
-        
-        \begin{figure}[h]
-        \caption{Prototype of the Web Interface}
-        \centering
-        \includegraphics{figures/website-mockup.jpg}
-        \end{figure}
     }
     \item {
         \textbf{Command-Line Interface (CLI)}:
@@ -121,14 +115,6 @@ XSLT40-Transformer will have two user interfaces: a \textbf{Web Interface} and a
               \textbf{\inlinecode{--port=}} (optional)
               Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
             }
-%            \item {
-%              \textbf{\inlinecode{--username=}} (optional)
-%              Specifies a user name if one is required.
-%            }
-%            \item {
-%              \textbf{\inlinecode{--password=}} (optional)
-%              Specifies the user's password if one is required.
-%            }
             \item {
               \textbf{\inlinecode{--help=}} (optional)
               Prints out a help menu (describing these flags)
@@ -140,12 +126,9 @@ XSLT40-Transformer will have two user interfaces: a \textbf{Web Interface} and a
 
         The CLI requires a UNIX terminal and UNIX shell.
     }
-    \begin{lstlisting}
-    EXAMPLE OF CLI INTERFACE.
-    \end{lstlisting}
 \end{description}
 
-Both interfaces XZES40-Transformer will require a method of input (keyboard, mouse, touchscreen, etc), an internet connection, and monitor or screen.
+Both interfaces XZES40-Transformer will require a method of input (keyboard and mouse or touchscreen), an internet connection, and monitor.
 
 As input both interfaces expect one XML 1.0 formatted document and one XSLT 1.0 formatted document.
 These files can be UTF-8 or ASCII character encoding.
@@ -261,45 +244,50 @@ The following functions will be the core functionality of XZES40-Transformer.
         \inlinecode{int verify\_file(string input\_filename, int format\_option)}:
         Open file and verify that it is the correct format (XML 1.0 or XSLT 1.0).
 
-        Returns FILE\_ERROR value if the file cannot be found, FORMAT\_ERROR if the given file is not of the correct format, and VALID if the file is of the correct format.
-        Each return value will be a macro for a unique integer value.
+        Accepts XML\_FORMAT or XSLT\_FORMAT macros for the format option.
+
+        Returns FILE\_ERROR macro if the file cannot be found, FORMAT\_ERROR macro if the given file is not of the correct format, and VALID macro if the file is of the correct format.
     }
     \item{
-        \inlinecode{void transform(string XML\_filename, string XSLT\_filename, string output\_filename)}:
-        % After the server verifies the XML and XSLT file are correct format, the system will transform those files.
+        \inlinecode{int transform(string XML\_filename, string XSLT\_filename, string output\_filename)}:
         This function is called to transform the given XML\_FILE with the XSLT\_FILE.
         If output\_file is defined the file will be written to that location.
         If output\_file is not defined the new file will be written to STDOUT.
+
+        Returns a status macro (SUCCESS or FAILURE).
     }
     \item{
-        \inlinecode{char * verify_cache(input\_filename)}:
+        \inlinecode{void * verify\_cache(input\_filename)}:
         Ensures that a given file is cached.
         Adds the file to cache if it is not already.
         Returns a pointer to the cached file.
     }
     \item{
-        \inlinecode{int check\_cache(input\_filename)}:
+        \inlinecode{int check\_cache(string input\_filename)}:
         The system will check if the given file is in the cache.
         
         Returns TRUE if the file is in the cache and FALSE if the file is not in the cache.
     }
     \item{
-        \inlinecode{int cache(input\_filename)}:
+        \inlinecode{int cache(string input\_filename)}:
         The new XML file will be saved in the cache.
         
-        Returns SUCCESS if the document was successfully cached, FALSE if it was not successfully cached.
+        Returns SUCCESS or FAILURe macro if the document was or was not successfully cached.
     }
     \item{
-        \inlinecode{int compile(input\_filename)}:
+        \inlinecode{int compile(string input\_filename)}:
+
         The system will compile the given XML/XSLT file into machine code to later be transformed.
     }
     \item{
-        \inlinecode{int perform\_transform(var1, var2)}:
-        Performs the document transformation.
+        \inlinecode{int perform\_transform(void * xml\_file, void * xslt\_file)}:
+        Performs the document transformation on the compiled xml\_file and xslt\_file.
     }
     \item{
-        \inlinecode{int clean_cache()}:
-        Removes old documents from the cache which have not been used recently.
+        \inlinecode{int clean\_cache()}:
+        Removes old documents from the cache which are not being used.
+
+        Triggered when the cache is filled to a certain capacity.
     }
 \end{itemize}
 
@@ -324,7 +312,7 @@ The following functions will be the core functionality of XZES40-Transformer.
 % XZES40-Transformer application will support 3 or 4 terminals at the same time, and we expect 3 or 4 simultaneous users to be supported.
 % XZES40-Transformer application can handle XML and XSLT file.(?) 
 
-XZES40-Transformer will support X transformations per second and Y concurrent users with Z latency.
+% XZES40-Transformer will support 5\% more transformations than it's other Open Source counterpart.
     
 %\begin{enumerate}
 %    \item DOM( Document Object Model)
@@ -386,9 +374,7 @@ XZES40-Transformer application does not require database.
 % The XML file uses the DOCTYPE declaration statement to specify the DTD file it follows.
 
 For the XML compilation and transformation process we are restricted to using the Xerces-C and Xalan-C libraries.
-For document encoding and decoding we have to use the ICU UTF-8 libary.
-
-% OS restriction?
+For document encoding and decoding we will use the ICU UTF-8 libary.
 
 \subsubsection{Standards Compliance}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -407,6 +393,8 @@ Input documents must be correctly formatted XML and XSLT documents.
 Malformed documents will be rejected by the application.
 
 Correctly formatted XML documents follow the W3C outlined XML 1.0 and XSLT 1.0 formats. \cite{xml-spec} \cite{xslt-spec}
+
+Input files can be of UTF-8 or ASCII character encoding, however they will be converted to, processed as, and returned as UTF-8 encododed documents.
 
 Our application will also communicate with users over HTTP/HTTPS, however we are not implementing these standards, just using them to communicate over the internet.
 
@@ -443,7 +431,7 @@ Our application will also communicate with users over HTTP/HTTPS, however we are
 % This should specify the factors required to establish the required reliability of the software system at time of delivery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-For XZES40-Transformer to be reliable will require it's cache to be up to date, to avoid transforming documents incorrectly.
+XZES40-Transformer will be reliable if it it's cache to be up to date, to avoid transforming documents incorrectly.
 
 % The XML test case model is put forward by using XML to save the test cases generated in the software reliability test.
 % The XML test case file generator and test engine are implemented, and the test cases are read with the test driver to drive the tested program to run.
@@ -477,6 +465,7 @@ It will be configured to handle heavy workloads and restart if it crashes.
 XZES40-Transformer may be used to handle sensitive data, however it is not this team's job to account for that.
 
 If administrators want the application to be secure they may choose to deploy it behind an organization firewall or configure the web-service to use HTTPS instead of HTTP.
+The application's HTTP traffic will be handled by Apache via a CGI script, this means that any Apache webserver configuration can be used with XZES40-Transformer's web API.
 
 % XML encryption provides an end-to-end security for applications that require secure data exchange of structured data.
 % XML itself is the most popular technique for structuring data, so XML-based encryption becomes a method of dealing with the complex requirements of security in data interchange applications.
@@ -488,7 +477,8 @@ If administrators want the application to be secure they may choose to deploy it
 % Requirements should not be placed here just because they are thought to be good design practices.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our application will also be deployed as a daemon which will be configured on installation.
+Our application will be deployed as a daemon which will be configured upon installation.
+This configuration may be modified after installation, but should work ``out of the box''.
 
 % In the design of the time, if some of the key parameters into the configuration file, can be used for software deployment and bring more flexibility.
 
@@ -510,7 +500,9 @@ Our application will also be deployed as a daemon which will be configured on in
 
 As an Open Source project XZES40-Transformer will be designed for portability.
 It will perform all operating-system specific operations via an OS agnostic API.
-When the application is compiled on a new platform it will compile against the given OS api (Windows, Linux, MacOS, etc).
+When the application is compiled on a new platform it will compile against the given OS API (e.g., Windows, Linux, MacOS, etc).
+
+As for installation packages, one must be manually created for each platform, however this is not an urgent requirement and can be carried out platform-by-platform after the initial development is completed.
 
 % A DTD, such as the priceList DTD, is what gives XML data its portability.
 % If an application is sent a priceList document in XML format and has the priceList DTD, 
@@ -536,7 +528,7 @@ When the application is compiled on a new platform it will compile against the g
 %   \item Each component in the file must have a display name for display in the Config.xml file.
 %\end{enumerate}
 
-\subsubsection{System mode}
+% \subsubsection{System mode}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems behave quite differently depending on the mode of operation.
 % For example, a control system may have different sets of functions depending on its mode: training, normal, or emergency.
@@ -544,8 +536,8 @@ When the application is compiled on a new platform it will compile against the g
 % The choice depends on whether interfaces and performance are dependent on mode.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our application will behave the same in all modes.
-Given a \inlinecode{POST} request to the server it will respond with a file.
+% Our application will behave the same in all modes.
+% Given a \inlinecode{POST} request to the server it will respond with a file.
 
 % \begin{enumerate}
 %     \item The file must be in Unicode Convert Format -8 (UTF-8).
@@ -558,19 +550,19 @@ Given a \inlinecode{POST} request to the server it will respond with a file.
 %     \item Each component in the file must have a display name for display in the Config.xml file.
 % \end{enumerate}
 
-\subsubsection{User class}
+% \subsubsection{User class}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems provide different sets of functions to different classes of users.
 % For example, an elevator control system presents different capabilities to passengers, maintenance workers, and fire fighters.
 % When organizing this section by user class, the outline in A.3 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our application does not differentiate between different users, each user will receive the same functionality.
+% Our application does not differentiate between different users, each user will receive the same functionality.
 
 % A user-defined simple type is a restriction on the content of an element or attribute.
 % A user-defined simple type always limits the content of the element to a subset of the existing simple types that the element exports
 
-\subsubsection{Objects}
+% \subsubsection{Objects}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Objects are real-world entities that have a counterpart within the system.
 % For example, in a patient monitoring system, objects include patients, sensors, nurses, rooms, physicians, medicines, etc.
@@ -581,25 +573,25 @@ Our application does not differentiate between different users, each user will r
 % These are grouped together as classes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The system will have one object, cached files.
-Each input file will be compiled and cached with metadata about the file like when the cache was created, when it was last used, the filename, and the compiled file contents.
-The object will be accessed from the cache by indexing the file's hash.
+% The system will have one object, cached files.
+% Each input file will be compiled and cached with metadata about the file like when the cache was created, when it was last used, the filename, and the compiled file contents.
+% The object will be accessed from the cache by indexing the file's hash.
 
-For example:
-\begin{lstlisting}[language=c]
-struct document {
-  char * filename;
-  int created;
-  int accessed;
-  void * cached-content;
-}
-\end{lstlisting}
+% For example:
+% \begin{lstlisting}[language=c]
+% struct document {
+%   char * filename;
+%   int created;
+%   int accessed;
+%   void * cached-content;
+% }
+% \end{lstlisting}
 
 % The Element object represents an element in an XML document.
 % Elements may contain attributes, other elements, or text.
 % If an element contains text, the text is represented in a text-node.
 
-\subsubsection{Feature}
+\subsubsection{System Features}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A feature is an externally desired service by the system that may require a sequence of inputs to effect the desired result.
 % For example, in a telephone system, features include local call, call forwarding, and conference call.
@@ -607,26 +599,35 @@ struct document {
 % When organizing this section by feature, the outline in A.5 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The core feature of our application is that it accepts an XML and XSLT document and returns a transformed XML document.
+% \subsubsubsection{System Feature 1}
+% \subsubsubsubsection{Introduction/Purpose}
+% \subsubsubsubsection{Stimulus/Response}
+% \subsubsubsubsection{Associated Functional Requirements}
+% \subsubsubsubsubsection{Functional Requirement 1}
 
-Caching
+The document transformation will take place on the software's host and will be accessible via a browser or CLI interface.
+Given two documents, one XML 1.0 and one XSLT 1.0 formatted documents.
+In response the application will send the user back a transformed XML 1.0 formatted document, or an error if one is appropriate.
+In support of this our team will develop three additional features:
 
-Parallel computation
+\begin{itemize}
+  \item Document caching will reduce latency of our application by reducing the cost involved in downloading and compiling dependency documents.
+  \item Parallel computation will reduce latency by carrying out independent computations in parallel when possible.
+  \item Availability over the internet will make it accessible to many users simultaneously via convenient HTTP-based interfaces.
+\end{itemize}
 
 % XML is a text format to describe a file format
 % Because XML is described in text form, it is suitable for data exchange in various platform environments.
 % Similarly, the use of text to describe the content, you can cross the barriers of different platforms for normal data exchange.
 
-\subsubsection{Stimulus}
+% \subsubsection{Stimulus}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems can be best organized by describing their functions in terms of stimuli.
 % For example, the functions of an automatic aircraft landing system may be organized into sections for loss of power, wind shear, sudden change in roll, vertical velocity excessive, etc.
 % When organizing this section by stimulus, the outline in A.6 should be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our system has two responses to stimulus:
-
-1. 
+% Our system has two responses to stimulus: 
 
 % We can AXIOM stimulus XML.
 % It has a clear design goal: a substantial increase Apache next-generation SOAP protocol stack Axis 2 performance.
@@ -634,7 +635,7 @@ Our system has two responses to stimulus:
 % Because it is lightweight, it minimizes the stress on system resources, especially the CPU and memory.
 % At the same time, deferred construction allows the use of a portion of the tree when other parts are not yet complete.
 
-\subsubsection{Response}
+% \subsubsection{Response}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Some systems can be best organized by describing all the functions in support of the generation of a response.
 % For example, the functions of a personnel system may be organized into sections corresponding to all functions associated with generating paychecks, all functions associated with generating a current list of employees, etc.
@@ -645,7 +646,7 @@ Our system has two responses to stimulus:
 % Only when the service response code is 2000, it means that the software for the actual data analysis and processing operations.
 % When the service response code is a different value, it means that due to various exceptions, the software does not carry out actual data analysis and processing, which is equivalent to an error in the system periphery.
 
-\subsubsection{Functional hierarchy}
+% \subsubsection{Functional hierarchy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % When none of the above organizational schemes prove helpful, the overall functionality can be organized into a hierarchy of functions organized by either common inputs, common outputs, or common internal data access.
 % Data flow diagrams and data dictionaries can be used to show the relationships between and among the functions and data.
@@ -668,6 +669,8 @@ Our system has two responses to stimulus:
 %
 % In any of the outlines given in A.1 through A.8, those sections called “Functional Requirement i” may be described in native language (e.g., English), in pseudocode, in a system definition language, or in four subsections titled: Introduction, Inputs, Processing, and Outputs.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+There are no additional comments to be made at this point.
 
 % XML has been widely used in document processing, data storage, Web applications (such as ajax data transmission, template application) and so on.
 % As a structured language, it overcomes the shortcomings of the usual markup language markup fixes, and you can define your own markup to organize your data according to your own wishes.

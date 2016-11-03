@@ -1,4 +1,4 @@
-\documentclass[draftclsnofoot,onecolumn,letterpaper,10pt]{extras/IEEEtran}
+\documentclass[draftclsnofoot,onecolumn,letterpaper,10pt,compsoc]{extras/IEEEtran}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Preamble
@@ -63,3 +63,20 @@
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
 }
+
+\newcommand{\namesigdate}[2][5cm]{%
+  \begin{tabular}{@{}p{#1}@{}}
+    #2 \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Signature}} \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Date}}
+  \end{tabular}
+}
+
+\newcommand{\subsubsubsection}[1]{%
+  \paragraph{#1}
+}
+
+
+%\newcommand{\subsubsubsubsection}[1]{%
+%  \subparagraph{#1}
+%}

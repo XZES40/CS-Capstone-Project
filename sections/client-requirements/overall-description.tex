@@ -32,12 +32,12 @@ The following sections of this document outline the factors that affect the crea
 % This should list each system interface and identify the functionality of the software to accomplish the system requirement and the interface description to match the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES40-Transformer application will interface with the outside world through an Apache CGI script.
-This script will wrap our application by passing \inlinecode{POST} requests to the application URL endpoint through to our application.
-Our program will complete the request and pass the transformed document back to the user via the CGI script.
+The XZES40-Transformer application will interface with the outside world over the internet via the HTTP networking protocol.
+The application will recieve HTTP POST requests to the application URI endpoint containing the documents to be transformed.
+Once the transformation is completed the transformed document will be sent to the user for download.
 
-The XZES40-Transformer CGI wrapper script will receive a transformation request in the form of a \inlinecode{HTTP POST} request from a user and respond with the transformed file and an \textbf{OK} status.
-If an error occurs it will respond with a \textbf{SERVER ERROR} response and no file.
+In addition to the transformed file the application will respond with an HTTP \textbf{OK} status.
+If an error occurs it will respond with a \textbf{SERVER ERROR} status and no file.
 
 % \begin{enumerate}
 %   \item Data base
@@ -65,9 +65,19 @@ If an error occurs it will respond with a \textbf{SERVER ERROR} response and no 
 XZES40 will have two user interfaces which will access it's functionality over the internet.
 
 \begin{itemize}
-    \item A Website to access XZES40-Transformer via a web-browser.
-    \item A CLI to access XZES40-Transformer via a terminal interface.
+    \item {
+      A Website to access XZES40-Transformer via a web-browser.
+      This interface will be called ``XZES40-Web''.
+    }
+    \item {
+      A CLI to access XZES40-Transformer via a terminal interface.
+      This interface will be called ``XZES40-CLI''.
+    }
 \end{itemize}
+
+Both interfaces will not perform local document transformation.
+They will instead access the transformation service over the internet, making the HTTP API convenient to use.
+
 % Our application requires at least 800x600 resolution and 256 color monitor, and standard keyboard, and mouse is option.
 % Managers can control database in their experience after see the GUI of transfer management application.
 % User just need click webpage request, and other things is working behind the webpage.
@@ -80,10 +90,12 @@ XZES40 will have two user interfaces which will access it's functionality over t
 % For example, terminal support may specify full-screen support as opposed to line-by-line support.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES-Transformer will be targeted to run on an x86-64 CPU architecture server.
-Any computer with a browser will be able to access the web-interface.
+XZES40-Transformer will not have any direct physical interfaces as it is meant to be interacted with over HTTP or HTTPS.
+Any computer with an internet connection, monitor, input methods, and web-browser will be able to access XZES40-Transformer via the web interface.
+Any computer with an internet connection, monitor, input methods, and which has the CLI installed will be able to access XZES40-Transformer via the CLI interface.
 
-XZES40-Transformer will not have any direct physical interfaces as it is meant to be interacted with over \inlinecode{HTTP/HTTPS}.
+The application will be targeted to run on a Debian Linux 8 (``Jessie'') X86\_64 CPU architecture server.
+This machine should have one port open for communicating over HTTP (port 80) and one for HTTPS (port 443) if that is configured.
 
 % We will support windows, Unix based operation  system, iOS and android.
 % We will create API for our application, so we can easy to move application to any platform.
@@ -151,13 +163,6 @@ Below is a list of software required for the XZES-40 (on the host and on remote 
        \item Source: \url{http://python.org}
      \end{description}
    }
-%  \item {
-%    \begin{description}
-%      \item Name: Web Browser
-%      \item Specification Number: HTML 4.0+
-%      \item Host or Client: Host (required for Web Interface)
-%    \end{description}
-%  }
 \end{description}
 
 
@@ -173,8 +178,11 @@ Below is a list of software required for the XZES-40 (on the host and on remote 
 % This should specify the various interfaces to communications such as local network protocols, etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-An internet connection between the host and client is required.
-The host and client will be communicating over HTTP or HTTPs.
+An internet connection between the host and client is required for use of XZES40-Transformer.
+The host and client will be communicating over HTTP or HTTPS through the web interface or CLI interface.
+The application may be deployed behind a firewall.
+
+Administrators may deploy multiple instance of the application, however additional instances will not be designed to communicate together, so they will each act autonomously.
 
 % The data is exchanged between the catalog system and the Enterprise Buyer system via a web browser (HTTP or HTTPS).
 % After the data has been sent in XML format to the Enterprise Buyer application server, depending on the OCL version, 
@@ -186,8 +194,10 @@ The host and client will be communicating over HTTP or HTTPs.
 % This should specify any applicable characteristics and limits on primary and secondary memory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Since our application will be using memory to cache objects an appropriate amount of memory should be dedicated to our application, depending on how much it is going to be used.
-A minimum of 4Gb should be dedicated to the machine using this application, but the more the better.
+XZES40-Transformer will depend heavily on an internal caching system, so an appropriate amount of memory should be dedicated to the application.
+The specific amount of memory will depend on how much an instance of the application is expected to be used, however
+a minimum of 4GiB should be dedicated to the machine it is running on.
+That said, the more the merrier.
 
 \subsubsection{Operations}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,18 +209,10 @@ A minimum of 4Gb should be dedicated to the machine using this application, but 
 % This is sometimes specified as part of the User Interfaces section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Site adaptation requirements}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This should
-% 3. Define the requirements for any data or initialization sequences that are specific to a given site, mission, 
-% or operational mode (e.g., grid values, safety limits, etc.);
-% 2. Specify the site or mission-related features that should be modified to adapt the software to a particular installation.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+XZES40-Transformer will initially target the Debian Jessie operating system.
+To install the application a system administrator will acquire a Debian installation package (\inlinecode{xzes40-transformer.deb}), run the installation file, and begin the newly installed service.
 
-Our application will target the Debian Linux operating system.
-When installing our application a system administrator will acquire a Debian installation file (\inlinecode{xzes40-transformer.deb}), run the installation file, and begin the installed service.
-
-The steps will look as follows:
+The steps will roughly be as follows:
 \begin{lstlisting}
 Download xzes40-transformer.deb
 $ wget http://example.com/xzes40-transformer.deb
@@ -225,10 +227,41 @@ Start the Systemd service
 $ systemctl start xzes40-transformer
 \end{lstlisting}
 
-Installation on a new Debian system should require the same procedure as listed above.
+Installation on an additional Debian system would require the same procedure as listed above.
 
-Installation on a non-Debian operating system will require a system-specific installation file.
-Creating installation files for Windows, Mac, and other Linux distributions is one of our stretch goals. 
+Installation on a non-Debian operating system will require a system-specific installation file, which we will create.
+The non-Debian systems we will include:
+\begin{itemize}
+  \item Windows 7+
+  \item MacOS
+  \item FreeBSD
+  \item RedHat Enterprise Linux
+\end{itemize}
+
+Once installed and setup, XZES40-Transformer will require minimal user-interaction by the system administrator.
+The application will run as a daemon on the host system.
+If a fatal error occurs the daemon will restart.
+
+While users are not interacting with the application it will idle in the background.
+During periods of intense use the application will manage it's own resources to avoid breaking.
+
+As the application does not store ephemeral data, there will not be a need for data backup nor data restoration.
+
+\subsubsection{Site adaptation requirements}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This should
+% 3. Define the requirements for any data or initialization sequences that are specific to a given site, mission, 
+% or operational mode (e.g., grid values, safety limits, etc.);
+% 2. Specify the site or mission-related features that should be modified to adapt the software to a particular installation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+XZES40-Transformer will use Apache to manage web-requests.
+If users want to setup secure communication over HTTPS they will need to do this manually using Apache.
+
+The application will include a configuration file to specify resource limits, and other relevant information.
+This file should be tailored to a given user's installation and needs.
+
+In addition to the configuration file, the user may configure the daemon through the daemon manager (\inlinecode{systemd} for instance) to set hard-limits on the application's resource usage.
 
 % XML is the most important and commonly used form of the most commonly used data exchange representation on the grid today.
 % XML is a subset of SGML that describes various types of data in a structured way.
@@ -258,9 +291,9 @@ Creating installation files for Windows, Mac, and other Linux distributions is o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 XZES40-Transformer will perform one function: XML/XSLT document transformation.
-Given an XML and XSLT documents it will return a transformed XML document.
+Given one XML and one XSLT documents it will return a transformed XML document.
 
-This functionality will be accessible via a web interface.
+This functionality will be remotely accessible via an HTTP web-page and CLI interface.
 
 % Our XML server are common XML documents transfer servers.
 % The big different between normal XML server and our XML server is that we create cache for our server, so this prevent xml server compile each time which is waste system source.
@@ -277,8 +310,6 @@ This functionality will be accessible via a web interface.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The \textbf{user} of our application is expected to have common web-interface knowledge (e.g., they should know how to navigate a website, upload a file, and download a file).
-
-\textbf{COMPLETE THIS SECTION}
 
 % User should understand the basically computer knowledge.
 % They better be above high school educational level, 
@@ -306,10 +337,12 @@ The \textbf{user} of our application is expected to have common web-interface kn
 XZES40-Transformer will be subject to the following limitations:
 
 \begin{itemize}
-  \item It must be licensed under Apache 2.0.
+  \item The code must be licensed under Apache 2.0.
   \item It must handle memory limitations gracefully.
   \item It must restart if a fatal error occurs.
   \item It must run on Debian 8.
+  \item It must be accessible over a network.
+  \item It must have an accessible interface.
 \end{itemize}
 
 % \begin{enumerate}
@@ -327,12 +360,10 @@ XZES40-Transformer will be subject to the following limitations:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 XZES40-Transformer will be written to interface with an OS agnostic API for any operating-system level operations (e.g., reading and writing from the cache).
-As a result our application will be portable to new operating systems eventually, but to begin with it will only run on Debian.
-If a user attempts to install the Debian package on a non-Debian system the installation will fail.
-Installation of our application from source may work on non-Debian systems, but is not guaranteed.
+The application will be portable to new operating systems by writing an OS-specific interface layer and compiling the binary for the given target platform (e.g., Windows or FreeBSD).
 
 XZES40-Transformer will assume that the relevant libraries and languages listed under Software Interfaces are already installed.
-The installation package will resolve these dependencies if they are not already installed.
+The installation package we create will resolve these dependencies if they are not already installed with the correct version.
 
 % Our application is working with a debin system on Intel servers.
 % If debin is not installed, we can take other Linux operation system.
@@ -344,20 +375,56 @@ The installation package will resolve these dependencies if they are not already
 % This subsection of the SRS should identify requirements that may be delayed until future versions of the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES40-Transformer will guarantee the following items completed:
+XZES40-Transformer will be considered complete if the following goals are completed:
 
-\begin{itemize}
-  \item Working transformation application.
-  \item Apache CGI web-interface for the application.
-  \item A Debian installation package.
-\end{itemize}
+\begin{enumerate}
+  \item {
+    \textbf{A working XML/XSLT document transformer}.
+    This will include the following requirements (in order):
+    \begin{enumerate}
+      \item \textbf{Document compilation}.
+      \item \textbf{Data transformation}.
+      \item \textbf{Data caching}.
+      \item \textbf{Parallel computation}.
+    \end{enumerate}
+  }
+  \item An \textbf{Apache CGI script for HTTP access} to the application.
+  \item The \textbf{website interface}.
+\end{enumerate}
 
-Given enough time we will add the following features:
+Time permitting we will complete the following as ``stretch goals''.
 
-\begin{itemize}
-  \item Windows installation package.
-  \item Mac installation package.
-  \item FreeBSD installation package.
-  \item CentOS installation package.
-  \item A command-line interface.
-\end{itemize}
+\begin{enumerate}
+  \item {
+    \textbf{Debian installation package}.
+    \begin{enumerate}
+      \item \textbf{Daemon setup}.
+      \item \textbf{Dependency resolution}.
+    \end{enumerate}
+  }
+  \item \textbf{Command-line interface}.
+  \item {
+    \textbf{RedHat Enterprise Linux installation package}.
+    \begin{enumerate}
+      \item \textbf{API compatility changes}.
+      \item \textbf{Daemon setup}.
+      \item \textbf{Dependency resolution}.
+    \end{enumerate}
+  }
+  \item {
+    \textbf{Windows installation package}.
+    \begin{enumerate}
+      \item \textbf{API compatility changes}.
+      \item \textbf{Daemon setup}.
+      \item \textbf{Dependency resolution}.
+    \end{enumerate}
+  }
+  \item {
+    \textbf{MacOS installation package}.
+    \begin{enumerate}
+      \item \textbf{API compatility changes}.
+      \item \textbf{Daemon setup}.
+      \item \textbf{Dependency resolution}.
+    \end{enumerate}
+  }
+\end{enumerate}

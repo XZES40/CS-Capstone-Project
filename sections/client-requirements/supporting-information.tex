@@ -1,7 +1,6 @@
 \section{Supporting Information}
 
 \subsection{Table of contents and index}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The table of contents and index are quite important and should follow general compositional practices.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,3 +21,36 @@
 % 
 % When appendixes are included, the SRS should explicitly state whether or not the appendixes are to be considered part of the requirements.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        
+\begin{figure}[h]
+\centering
+\caption{Prototype of the Web Interface}
+\includegraphics[width=0.5\textwidth]{figures/website-raw}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\caption{Diagram of dataflow}
+\includegraphics[width=0.5\textwidth]{figures/document-flow-digram}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\caption{Example use-cases of CLI interface}
+\begin{lstlisting}
+  Normal usage:
+  $ xzes40cli --xml-file='./my-file.xml' --xslt-file='./my-other-file.xslt' --server='http://example.com/xzes40-transformer' --output-file='./newfile.xml' --port='8001'
+  Sending XML and XSLT files to http:/example.com:8001/xzes40-transformer
+  Transformation complete. Downloading response file to newfile.xml
+
+  Sending a bad file:
+  $ xzes40cli --xml-file='./badfile.jpg' --xslt-file='./badfile.txt' --server='http://example.com/xzes40-transformer'
+  Sending XML and XSLT files to http:/example.com:80/xzes40-transformer
+  ERROR: Server was unable to transform the requested files.
+
+  Using inadequate parameters
+  $ xzes40cli
+  Please provide an xml file (--xml-file), xslt file (--xslt-file) and a host (--server).
+\end{lstlisting}
+\end{figure}
