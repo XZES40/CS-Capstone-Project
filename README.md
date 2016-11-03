@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/XZES40/CS-Capstone-Project.png?label=ready&title=Ready)](https://waffle.io/XZES40/CS-Capstone-Project)
 # 2016-2017 CS Capstone Project
 
 - *Project Title*: High Performance XML/XSLT Transformation Server
