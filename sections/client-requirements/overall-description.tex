@@ -155,14 +155,14 @@ Below is a list of software required for the XZES-40 (on the host and on remote 
        \item Source: \url{http://apache.org}
      \end{description}
   }
-  \item {
-     \begin{description}
-       \item Name: Python2
-       \item Mnemonic: Python
-       \item Version Number: 2.7+
-       \item Source: \url{http://python.org}
-     \end{description}
-   }
+%  \item {
+%     \begin{description}
+%       \item Name: Python2
+%       \item Mnemonic: Python
+%       \item Version Number: 2.7+
+%       \item Source: \url{http://python.org}
+%     \end{description}
+%   }
 \end{description}
 
 
@@ -375,56 +375,77 @@ The installation package we create will resolve these dependencies if they are n
 % This subsection of the SRS should identify requirements that may be delayed until future versions of the system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES40-Transformer will be considered complete if the following goals are completed:
+Development of the application, user interfaces, and installation packages will be carried out over a 19 weeks, split into three development cycles: Alpha, Beta, and Release.
 
-\begin{enumerate}
-  \item {
-    \textbf{A working XML/XSLT document transformer}.
-    This will include the following requirements (in order):
-    \begin{enumerate}
-      \item \textbf{Document compilation}.
-      \item \textbf{Data transformation}.
-      \item \textbf{Data caching}.
-      \item \textbf{Parallel computation}.
-    \end{enumerate}
-  }
-  \item An \textbf{Apache CGI script for HTTP access} to the application.
-  \item The \textbf{website interface}.
-\end{enumerate}
+The Gantt chart can be seen in the Appendix, Figure 4.
 
-Time permitting we will complete the following as ``stretch goals''.
+\subsubsection{Alpha}
 
-\begin{enumerate}
-  \item {
-    \textbf{Debian installation package}.
-    \begin{enumerate}
-      \item \textbf{Daemon setup}.
-      \item \textbf{Dependency resolution}.
-    \end{enumerate}
-  }
-  \item \textbf{Command-line interface}.
-  \item {
-    \textbf{RedHat Enterprise Linux installation package}.
-    \begin{enumerate}
-      \item \textbf{API compatility changes}.
-      \item \textbf{Daemon setup}.
-      \item \textbf{Dependency resolution}.
-    \end{enumerate}
-  }
-  \item {
-    \textbf{Windows installation package}.
-    \begin{enumerate}
-      \item \textbf{API compatility changes}.
-      \item \textbf{Daemon setup}.
-      \item \textbf{Dependency resolution}.
-    \end{enumerate}
-  }
-  \item {
-    \textbf{MacOS installation package}.
-    \begin{enumerate}
-      \item \textbf{API compatility changes}.
-      \item \textbf{Daemon setup}.
-      \item \textbf{Dependency resolution}.
-    \end{enumerate}
-  }
-\end{enumerate}
+During the Alpha phase of development we will collect benchmark data, create our basic transformation functionality, and begin work on Cache and Parallel computation optimizations.
+By the end of week three the application will be able to accept two input documents and output a transformed document.
+After the initial transformation functionality is complete work on optimizing this process will take place by adding caching and parallel processing to the transformation cycle.
+
+\subsubsection{Beta}
+
+During the beta phrase of development the XZES40 team will begin work on the HTTP API, the web interface, the Debian package, and further optimizations on the transformation process.
+Work on the web interface is not possible without the CGI interface first being added, however most other development can take place in parallel.
+
+\subsubsection{Release}
+
+During the Release phrase we will work exclusively on stretch goals including the CLI interface as well as the RedHat, BSD, and Windows packages.
+While these goals would be nice to achieve, we understand that there will probably be overflow from the Alpha and Beta phases of development, so we hope to complete all required deliverables well before the release deadline.
+
+
+% XZES40-Transformer will be considered complete if the following goals are completed:
+%
+% \begin{enumerate}
+%   \item {
+%     \textbf{A working XML/XSLT document transformer}.
+%     This will include the following requirements (in order):
+%     \begin{enumerate}
+%       \item \textbf{Document compilation}.
+%       \item \textbf{Data transformation}.
+%       \item \textbf{Data caching}.
+%       \item \textbf{Parallel computation}.
+%     \end{enumerate}
+%   }
+%   \item An \textbf{Apache CGI script for HTTP access} to the application.
+%   \item The \textbf{website interface}.
+% \end{enumerate}
+% 
+% Time permitting we will complete the following as ``stretch goals''.
+% 
+% \begin{enumerate}
+%   \item {
+%     \textbf{Debian installation package}.
+%     \begin{enumerate}
+%       \item \textbf{Daemon setup}.
+%       \item \textbf{Dependency resolution}.
+%     \end{enumerate}
+%   }
+%   \item \textbf{Command-line interface}.
+%   \item {
+%     \textbf{RedHat Enterprise Linux installation package}.
+%     \begin{enumerate}
+%       \item \textbf{API compatility changes}.
+%       \item \textbf{Daemon setup}.
+%       \item \textbf{Dependency resolution}.
+%     \end{enumerate}
+%   }
+%   \item {
+%     \textbf{Windows installation package}.
+%     \begin{enumerate}
+%       \item \textbf{API compatility changes}.
+%       \item \textbf{Daemon setup}.
+%       \item \textbf{Dependency resolution}.
+%     \end{enumerate}
+%   }
+%   \item {
+%     \textbf{MacOS installation package}.
+%     \begin{enumerate}
+%       \item \textbf{API compatility changes}.
+%       \item \textbf{Daemon setup}.
+%       \item \textbf{Dependency resolution}.
+%     \end{enumerate}
+%   }
+% \end{enumerate}

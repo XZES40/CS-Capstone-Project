@@ -57,76 +57,69 @@
 
 XSLT40-Transformer will have two user interfaces: a \textbf{Web Interface} and a \textbf{Commandline Interface (CLI)}.
 
+\subsubsection{Web Interface}
+
+The website interface for XZES40-Transformer will include of a form with the following fields:
+\begin{description}
+  \item {
+    \textbf{XML File} A file upload field for the XML document.
+  }
+  \item {
+    \textbf{XSLT File} A file upload field for the XSLT document.
+  }
+  \item {
+    \textbf{Output Filename} (optional)
+    The filename of the output document.
+    If one is not specified a name will be generated of the following format \inlinecode{document-transform-<date>.xml>}.
+  }
+\end{description}
+
+The website will make an HTTP \inlinecode{POST} request to the server.
+This \inlinecode{POST} request will include an XML and XSLT document in it's payload.
+
+The page will redirect the user to a new page where they can download the transformed file.
+
+The Web Interface will require a web-browser (supporting HTTP4.0+).
+
+A prototype of the web interface can be seen in the Appendix, Figure 2.
+
+\subsubsection{Commandline Interface (CLI)}
+
+The CLI will give users a text-based interface with XZES40-Transformer.
+The with the following flags:
 \begin{description}
     \item {
-        \textbf{Web Interface}:
-        The website interface for XZES40-Transformer will include of a form with the following fields:
-        \begin{description}
-            \item {
-              \textbf{XML File} A file upload field for the XML document.
-            }
-            \item {
-              \textbf{XSLT File} A file upload field for the XSLT document.
-            }
-            \item {
-              \textbf{Output Filename} (optional)
-              The filename of the output document.
-              If one is not specified a name will be generated of the following format \inlinecode{document-transform-<date>.xml>}.
-            }
-%            \item {
-%              \textbf{Username} (optional)
-%              Specifies a user name if one is required.
-%            }
-%            \item {
-%              \textbf{Password} (optional)
-%              Specifies the user's password if one is required.
-%            }
-        \end{description}
-
-        The website will make an HTTP \inlinecode{POST} request to the server.
-        This \inlinecode{POST} request will include an XML and XSLT document in it's payload.
-
-        The page will redirect the user to a new page where they can download the transformed file.
-
-        The Web Interface will require a web-browser (supporting HTTP4.0+).
+      \textbf{\inlinecode{--xml-file=}}
+      Specifies the input XML document.
     }
     \item {
-        \textbf{Command-Line Interface (CLI)}:
-        The CLI will give users a text-based interface with XZES40-Transformer.
-        The with the following flags:
-        \begin{description}
-            \item {
-              \textbf{\inlinecode{--xml-file=}}
-              Specifies the input XML document.
-            }
-            \item {
-              \textbf{\inlinecode{--xslt-file=}}
-              Specifies the input XSLT document.
-            }
-            \item {
-              \textbf{\inlinecode{--server=}}
-              Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
-            }
-            \item {
-              \textbf{\inlinecode{--output-file=}} (optional)
-              Specifies a file to write out to.  Otherwise writes to a file of the following format \inlinecode{document-transform-<date>.xml>}.
-            }
-            \item {
-              \textbf{\inlinecode{--port=}} (optional)
-              Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
-            }
-            \item {
-              \textbf{\inlinecode{--help=}} (optional)
-              Prints out a help menu (describing these flags)
-            }
-        \end{description}
-
-        The CLI will take the following arguments and make a \inlinecode{POST} request to the server.
-        The transformed file will be automatically downloaded to the user's desired location, or to the current working directory with the automatic file name.
-
-        The CLI requires a UNIX terminal and UNIX shell.
+      \textbf{\inlinecode{--xslt-file=}}
+      Specifies the input XSLT document.
+    }
+    \item {
+      \textbf{\inlinecode{--server=}}
+      Specifies which server to connect to (\inlinecode{e.g., http://servername.ext})
+    }
+    \item {
+      \textbf{\inlinecode{--output-file=}} (optional)
+      Specifies a file to write out to.  Otherwise writes to a file of the following format \inlinecode{document-transform-<date>.xml>}.
+    }
+    \item {
+      \textbf{\inlinecode{--port=}} (optional)
+      Specifies which port to connect through if non-standard (\inlinecode{e.g., 8001})
+    }
+    \item {
+      \textbf{\inlinecode{--help=}} (optional)
+      Prints out a help menu (describing these flags)
     }
 \end{description}
+
+The CLI will take the following arguments and make a \inlinecode{POST} request to the server.
+The transformed file will be automatically downloaded to the user's desired location, or to the current working directory with the automatic file name.
+
+The CLI requires a UNIX terminal and UNIX shell.
+
+An example of some CLI interactions can be seen in the Appendix, Figure 3.
 
 Both interfaces XZES40-Transformer will require a method of input (keyboard and mouse or touchscreen), an internet connection, and monitor.
 
@@ -134,6 +127,8 @@ As input both interfaces expect one XML 1.0 formatted document and one XSLT 1.0 
 These files can be UTF-8 or ASCII character encoding.
 
 As output both interfaces will send the user an XML 1.0 formatted document of UTF-8 character encoding.
+
+
 
 % The system provides external interface, or system call external interface, often using XML format as the interface data transfer format.
 % 
@@ -308,6 +303,13 @@ The following functions will be the core functionality of XZES40-Transformer.
 % An operator shall not have to wait for the transaction to complete.
 % Numerical limits applied to one specific function are normally specified as part of the processing subparagraph description of that function.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+XZES40-Transformer will perform better than existing Open Source XML transformation software.
+The application will have a higher rate transformations per minute, normalizing for input file-size.
+Given a standard set XML + XSLT document pairs, the application will complete the transformations on average faster than it's leading competitors.
+
+The transformations will also be verified for correctness.
+It is expected that the application will perform document transformation with 100\% correctness.
 
 % XZES40-Transformer application will support 3 or 4 terminals at the same time, and we expect 3 or 4 simultaneous users to be supported.
 % XZES40-Transformer application can handle XML and XSLT file.(?) 
@@ -605,16 +607,76 @@ As for installation packages, one must be manually created for each platform, ho
 % \subsubsubsubsection{Associated Functional Requirements}
 % \subsubsubsubsubsection{Functional Requirement 1}
 
-The document transformation will take place on the software's host and will be accessible via a browser or CLI interface.
-Given two documents, one XML 1.0 and one XSLT 1.0 formatted documents.
-In response the application will send the user back a transformed XML 1.0 formatted document, or an error if one is appropriate.
-In support of this our team will develop three additional features:
+\subsubsubsection{Transformation}
 
-\begin{itemize}
-  \item Document caching will reduce latency of our application by reducing the cost involved in downloading and compiling dependency documents.
-  \item Parallel computation will reduce latency by carrying out independent computations in parallel when possible.
-  \item Availability over the internet will make it accessible to many users simultaneously via convenient HTTP-based interfaces.
-\end{itemize}
+The core feature of XZES40-Transformer will be the XML + XSLT document transformation.
+
+\begin{description}
+  \item{
+    \textbf{Stimulus}:
+
+    As input the application will accept two files, one XML 1.0 formatted document and one XSLT 1.0 formatted document.
+  }
+  \item{
+  \textbf{Response}
+
+  As output the application will return one XML 1.0 formatted document.
+  This will be the output of the program.
+
+  If a mal-formatted document is given as input the output of the program will be an appropriate error.
+  }
+\end{description}
+
+\subsubsubsection{Caching}
+
+To increase performance the application will cache certain compiled documents.
+\begin{description}
+  \item{
+    \textbf{Stimulus}:
+
+    As input the in-memory cache will accept either a compiled file for caching or a hash of a compiled file for retrieval.
+  }
+  \item{
+    \textbf{Response}
+
+    If the cache is given a hash and ``asked'' for a cached document it will either respond with the contents of the compiled file or a FALSE response, signifying the document is not in the cache.
+
+    If the cache is given a file for storage it will respond with either a SUCCESS of FAILURE response if the document was successfully cached or not appropriately.
+  }
+\end{description}
+
+\subsubsubsection{Parallel Computation}
+
+To further increase performance the application will carry out independent calculations in parallel.
+
+This feature does not have easily defined ``stimulus + response'' pairs.
+
+The application will need to be designed to avoid race-conditions during parallel computations.
+
+\subsubsubsection{Web API}
+
+The application will have a web-accessible API.
+
+\begin{description}
+  \item{
+    \textbf{Stimulus}
+
+    As input the API will accept either GET or POST requests.
+    POST requests will contain a payload with the XML + XSLT document pair as listed above for the transformation feature.
+  }
+  \item{
+    \textbf{Response}
+
+    As response to a GET request the API will respond with a SUCCESS, saying that the application could be reached.
+
+    As response to a POST request the application will respond with either a transformed XML document or an appropriate error.
+  }
+\end{description}
+
+\subsubsubsection{User Interface}
+
+The application will have two user interfaces.
+These will allow the user to provide the above stimuli to the web API, download the response file, or display the error message from the API.
 
 % XML is a text format to describe a file format
 % Because XML is described in text form, it is suitable for data exchange in various platform environments.
