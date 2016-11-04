@@ -7,3 +7,4 @@ build/
 *.ps
 *.blg
 *.bbl
+*.toc

@@ -1,0 +1,110 @@
+\section{Introduction}
+
+\subsection{Purpose}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Delineate the purpose of the SRS
+% Specify the intended audience of the SRS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This document is intended to present a detailed description of the high performance XML/XSLT transformation server being developed by the Oregon State University CS Capstone Team ``XZES40''.
+The intended audience for this document are the developers and sponsors of the project.
+
+% The purpose of this document is to present a detailed description of high performance XML/XSLT transformation server.
+% This document is intended for people who maintain server and the developers of the system.
+
+\subsection{Scope}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. Identify the software product(s) to be produced by name (e.g., Host DBMS, Report Generator, etc.);
+% 2. Explain what the software product(s) will, and, if necessary, will not do;
+% 3. Describe the application of the software being specified, including relevant benefits, objectives, and goals;
+% 4. Be consistent with similar statements in higher-level specifications (e.g., the system requirements specification), if they exist.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The name of this software, for lack of a better one, will be XZES40-Transformer.
+
+The core product being delivered is a high performance XML/XSLT transformation server.
+This server will be able to perform repetitive document transformations quickly and efficiently by caching previously processed and compiled documents.
+Time is saved by pulling from an in-memory cache of documents and their compiled state rather than downloading and compiling documents which have already been processed, as current systems tend to do.
+XZES40-Transformer will also carry out transformations in parallel.
+It will transfer documents to and from clients via the HTTP or HTTPS protocol.
+
+The target platform for XZES40-Transformer will be Debian Linux 8 (``Jessie'').
+The core product will be designed to allow the program to be ported easily from Linux to other operating systems like Windows and BSD.
+
+In addition to the core server there will also be a command-line interface and web-interface developed to interact with the application, these will be called XZES-CLI and XZES-Web respectively.
+
+% This software system will create a high performance XML/XSLT transformation server that can perform repetitive document transformations in a high-volume environment.
+% XSLT is used to convert an XML document to another XML document, or other types of documents that can be recognized by the browser, such as HTML and XHTML.
+% In normal, XSLT accomplishes this by converting each XML element to an (X)HTML element.
+% With XSLT, you can add or remove elements and attributes from or to the output file.
+% You can also rearrange elements, perform tests, and decide which elements to hide or display.
+
+\subsection{Definitions, acronyms, and abbreviations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Provide the definitions of all terms, acronyms, and abbreviations required to properly interpret the SRS.
+% This information may be provided by reference to one or more appendixes in the SRS or by reference to other documents.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Below is a list of acronyms and abbreviations used throughout the document:
+
+\begin{itemize}
+  \item Extensible Markup Language XML: The human-readable data format used and processed by our application.
+  \item Extensible Stylesheet Markup Language (XSLT): The human-readable format used to transform documents in our application.
+  \item Xerces-C \cite{xerces}: One library used to perform XML transformation in C.
+  \item Xalan-C \cite{xalan}: One library used to XML transformation in C.
+  \item ICU \cite{icu}: One library used to process UTF-8 character formated documents.
+  \item Hypertext Transfer Procol (HTTP/HTTPS): The protocol over which XZES40-Transformer will interact with remote clients.
+  \item HTTP Application Programming Interface (HTTP API): A standard way of communicating with a web application.
+  \item Unified Resource Locator / Identifier (URL/URI): Addressable location of a resource over the internet (e.g., a website address).
+  \item Debian 8 (``Jessie''): The target Linux-based operating system XZES40-Transformer will run on.
+  \item Unicode Transmission Format 8 (UTF-8): The international standard for encoding text-based data.
+  \item Apache Web-server: A Free and Open Source web-server.
+  \item Common Gateway Interface Script (CGI Script): Server-side scripts that can run applications on client's behalf.
+\end{itemize}
+% XML is a simple and standard way of exchanging raw data between computer programs.
+% It is not only easy to be written and read but also solve the application of information exchange between systems.
+% There are two basic needs:
+% 
+% \begin{enumerate}
+%   \item Separate the data from the representation
+%   \item Transfer data between different applications
+% \end{enumerate}
+% 
+% In order to make the data easy for people to read and understand, we need to display information or pint out.
+% For example, the data into an HTML file, a PDF file, or even a sound.
+% Similarly, in order to adapt the data to different applications, a data format is converted to another data format, such as the demand format may be a text file, a SQL statement and an HTTP message.
+% XSLT is used to achieve this conversion function of the language.
+% XML is converted to HTML, XSLT is the most important function.
+% XSLT: Extensible Stylesheet Language Transformations
+% XML: Extensible Markup Language
+
+\clearpage
+
+\subsection{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. Provide a complete list of all documents referenced elsewhere in the SRS;
+% 2. Identify each document by title, report number (if applicable), date, and publishing organization;
+% 3. Specify the sources from which the references can be obtained.
+% 4. This information may be provided by reference to an appendix or to another document.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% IEEE. IEEE Std 830-1998 IEEE Recommended Practice for Software Requirements Specifications. IEEE Computer Society, 1998.
+
+\bibliographystyle{plain}
+\bibliography{sections/references}
+
+\clearpage
+
+\subsection{Overview}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Describe what the rest of the SRS contains;
+% Explain how the SRS is organized
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+% The next chapter, the Overall Description Section, of this document gives an overview of the
+% functionality of the product.
+% It describes the informal requirements and is used to establish a context for the technical requirements specification in the next chapter.
+% The third chapter, Requirements Specification section, of this document is written primarily for the developers and describes in technical terms the details of the functionality of the product.
+% Both sections of the document describe the same software product in its entirety, but are intended for different audiences and thus use different language.

@@ -19,7 +19,6 @@ $(TRG): %.dvi: %.tex $(EXAMPLES)
 	$(LATEX) $<
 	$(BIBTEX) $(<:%.tex=%)
 	$(LATEX) $<
-	$(LATEX) $<
 
 $(PSF): %.ps: %.dvi
 	$(DVIPS) -R -Poutline -t letter $< -o $@
@@ -35,7 +34,7 @@ showps: $(PSF)
 	@for i in $(PSF) ; do $(GH) $$i & done
 
 clean:
-	rm -rf {*,*/*}.{log,aux,bbl,blg,dvi,out,pdf,ps}
+	rm -rf {*,*/*}.{log,aux,bbl,blg,dvi,out,pdf,ps,toc}
 
 
 default: pdf
