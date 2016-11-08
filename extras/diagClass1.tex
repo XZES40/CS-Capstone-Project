@@ -1,0 +1,143 @@
+% \documentclass[11pt,a4paper,twoside]{article}
+%   \usepackage[T1]{fontenc}
+%   \usepackage[applemac]{inputenc}
+%   % \usepackage[latin1]{inputenc}
+%   \usepackage{pst-uml}
+% \begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Placement des objets} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\drawCommand}{%
+  \umlClass{Command}{%
+     -dateReceived \\
+     -isPrepaid \\
+     -number : String \\
+     -price : Money \\ 
+     \hline 
+     +dispatch() \\%
+     +close()%
+  }
+}
+
+\newcommand{\drawCustomer}{%
+  \umlClass[{Customer}{%
+     name\\
+     address\\ 
+     \hline
+     creditRating() : String
+  }
+}
+
+\newcommand{\drawCorpCust}{%
+  \umlClass{Corporate \\ Customer}{%
+     contactName\\
+     creditRating\\
+     creditLimit\\ 
+     \hline
+     +remind() \\
+     billForMonth(Integer)
+  }
+}
+
+\newcommand{\drawPersCust}{%
+  \umlClass{Personal \\ Customer}{%
+     creditCard#\\ 
+     \hline
+  }
+}
+
+\newcommand{\drawOrderLine}{%
+  \umlClass{Order Line}{%
+     quantuty : Integer \\
+     price : Money \\
+     isSatisfied : Boolean \\ 
+     \hline 
+}}
+% les deux clases "Employee" et "Product" étant simple : elle sera
+% définies à l'utilisation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Placement des objets
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{pspicture}(0,0)(18,15)\psgrid
+  \rput(3,13){\rnode{Class1}{\drawClassi}}
+  \pnode(17.5,13){pnode1}
+  \rput(9,10){\rnode{Class2}{\drawClassii}}
+  \rput(2,5){\rnode{Class3}{\drawClassiii}}
+  \rput(12,5){\rnode{Class4}{\drawClassiv}}
+  \rput(5.5,5.5){\rnode{Class5}{\drawClassv}}
+  %
+  \rput(16,11){\rnode{Actor1}{\umlActor{Acteur(é) 1}}}
+\end{pspicture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dessin des liens et labels
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% La grande boucle en deux étapes :
+\ncline{Class1}{pnode1}
+\ncputicon[npos=0.7,nrot=:U]{umlV}
+\naput{ncline}\naput[npos=1,ref=r]{Node "P1"}
+\ncSXE[armA=11.5]{pnode1}{Class3}
+\nbput{SXE (armA=11.5)}
+\ncputicon{umlV}% debut
+\ncputicon[npos=1.9999,nrot=:U]{umlV}
+\ncputicon[npos=2,nrot=:U]{umlV}
+\ncputicon[npos=5,nrot=:U]{umlV}% fin ERREUR si nrot=4 ok pour 5!!!!
+%
+\ncSE{Class1}{Class2}
+\naput[npos=1.5]{\{ncSE npos=1.5\}}
+\ncSE[offset=-1]{Class1}{Class2}
+\ncputicon{umlAgreg} % debut
+\ncputicon[npos=2,nrot=:U]{umlCompos}% fin
+\nbput[npos=0.3]{0..*}
+\naput[npos=1.8]{0..2}
+\naput[npos=1.4]{ncSE,offset=-1}
+%
+\ncSHS[armA=1.5]{Class2}{Class4}\naput{ncSHS}
+\ncSHS[armA=1.5]{Class2}{Class3}\nbput{ncSHS}
+\ncputicon{umlHerit}%       héritage au debut
+\ncputicon[npos=3,nrot=:U]{umlV}% V en fin
+%
+\ncSHN[arm=.7]{Class3}{Class4}
+\naput{ncSHN (3 vers 4)}
+\ncputicon[npos=1.8,nrot=:U]{umlV}% fleche au milieu vers destination !
+%
+% \ncE[npos=0.4]{Class5}{Class4}\naput{ncE,npos=0.4}
+\ncE{Class5}{Class4}\naput[npos=0.4]{ncE,npos=0.4}
+\ncputicon{umlCompos}
+%
+% Essai de définition d'un style personnalisé
+\newpsstyle{umlDependance}{%
+     linestyle=dashed,
+     arrows=->,
+     arrowscale=3,
+     arrowinset=0.6
+}
+\ncline[style=umlDependance,offset=-0.5]{Class3}{Class4}
+\naput{ncline}
+\ncputicon{umlV}% fleche au debut
+\nbput[npos=0.15]{1..*}
+%
+% % % On peut coller n'importe quoi par rapport à un node :
+% % % Essai pour mettre un template sur une classe : prévoir 
+% % % une option du style [umlTemplate=myString]
+% % \nput*[labelsep=-0.8,offset=1.4]%
+% %    {0}{Class2}{\psframebox%
+% %    [fillstyle=solid,fillcolor=white,linestyle=dashed]%
+% %    {\LARGE\textbf{\ T\ }}}
+% % % 
+% Lien de Class2 et Class4 vers l'acteur :
+\ncline[linestyle=dashed]{Class2}{Actor1}
+\naput{ncline}
+\ncputicon{umlAgreg}
+\ncputicon[npos=0.7,nrot=:U]{umlAgreg}
+\ncputicon[npos=1,nrot=:U]{umlCompos} % en fin
+%  
+\nccurve[linestyle=dashed, angleA=75,offsetA=-1,angleB=-45]{Class4}{Actor1}
+\ncputicon{umlHerit} % debut
+\ncputicon[npos=0.7,nrot=:U]{umlHerit}
+\ncputicon[npos=1,nrot=:U]{umlHerit}% en fin
+
+% \end{document}
