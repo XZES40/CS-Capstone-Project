@@ -1,0 +1,55 @@
+% Section Five: Prallel Transformation 
+% Owned by Zixun Lu 
+\section{Parallel Document Transformation}
+
+\subsection{Options}
+
+\subsection{Goals for use in design}
+
+XZES40-Transformer will be increased performance by using parrallel computation.
+The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm.
+There are two ways to do the prallel computation.
+
+
+\subsection{Criteria being evaluated}
+
+XZES40-Transformer use the parallel computation method do the same processing and operating in parallel.
+The criteria for a good tool in this area is mostly how easy to write code it is with the tool and how maintainable the code is, and of course how fast the eventual program is.
+
+\subsection{Comparison breakdown}
+
+\begin{center}
+  \begin{tabular}{ | l | p{10cm} | }
+    \hline
+    Technology & Description  \\ \hline
+    POSIX Threads \cite{posix-threads} &
+    \begin{itemize}
+      \item Defines a set of C types, functions and constants 
+      \item Spawn concurrent units of processing
+      \item Achieve big speedups, as all cores of CPU are used at the same time.
+      \end{itemize}\\ \hline
+    OpenMP \cite{Openmp} &
+    \begin{itemize}
+      \item An API that implements a multi-thread, shared memory form of parallelism.
+      \item Uses a set of compiler directives 
+      \item Take care of many of low-level details
+    \end{itemize}\\ \hline
+    MPI \cite{mpi} &
+    \begin{itemize}
+      \item Core syntax and semantics of library
+      \item Complexity, scope and control
+      \item Manage allocation, communication, and synchronization of a set of processes 
+    \end{itemize}\\ \hline
+  \end{tabular}
+
+\end{center}
+
+\subsection{Discussion}
+
+Pthreads is a standard for prgramming with threads, it can achieve big speedups, as all cores of your CPU are used at the same time.
+OpenMP uses a set of compiler directives that are incorporated at compile-time to generate a multi-threaded version of your code.
+MPI allows us to manage allocation, communication, and synchronization of a set of process.
+
+\subsection{Selection}
+
+We will use MPI because it is a high-level standard, and so it will be easy to develop with.

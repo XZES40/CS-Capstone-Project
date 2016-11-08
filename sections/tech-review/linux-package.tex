@@ -1,0 +1,61 @@
+% Section Eight: Debian Package
+% Owned by Zixun Lu 
+%\section{Debian Package}
+%XZES40-Transformer target the Debian operating system. Our team will upload XZES-40.deb through libraries(Xerces, Xalan) to the Apache website. The users can directly download from the website and run in their Debian operation system. 
+%\subsection{Binary packages}
+%Binary packages, which contain executables, configuration files, man/info pages, copyright information, and other documentation. These packages are distributed in a Debian-specific archive format. They are usually characterized by having a '.deb' file extension. Binary packages can be unpacked using the Debian utility dpkg (possibly via a frontend like aptitude); details are given in its manual page.
+%\subsection{Source packages}
+%Source packages, which consist of a .dsc file describing the source package (including the names of the following files), a .orig.tar.gz file that contains the original unmodified source in gzip-compressed tar format and usually a .diff.gz file that contains the Debian-specific changes to the original source. The utility dpkg-source packs and unpacks Debian source archives; details are provided in its manual page. (The program apt-get can be used as a frontend for dpkg-source.)
+%\subsection{}
+\section{Debian \& Centos Package}
+
+\subsection{Options}
+
+
+\subsection{Goals for use in design}
+
+Our team will release Debian and Centos packages.
+Users can directly download these from the website and use these packages to install XZES40-Transformer on their Debian and Centos operation system.
+
+\subsection{Criteria being evaluated}
+
+We may use Centos and Debian tools to build our package.
+We can use Centos operation system to build Centos packages and use Debian operation system to build Debian packages.
+Those tools are free to use.
+
+\subsection{Comparison breakdown}
+
+\begin{center}
+  \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    Centos packaging tools \cite{centos-tool} &
+    \begin{itemize}
+      \item Use in Centos operate system 
+      \item It is esay to use
+      \item Free.
+    \end{itemize}\\ \hline
+    FPM \cite{fpm-home} &
+    \begin{itemize}
+      \item Translates packages from one format to another.
+      \item Allows re-use of other system's packages.
+      \item Free.
+    \end{itemize}\\ \hline
+    Debian packaging tools \cite{debian-tool} &
+    \begin{itemize}
+      \item Use in Debian operate system
+      \item It is easy to use
+      \item Free.
+    \end{itemize}\\ \hline
+  \end{tabular}
+\end{center}
+
+\subsection{Discussion}
+
+The above tools are all valuable.
+If we were going to just develop a Debian package we may only use the Debian tools, and the same goes for CentOS.
+These tools are good at creating packages for those specific platforms, but since we intend to develop tools for mutiple platforms (Linux and BSD) using FPM to create cross-OS packages would be very convenient.
+
+\subsection{Selection}
+
+In the end we will use FPM to develop our packages becuase it makes life very convenient.

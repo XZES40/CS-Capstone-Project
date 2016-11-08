@@ -1,0 +1,60 @@
+% Section Ten: CLI
+% Owned by Elijah C. Voigt
+\section{Command Line Interface}
+
+\subsection{Options}
+
+For the CLI we can develop a native C client, a simple Bash client, and split the difference with a Python client.
+
+\subsection{Goals for use in design}
+
+Each of these CLI tools must be able to construct an HTTP POST request with two documents, send that request to a server, and parse a response.
+
+\subsection{Criteria being evaluated}
+
+The criteria for this, as it is not part of the core functionality, is simplicity to write, maintain, and use for end-users.
+
+\subsection{Comparison breakdown}
+
+\begin{center}
+  \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    C/C++ \cite{} &
+    \begin{itemize}
+      \item Keeps the code base exclusively C/C++.
+      \item Can be distributed with system package managers.
+      \item Difficult to write and maintain.
+    \end{itemize}\\ \hline
+    Python \cite{} &
+    \begin{itemize}
+      \item Simple to write and maintain.
+      \item Requires few external dependencies.
+      \item Can be distributed with the \inlinecode{pip} package manager.
+    \end{itemize}\\ \hline
+    Bash \cite{} &
+    \begin{itemize}
+      \item Very simple to write.
+      \item Uses system tools like \inlinecode{curl} or \inlinecode{wget}.
+    \end{itemize}\\ \hline
+  \end{tabular}
+\end{center}
+
+\subsection{Discussion}
+
+The C/C++ option is not necessary at all.
+This is an option which ought to be considered, but ultimately isn't worth pursuing as it will be very complicated to write and maintain, especially when simpler script-based options exist.
+
+Python is a great middle ground.
+The language comes with many web-request libraries and provides tools for users to upload their application to the \inlinecode{pip} package manager.
+This means we can write a tool which performs well, is easy to maintain, requires few external dependencies, and can be downloaded by a package manager.
+It will also be available on all platforms which run python, which includes Unix and Windows systems.
+
+Bash is a viable candidate, especially when other tools like \inlinecode{curl} and \inlinecode{wget} will make quick work of the task.
+The downside to this is that we cannot host our CLI on any standard package manager for verifiable distribution. Forcing users to download the CLI from our website directly.
+Ultimately this will probably be used as a proof of concept, but it is not a final product.
+
+\subsection{Selection}
+
+We will write our CLI in Python.
+The language offers the best of both worlds in terms of simplicity, maintainability, and ease of use for end users.

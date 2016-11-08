@@ -1,0 +1,75 @@
+% Section Two: Document Transformation
+% Owned by Shuai Peng
+\section{XML/XSLT Document Transformation}
+
+\subsection{Option}
+
+There are three options for the XML/XSLT Document Transformation.
+The first option is Xalan-C++, and the second option is Saxon C, the third option is Sablotron.
+
+\subsection{Goals for use in design}
+
+The major function of XZES40-Transformer is XML/XSLT document transforming.
+Apache foundation provide many ways to achieve this function.
+
+\subsection{Criteria being evaluated}
+
+The XML/XSLT document transformation is our major function for XZES40-Transformer application.
+We want this transformation compatible with good parse tools, and version of XSLT and XPath.
+
+\subsection{Comparison breakdown}
+
+The first option is Xalan-C++, this technology is required by our client, and this technology is supported by Apache.
+Xalan-C++ is an XSLT processor for transforming XML documents into HTML, text, or other XML document types.
+
+The second option is Saxon C, which is Saxon company project.
+It performs the same operations as Xalan-C++, but it supports different version of XSLT and Xpath.
+
+The third option technology is Sablotron.
+It used same version of XSLT and Xpath with Xalan-C++, but it designed to be as small program.
+
+\begin{center}
+    \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    Xalan-C++ \cite{xalan} &
+    \begin{itemize}
+      \item Xalan-C++ is open source project developed by Apache. It is implemented by XSLT version 1.0 and XPath version 1.0.
+      \item Xalan-C++ uses Xerces-C++ to parse XML documents and XSL style sheets.
+    \end{itemize}\\ \hline
+    Saxon C \cite{Saxon_c} &
+    \begin{itemize}
+      \item Saxon C is open source project. It is implemented by XSLT 2.0/3.0 version and XPath version 2.0/3.0.
+      \item Saxon C use different parse tools to handle the date.
+    \end{itemize}\\ \hline
+    Sablotron \cite{Sablotron_intro} &
+    \begin{itemize}
+      \item Sablotron is open source project by gingerall. It is implemented by XSLT 1.0 and Xpath 1.0.
+	  \item Sablotron need extra parse tools to complete transformation.
+    \end{itemize}\\ \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Discussion}
+
+The Xalan-C++ is the most powerful and popular XML/XSLT document transformation library and is used in many propetary as well as open source tools.
+It a robust implementation of the W3C recommendations for XSL Transformations (XSLT) and the XML Path Language (XPath).
+Xalan-C++ is perfect but it run in older version of XSLT and Xpath.
+Xalan-C++ is not work great with new version of XSLT and Xpath.
+
+The Saxon C is a good alternative to Xalan-C++.
+Saxon C can handle higher version of XSLT and Xpath, however implements different parse tools, so we need find out other technology.
+
+The Sablotron does the same work as the Xalan-C++, but Sablotron is designed to be as compact and portable as possible.
+The size of Sablotron is much small than Xalan-C.
+However, Sablotron is old and has not been updated it since 2006.
+
+\subsection{The Best option}
+
+We will choose Xalan-C++ as our solution technology.
+The first reason is that Xalan-C is required by our client.
+We want to using Xerces-C as our parse tools, so Xalan-C is the best choice.
+
+The second reason is that Sablotron is not stable.
+Even they are open source project, but the community has forgetten it.
+Saxon C is a good second option if client require different tools to complete XML/XSLT document transformation.
