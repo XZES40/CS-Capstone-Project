@@ -1,9 +1,10 @@
-LATEX	= latex -shell-escape
-BIBTEX	= bibtex
-DVIPS	= dvips
-DVIPDF  = dvipdft
-XDVI	= xdvi -gamma 4
-GH	= gv
+BASEPATH = /usr/local/apps/tex_live/current/bin/x86_64-linux/
+LATEX	= $(BASEPATH)/latex -shell-escape
+BIBTEX	= $(BASEPATH)/bibtex
+DVIPS	= $(BASEPATH)/dvips
+DVIPDF  = $(BASEPATH)/dvipdft
+XDVI	= $(BASEPATH)/xdvi -gamma 4
+GH	= $(BASEPATH)/gv
 
 EXAMPLES = $(wildcard *.h)
 SRC	:= $(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
