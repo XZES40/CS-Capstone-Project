@@ -1,9 +1,39 @@
-% Section Three: Document Compilation
+% Section Three: Document Parsing
 % Owned by Elijah C. Voigt
-\section{XML/XSLT Document Compilation}
+\section{XML/XSLT Document Parsing}
 
-\subsection{}
+XML document compilation is the process by which an XML formatted document is taken and parsed into an in-memory object.
+The library we will be using, as requested by or client, will be the Xerces-C/C++ XML parser library; this review will evaluate that library.
+The other point of wiggle-room we have is in what way we parse and store the document in memory.
 
-\subsection{}
+\subsection{Xerces-C/C++}
 
-\subsection{}
+The Apache Xerces-C/C++ library is a feature rich XML parsing library.
+It implements the XML 1.0 standard, it is well documented, and implements DOM as well as SAX methods of document parsing.
+Most importantly it integrates well with Xalan-C/C++, which is our top choice for performing document parsing.
+
+This library was also explicitly requested by our client, a member of the Apache Software Foundation, so we should have some amount of internal organization support if we need to use it.
+
+\subsection{DOM Parsing}
+
+The first method of XML document parsing is DOM parsing.
+This method stores the entire parsed XML object in memory to be traversed later on.
+This operation is memory intensive but is useful for carrying out many operations on a document.
+\cite{dom-vs-sax}
+
+\subsection{SAX parsing}
+
+In contrast, SAX document parsing is performed on a data stream.
+SAX uses callbacks to trigger transformations on an XML document.
+This method is less memory intensive and can result in a performance boost, but requires a document stream for transformations to happen.
+\cite{dom-vs-sax}
+
+\subsection{Conclusion}
+
+We will be using the Xerces-C/C++ library to accomplish the task of XML document parsing.
+It is feature rich enough to give us leeway in our development where we need it
+The library is also lean enough that it should not affect performance negatively.
+
+As for choosing between SAX parsing vs DOM parsing, we will most likely choose DOM parsing since it fits our application best.
+DOM parsing produces an easily cached tree which we can store and retrieve for later operations.
+It may be worth-while to investigate using SAX parsing early on in development because we find a notable performance boost, so some amount of SAX proof of concept work will be done for the sake of being thorough, but DOM will be the targeted document parsing method.
