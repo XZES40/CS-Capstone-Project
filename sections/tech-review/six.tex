@@ -2,8 +2,32 @@
 % Owned by Elijah C. Voigt
 \section{Web API}
 
-\subsection{}
+XZES40-Transformer will be accessible via a Web API.
+This can be implemented a few different ways, but all of them must accomplish the same goal: people across the world to use the service over the web.
 
-\subsection{}
+\subsection{Web application framework: kore.io}
 
-\subsection{}
+One option for every web-accessible application is to write a web application which exposes your project to the world.
+To this end a fairly simple library in development since 2013 called \textit{kore} seems like a fair candidate.
+This would be used to handle incoming requests, call the XZES40-Transformer application, and return the transformed document.
+
+This has some upsides and down-sides.
+The application will no-doubt be fast and allow our application to be entirely self contained in the C code.
+The application daemon which preserves our cache in memory could double as our web-application daemon.
+The downside to this is that it will increase the size of our code-base, which increases the amount of code we have to maintain, and can easily be a resource sink-hole.
+
+\subsection{Apache CGI script}
+
+A solution proposed by our client was to use the Apache web-server's CGI interface to expose our application.
+This would require writing a short script, probably in python, to handle the incoming and outgoing request.
+The script would call our application and take the output file and send it back to the requested user.
+\cite{apache-cgi-tutorial}
+
+This has many benefits, chief among them being that it will cut down on development time.
+Once we have a working command-line interface for local document transformation we can write a simple script to shell out to this, making it accessible to the world.
+
+\subsection{???}
+
+\subsection{Conclusion}
+
+We will chose to use an Apache CGI script for our web API.
