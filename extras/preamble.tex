@@ -1,4 +1,4 @@
-\documentclass[draftclsnofoot,onecolumn,letterpaper,10pt,compsoc]{extras/IEEEtran}
+\documentclass[draftclsnofoot,onecolumn,letterpaper,10pt,compsoc]{IEEEtran}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Preamble
@@ -10,11 +10,14 @@
 \usepackage{amssymb}                                         
 \usepackage{amsmath}                                         
 \usepackage{amsthm}                                          
+\usepackage{caption}
 
 \usepackage{alltt}                                           
 \usepackage{float}
 \usepackage{color}
 \usepackage{url}
+
+\usepackage{pst-gantt}
 
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
@@ -36,7 +39,10 @@
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage[english]{babel}
-\usepackage{extras/titling}
+\usepackage{titling}
+
+\newcommand{\subparagraph}{}
+\usepackage{titlesec}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -73,10 +79,11 @@
 }
 
 \newcommand{\subsubsubsection}[1]{%
+  \begin{flushleft}
   \paragraph{#1}
+  \end{flushleft}
 }
 
+\newpsstyle{Important}{fillstyle=solid, fillcolor=red}
+\newpsstyle{NotImportant}{fillstyle=vlines }
 
-%\newcommand{\subsubsubsubsection}[1]{%
-%  \subparagraph{#1}
-%}
