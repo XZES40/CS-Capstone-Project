@@ -2,8 +2,8 @@
 % Owned by Zixun Lu 
 \section{Debian Package}
 
-\subsection{}
-
-\subsection{}
-
+\subsection{Binary packages}
+Binary packages, which contain executables, configuration files, man/info pages, copyright information, and other documentation. These packages are distributed in a Debian-specific archive format. They are usually characterized by having a '.deb' file extension. Binary packages can be unpacked using the Debian utility dpkg (possibly via a frontend like aptitude); details are given in its manual page.
+\subsection{Source packages}
+Source packages, which consist of a .dsc file describing the source package (including the names of the following files), a .orig.tar.gz file that contains the original unmodified source in gzip-compressed tar format and usually a .diff.gz file that contains the Debian-specific changes to the original source. The utility dpkg-source packs and unpacks Debian source archives; details are provided in its manual page. (The program apt-get can be used as a frontend for dpkg-source.)
 \subsection{}
