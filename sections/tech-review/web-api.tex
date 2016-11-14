@@ -2,32 +2,45 @@
 % Owned by Elijah C. Voigt
 \section{Web API}
 
+\subsection{Options}
+
+\subsection{Goals for use in design}
+
 XZES40-Transformer will be accessible via a Web API.
-This can be implemented a few different ways, but all of them must accomplish the same goal: people across the world to use the service over the web.
+This can be implemented a few different ways, but all of them must accomplish the same goal to allow people across the world to use the service over internet protocols.
+Three options being evaluated here vary widely in the way they achieve this goal, and so may represent more their technology and less the specific implementation.
 
-\subsection{Web application framework: kore.io}
+\subsection{Criteria being evaluated}
 
-One option for every web-accessible application is to write a web application which exposes your project to the world.
-To this end a fairly simple library in development since 2013 called \textit{kore} seems like a fair candidate.
-This would be used to handle incoming requests, call the XZES40-Transformer application, and return the transformed document.
+The core of this application is related to document transformation.
+To that extent, time spent on non-document transformation tasks should be kept to a minimum.
+So for use in our design, any Web API should be simple, easy to develop, and easy to maintain.
+In short, \textit{keep it simple stupid}.
 
-This has some upsides and down-sides.
-The application will no-doubt be fast and allow our application to be entirely self contained in the C code.
-The application daemon which preserves our cache in memory could double as our web-application daemon.
-The downside to this is that it will increase the size of our code-base, which increases the amount of code we have to maintain, and can easily be a resource sink-hole.
+\subsection{Comparison breakdown}
 
-\subsection{Apache CGI script}
+The first options is to use an Apache CGI script, which would be a simple Python, Perl, or Ruby file which calls our C program and delivers returns the results to the user, all via Apache.
+The second options is to write a native web application using a web-app framework like Kore to handle HTTP requests.
+The third option is to use a python framework like Flask to handle HTTP requests.
+Each of these would be something that calls our document transformation functionality and exposes it to the outside world, how we handle that is important to consider.
 
-A solution proposed by our client was to use the Apache web-server's CGI interface to expose our application.
-This would require writing a short script, probably in python, to handle the incoming and outgoing request.
-The script would call our application and take the output file and send it back to the requested user.
-\cite{apache-cgi-tutorial}
+\begin{center}
+    \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    Apache CGI Script & Description \\ \hline
+    Kore Web-application framework & Description \\ \hline
+    Flask Web-application framework & Description \\ \hline
+    \end{tabular}
+\end{center}
 
-This has many benefits, chief among them being that it will cut down on development time.
-Once we have a working command-line interface for local document transformation we can write a simple script to shell out to this, making it accessible to the world.
+\subsection{Discussion}
 
-\subsection{???}
+\cite{kore-io}
+\cite{kore-feature}
+\cite{cgi-tutorial}
+\cite{flask-site}
 
-\subsection{Conclusion}
+\subsection{Selection}
 
 We will chose to use an Apache CGI script for our web API.
