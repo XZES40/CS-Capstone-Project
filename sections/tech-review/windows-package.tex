@@ -1,18 +1,17 @@
 % Section Ten: Windows Package
 % Owned by Shuai Peng
 \section{Windows Package}
+XZES40-Transformer can be executed in windows platform. So we decide have windows install packages. MSI can be produced by many ways.
 
-\subsection{}
-WiX Toolset is a tools that build Windows installation packages from XML source code. Traditional setup tools used a programmatic, script-based approach to be installed on the target machine. However, WiX uses a different way. It is like a programming language, and it used a text file, which is based on the XML format, to describe all the steps of the installation process. Microsoft also uses WiX with all its major software packages. For example, the setup of Microsoft Office was developed entirely with WiX.
+\subsection{WiX Toolset}
+WiX Toolset is a tools that build Windows installation packages from XML source code. Traditional setup tools used a programmatic, script-based approach to be installed on the target machine. However, WiX uses a different way. It is like a programming language, and it used a text file, which is based on the XML format, to describe all the steps of the installation process. Microsoft also uses WiX with all its major software packages. For example, the setup of Microsoft Office was developed entirely with WiX. \cite{Wix_tool}
 
+\subsection{EMCO MSI Package Builder}
+EMCO MSI Package Builder is an installation tools designed for help developer create, maintain and distribute Windows Installer packages. \cite{EMCO_MSI} It helps developer create MSI package automatically by using changes tracking technology, which is used to generate installation project data, or manually by using the visual editor.
 
-\subsection{}
-EMCO MSI Package Builder is an installation tools designed for help developer create, maintain and distribute Windows Installer packages. It helps developer create MSI package automatically by using changes tracking technology, which is used to generate installation project data, or manually by using the visual editor.
+\subsection{Advanced Installer}
+Advanced Installer is GUI tool that can simply create Microsoft Install packages. Advanced Installer create and maintain installation package, such as EXE, MSI, ETC. It based on the Windows Installer technology. \cite{advanced_install}
 
-
-
-\subsection{}
-Advanced Installer is GUI tool that can simply create Microsoft Install packages. Advanced Installer create and maintain installation package, such as EXE, MSI, ETC. It based on the Windows Installer technology. 
-
-\subsection{}
-[option]Orca is a database table editor for creating and editing Windows Installer packages and merge modules. The tool provides a graphical interface for validation, highlighting the particular entries where validation errors or warnings occur.
+\subsection{Conclusion}
+After I compare all of above method. I decide to choose WiX as my solution technology. The first reason why WiX is my solution technology is that it is open source software. It's powerful set of tools available to create our Windows installation experience.
+The second reason is that it represents by source code rather than GUI. GUI maybe easy for developer, but it also hided every thing behind the GUI. If we get some wired problem, we can't solve it via GUI software. Third reason is that it complete integration into application build processes. When install progress start, other setup modification are made in parallel, so no vital information will be lost. The setup program will complete together with the application itself. This is not required by client, but if client want to different way to create windows install package, we can choose advanced installer as our alternate technology.
