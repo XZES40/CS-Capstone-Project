@@ -12,14 +12,16 @@
 \subsection{Options}
 
 
-
 \subsection{Goals for use in design}
 
-Our team will upload XZES-40.deb and XZES-40.rpm to the Apache website. The users can directly download from the website and run in their Debian and Centos operation system.  
+Our team will release Debian and Centos packages.
+Users can directly download these from the website and use these packages to install XZES40-Transformer on their Debian and Centos operation system.
 
 \subsection{Criteria being evaluated}
 
-We will use Centos and Debian tools to build our package. We can use Centos operation system to build Centos packages and use Debian operation system to build Debian packages. Those tools are free to use. 
+We may use Centos and Debian tools to build our package.
+We can use Centos operation system to build Centos packages and use Debian operation system to build Debian packages.
+Those tools are free to use.
 
 \subsection{Comparison breakdown}
 
@@ -27,7 +29,7 @@ We will use Centos and Debian tools to build our package. We can use Centos oper
   \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
-    Centos-Tool \cite{centos-tool} &
+    Centos packaging tools \cite{centos-tool} &
     \begin{itemize}
       \item Use in Centos operate system 
       \item It is esay to use
@@ -39,7 +41,7 @@ We will use Centos and Debian tools to build our package. We can use Centos oper
       \item Allows re-use of other system's packages.
       \item Free.
     \end{itemize}\\ \hline
-    Debian-Tool \cite{debian-tool} &
+    Debian packaging tools \cite{debian-tool} &
     \begin{itemize}
       \item Use in Debian operate system
       \item It is easy to use
@@ -50,9 +52,10 @@ We will use Centos and Debian tools to build our package. We can use Centos oper
 
 \subsection{Discussion}
 
-Each tools will help our team get correct version of packages. Those tools are esay to use and free. After we get Centos and Debian packages, we will upload to the Apache Website. 
+The above tools are all valuable.
+If we were going to just develop a Debian package we may only use the Debian tools, and the same goes for CentOS.
+These tools are good at creating packages for those specific platforms, but since we intend to develop tools for mutiple platforms (Linux and BSD) using FPM to create cross-OS packages would be very convenient.
 
 \subsection{Selection}
 
-We will chose them all. They are convenience to get packages. 
-
+In the end we will use FPM to develop our packages becuase it makes life very convenient.
