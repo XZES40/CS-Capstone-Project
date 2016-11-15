@@ -1,16 +1,19 @@
 % Section Five: Prallel Transformation 
 % Owned by Zixun Lu 
 \section{Parallel Document Transformation}
+
 \subsection{Options}
+
 \subsection{Goals for use in design}
 
 XZES40-Transformer will be increased performance by using parrallel computation.
-The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm. 
-There are two ways to do the prallel computation. 
+The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm.
+There are two ways to do the prallel computation.
 
 \subsection{Criteria being evaluated}
 
-XZES40-Transformer use the parallel computation method do the same processing and operating side by side. First, the entries of the fully-inverted index are distributed among the cluster nodes for processing. Second, the containment query is processed by the cluster nodes to generate the corresponding lists of index entries. Third, the elements of the generated lists are checked against one another to produce the result set. This method will be increased the efficiency and save time. 
+XZES40-Transformer use the parallel computation method do the same processing and operating in parallel.
+The criteria for a good tool in this area is mostly how easy to write code it is with the tool and how maintainable the code is, and of course how fast the eventual program is.
 
 \subsection{Comparison breakdown}
 
@@ -22,7 +25,7 @@ XZES40-Transformer use the parallel computation method do the same processing an
     \begin{itemize}
       \item Defines a set of C types, functions and constants 
       \item Spawn concurrent units of processing
-      \item Achieve big speedups, as all cores of CPU are used at the same time. 
+      \item Achieve big speedups, as all cores of CPU are used at the same time.
       \end{itemize}\\ \hline
     OpenMP \cite{Openmp} &
     \begin{itemize}
@@ -39,8 +42,6 @@ XZES40-Transformer use the parallel computation method do the same processing an
   \end{tabular}
 \end{center}
 
-
-
 \subsection{Discussion}
 
 Pthreads is a standard for prgramming with threads, it can achieve big speedups, as all cores of your CPU are used at the same time.
@@ -49,5 +50,4 @@ MPI allows us to manage allocation, communication, and synchronization of a set 
 
 \subsection{Selection}
 
-We will use MSI because it is a high-level standard. 
-
+We will use MPI because it is a high-level standard, and so it will be easy to develop with.
