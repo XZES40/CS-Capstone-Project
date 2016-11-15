@@ -3,16 +3,33 @@
 \section{XML/XSLT Document Caching}
 
 \subsection{Option}
-There is three option technology for cache. The first option technology is storing cache into memory. The second option technology is that we create temporary binary file. The third option technology is that we create database to handle all of data.
+
+There are three technology options for cache.
+The first option is storing cache into memory.
+The second option is storing our cache in binary file on disk.
+The third option is to create database to handle all of data.
 
 \subsection{Goals for use in design}
-Caching is the core function of XZES40-Transformer application. Other similar application compile files each time, and this waste lots of time and resource. We create cache to solve this problem.
+
+Caching is the core function of XZES40-Transformer application.
+Other similar application compile files each time and this wastes a lot of time and resource.
+We will create cache to solve this problem, but how that cache is stored is open to discussion.
 
 \subsection{Criteria being evaluated}
-Because we want save the time and resource to complete XML transformer, the efficiency is the most element that we consider.
+
+We want save the time and resources in our XML transformer, so efficiency is the most element that we consider.
+This is not only the speed of reading and writing from the cache, we must also weigh the persistence of the cache to avoid recompiling when the system (application or host) is restarted.
 
 \subsection{Comparison breakdown}
-The first option technology is that storing cache into memory with allocate memory, the is the faster and easy way to store cache. The second option technology is that we create temporary file. When we are running our application, we retired data from temporary file and put data into memory. The third option technology is that we create database to handle memory. this spends time to design and create database.
+
+The first option is storing the cache in-memory, this is the faster and easy way to store cache.
+
+The second option is to create a binary file with the cache.
+When we are run our application, we read the cache data in from the cache file into memory.
+When the cache is updated it is written back to the original file.
+
+The third option technology is that we create database to handle memory.
+This spends time to design and create database.
 
 \begin{center}
     \begin{tabular}{ | l | p{10cm} |}
@@ -21,23 +38,33 @@ The first option technology is that storing cache into memory with allocate memo
     Memory&
     \begin{itemize}
       \item Application check data from memory, and put cache into memory.
-	  \item Retiring data from memory is the faster way.
+      \item Retrieving data from memory is the faster way.
     \end{itemize}\\ \hline
     Temporary binary file&
     \begin{itemize}
-      \item Application load temporary binary file when it start. After we close it, application save binary file in external storage driver.
-	  \item Loading temporary binary file spend time, so it is slower than memory.
+      \item Application loads binary file when it starts. After we close it, application save binary file in external storage driver.
+      \item Loading temporary binary file spend time, so it is slower than memory.
     \end{itemize}\\ \hline
-    Database \cite{foundation_intro}&
+    Database &
     \begin{itemize}
       \item Application access data from database.
-	  \item It spends time to create database. 
+      \item It takes time to create and manage a database.
     \end{itemize}\\ \hline
     \end{tabular}
 \end{center}
 
 \subsection{Discussion}
-Storing cache into memory is the most easy way. We just need allocate memory. However, the main drawback of this technology is when we close application, all of cache data will be wiped out. We have to compile file next time when we are running application. Creating temporary binary file can avoid losing cache data, but it spends time to load file into memory when application starts. Creating database is bad option technology for XZES40-Transformer application. Access database spend resource, and it waste time to search cache data.
+
+Storing cache into memory is the most easy way, we just need to allocate memory.
+However, the main drawback of this technology is when we close application, all of cache data will be wiped out.
+We have to compile file next time when we start running the application.
+
+Creating a binary file can avoid losing cache data, but it spends time to load file into memory when application starts.
+
+Creating database is bad option for XZES40-Transformer application because access database spend resource, and it waste time to search cache data.
 
 \subsection{Selection}
-The best option technology is that storing cache into memory. Although it will lost data after close application, it save the time, and it the faster way.
+
+The best option technology is that storing cache into memory.
+Although it will lost data after close application, it save the time, and it the faster way.
+We may add a 'backup cache' solution to make this the best of both worlds, restoring from the backup when the system restarts but working mostly in-memory.
