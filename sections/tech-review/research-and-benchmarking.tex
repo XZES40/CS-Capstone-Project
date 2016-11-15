@@ -13,9 +13,12 @@
 
 \subsection{Goals for use in design}
 
+Our team will do the research and benchmarking to gurantee our application is the fastest.  
 
 \subsection{Criteria being evaluated}
 
+We will test 10000 requests on three differenet transfomers to find which transformers use the time less. 
+At the same time, we test our application by using 10000 requests and compare which use the time less. 
 
 \subsection{Comparison breakdown}
 
@@ -24,26 +27,30 @@
     \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
-    xxx \cite{cgi-tutorial} &
+    Xalan \cite{Xalan-C} &
     \begin{itemize}
-      \item AAA.
-      \item BBB.
-      \item CCC.
+      \item Xalan-C++ uses Xerces-C++ to parse XML documents and XSL stylesheets
+      \item Along with a complete API for performing transformations in your C++ applications
+      \item Xalan-C++ supports C++ extension functions
     \end{itemize}\\ \hline
-    xxx \cite{cgi-tutorial} &
+    Xerces \cite{Xerces-C} &
     \begin{itemize}
-      \item AAA.
-      \item BBB.
-      \item CCC.
+      \item Xerces has rich generating and validating capabilities. 
+      \item Building truly internationalized XML applications. 
+      \item Building next generation of vertical applications that use XML as their data format. 
     \end{itemize}\\ \hline
-    xxx \cite{cgi-tutorial} &
+    Altova \cite{Altova} &
     \begin{itemize}
-      \item AAA.
-      \item BBB.
-      \item CCC.
+      \item To meet industry demands for an ultra-fastor processor
+      \item It offers powerful, flexible options for developers including cml, python. 
+      \item Superior error reporting capabilities include reporting of multiple errors, detailed error descriptions. 
     \end{itemize}\\ \hline
 \end{center}
 
 \subsection{Discussion}
-
+Xalan includes the XSL transformation vocabulary and Xpath, a language for addressing parts of XML documents.
+Xerces is a validating XML parser written in a portable subset of C++.  
+RaptorXML is built from the ground up to be optimized for the latest standard and parallel computing environments.
 \subsection{Selection}
+
+We will use our application to compare those three applications which one is the fastest. 
