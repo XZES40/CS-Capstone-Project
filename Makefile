@@ -35,7 +35,7 @@ showps: $(PSF)
 	@for i in $(PSF) ; do $(GH) $$i & done
 
 clean:
-	rm -rf {*,*/*}.{log,aux,bbl,blg,dvi,out,pdf,ps,toc}
+	rm -rf {*,*/*}.{log,aux,bbl,blg,dvi,out,ps,toc}
 
 
 default: pdf
