@@ -1,17 +1,45 @@
 % Section Seven: Website
 % Owned by Shuai Peng
-\section{Website Interface}
-There is 3 different way to create a website pages. First is HTML, which is the core of the website language. Second is JavaScript, which is dynamic programming language used for creating website. Third is PHP, which is server language, but it make website too.
+\section{Website UI}
 
-\subsection{HTML}
-HTML stands for Hyper Text Markup Language. HTML was designed to display data - with focus on how data looks. HTML elements are resented by tag. HTML elements are the building blocks of HTML pages. HTML is a triad of cornerstone technology for website. There is no doubt that world wide web is created by HTML.
+\subsection{Option}
+There is three option for website user interface.
+ 
+First is plain-text CSS file. CSS stands for Cascading Style Sheets. CSS describes how HTML elements looks like on screen, paper, or in other media. It can define styles for website, such as the design, layout and variations in display. CSS save a lot of work. It is not just control the layout of multiple web pages at once, but also fit the display for different devices and screen sizes.\cite{CSS_intro}
 
-\subsection{PHP}
-PHP (Hypertext Preprocessor) is a server scripting language, and it also is a powerful tool for making dynamic and interactive web Pages. PHP can be embedded into HTML code. PHP can be used in combination with various web template system, web content manamgement systems and web frameworks. Here is the PHP usage state,\cite{PHP-usage} and 224M sites use this language to make a website. The online cloud storage system\cite{online_cloud} is PHP project that I find online. This project is designed for uploading and downloading file from the server. Becasue of PHP is server scripting language, it easy to transform data between clinet and server.
+Second is bootstrap. Bootstrap is a front-end framework for faster and easier web development. Bootstrap provide templates for forms, buttons, table, navigation, modal, image carousels and may other. It is optional for JavaScript plugins. \cite{boot_intro}
 
-\subsection{JavaScript}
-JavaScript is the programming language of HTML and the web. However, HTML do display data, it shows static information. JavaScript can improve that function, so we will have dynamic information on the website. JavaScript is prototype-based with first-class functions, making it a multiparadigm language, supporting object-oriented, imperative, and functional programming styles. There is 103,717,163 live website using JavaScript in World Wide Web \cite{javascript_state}
+Third is foundation. Foundation is a font-end framework. It provide a responsive grid, templates, and CSS UI components, etc. It similar to bootstrap. \cite{foundation_intro}
 
-\subsection{Conclusion}
-In my opinion, I prefer to take HTML as my solution technology for this project. The first reason is that HTML is easy website language for everyone, and it support other script language, such as CSS and JavaScript, so I can create better and user-friendly UI. PHP can create dynamic pages, but it works better on server, not for client. The second reason is that we don't need many dynamic information in our website interface. HTML can feedback a link to user via ajax, so user can download new xml file.
-If clients want alternatives way to make website, I can take PHP as my solution technology, but the website will be looked like simple without designed.
+
+\subsection{Goals for use in design}
+The first idea about the user interface is user-friendly interface. When user first time come to using our program, we want it just simple without any guides or instructions. We also want our website looks beautiful and modern. 
+
+\subsection{Criteria being evaluated}
+Cost: All of option is open source and totally free. However, CSS and bootstrap provides tutorials free. If we want learn foundation, we need pay to learn it.
+
+Efficiency: CSS give simple plain-text interface. We don't actually know what the size is, and what the pixel will be on the screen. We have to try it, then we know what it looks like on our screen. However, bootstrap and foundation is responsive design. Both of them can change the size automatically in different size of screen.
+Both of them provide templates for creating web pages, but CSS do not provide.
+
+Learning speed: CSS is the basis of HTML style sheet. It is easy to understand and learning, however it hard to make good design. Bootstrap and foundation spends time to learn, but after we learn the basically knowledge, bootstrap and foundation will be faster than CSS.
+
+\subsection{Table compare}
+\documentclass{article} 
+\usepackage[english]{babel}
+	\begin{document}
+		\begin{center}
+			\begin{tabular}{ | l | l | l | l |p{5cm} |}
+			\hline
+			Option & Open source & Efficiency & Templates & Learning speed\\ \hline
+			CSS & YES & Slow & No & Easy to learn\\ \hline
+			Bootstrap & YES & Fast & YES & Easy to learn\\ \hline
+			Foundation & YES & Fast & YES & Maybe easy, but cost money\\ \hline
+			\end{tabular}
+		\end{center}
+	\end{document}
+
+\subsection{Discussion}
+The table show us that all of them did similar work. However, they have different advantages and drawback. CSS is basis of HTML style sheet, and it works great, but it hard to create web pages beautiful. CSS is not responsive design. This make us hard to move web page into different size of screen, so we don't want to take CSS as our solution technology. Bootstrap and foundation does the same work. Both of them is open source and free to use. However bootstrap is much more stable and more templates, and there is free instructions in the W3C school. Foundation provides the tutorials, but it need to pay.
+
+\subsection{The Best option}
+The best option is the bootstrap for our project.

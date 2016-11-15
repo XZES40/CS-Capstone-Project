@@ -1,17 +1,45 @@
 % Section Ten: Windows Package
 % Owned by Shuai Peng
 \section{Windows Package}
-XZES40-Transformer can be executed in windows platform. So we decide have windows install packages. MSI can be produced by many ways.
 
-\subsection{WiX Toolset}
+\subsection{Option}
 WiX Toolset is a tools that build Windows installation packages from XML source code. Traditional setup tools used a programmatic, script-based approach to be installed on the target machine. However, WiX uses a different way. It is like a programming language, and it used a text file, which is based on the XML format, to describe all the steps of the installation process. Microsoft also uses WiX with all its major software packages. For example, the setup of Microsoft Office was developed entirely with WiX. \cite{Wix_tool}
 
-\subsection{EMCO MSI Package Builder}
 EMCO MSI Package Builder is an installation tools designed for help developer create, maintain and distribute Windows Installer packages. \cite{EMCO_MSI} It helps developer create MSI package automatically by using changes tracking technology, which is used to generate installation project data, or manually by using the visual editor.
 
-\subsection{Advanced Installer}
 Advanced Installer is GUI tool that can simply create Microsoft Install packages. Advanced Installer create and maintain installation package, such as EXE, MSI, ETC. It based on the Windows Installer technology. \cite{advanced_install}
 
-\subsection{Conclusion}
+\subsection{Goals for use in design}
+XZES40-Transformer can be executed in multiple platform. We want to create install package, so user do not need setup every thing manually. 
+
+\subsection{Criteria being evaluated}
+Cost: WiX Toolset is open source and free software. However, Advanced installer is company tools that we need to pay. EMCO MSI Package Builder provide free version for individual developer, but free version of package builder limit the functionality for create MSI package.
+
+Security: WiX Toolset is open source project since 2004. Even the Microsoft also uses WiX to create MSI package, so WiX tools should be the most safe tools than other tools. The security of Advanced installer is acceptable. The company is created since 2002, and other big company used this tools, such as Sony, Dell, etc. EMCO MSI Package Builder is same as the advance installer.
+
+Stable: WiX Toolset is open source project, and there is thousand of developer contribute on this project, so WiX Toolset is more stale than other tools.
+
+Learning Speed: WiX Toolset have steep learning curve. It is better to understand the fact of Microsoft install package before using this tools. Advanced installer and EMCO MSI Package Builder provides GUI for user, it is easy to using and learning.
+
+\subsection{Table compare}
+\documentclass{article} 
+\usepackage[english]{babel}
+	\begin{document}
+		\begin{center}
+			\begin{tabular}{ | l | l | l | l | l | p{5cm} |}
+			\hline
+			Option & Open source & Cost & Security & Stable & Learning speed\\ \hline
+			WiX & YES & Free & Strong & Strong & Steep learning cure\\ \hline
+			EMCO MSI Package Builder & NO & Free version & Acceptable & Natural & Easy to learn\\ \hline
+			Advanced Installer & NO & Expensive & Acceptable & Natural & Easy to learn\\ \hline
+			\end{tabular}
+		\end{center}
+	\end{document}
+
+\subsection{Discussion}
 After I compare all of above method. I decide to choose WiX as my solution technology. The first reason why WiX is my solution technology is that it is open source software. It's powerful set of tools available to create our Windows installation experience.
-The second reason is that it represents by source code rather than GUI. GUI maybe easy for developer, but it also hided every thing behind the GUI. If we get some wired problem, we can't solve it via GUI software. Third reason is that it complete integration into application build processes. When install progress start, other setup modification are made in parallel, so no vital information will be lost. The setup program will complete together with the application itself. This is not required by client, but if client want to different way to create windows install package, we can choose advanced installer as our alternate technology.
+The second reason is that it represents by source code rather than GUI. GUI maybe easy for developer, but it also hided every thing behind the GUI. If we get some wired problem, we can't solve it via GUI software. 
+Third reason is that it complete integration into application build processes. When install progress start, other setup modification are made in parallel, so no vital information will be lost. The setup program will complete together with the application itself. This is not required by client, but if client want to different way to create windows install package, we can choose advanced installer as our alternate technology.
+
+\subsection{The Best option}
+The best option is the WiX for our project.
