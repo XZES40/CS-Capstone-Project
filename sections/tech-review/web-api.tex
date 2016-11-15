@@ -13,13 +13,13 @@ Three options being evaluated here vary widely in the way they achieve this goal
 \subsection{Criteria being evaluated}
 
 The core of this application is related to document transformation.
-To that extent, time spent on non-document transformation tasks should be kept to a minimum.
-So for use in our design, any Web API should be simple, easy to develop, and easy to maintain.
+The more time that is spent on non-document transformation tasks should be kept to a minimum.
+Any technology we use to implement our Web API should be simple, easy to develop, and easy to maintain.
 In short, \textit{keep it simple stupid}.
 
 \subsection{Comparison breakdown}
 
-The first options is to use an Apache CGI script, which would be a simple Python, Perl, or Ruby file which calls our C program and delivers returns the results to the user, all via Apache.
+Our first option is to use an Apache CGI script, which would be a simple Python, Perl, or Ruby file which calls our C program and delivers returns the results to the user, all via Apache.
 The second options is to write a native web application using a web-app framework like Kore to handle HTTP requests.
 The third option is to use a python framework like Flask to handle HTTP requests.
 Each of these would be something that calls our document transformation functionality and exposes it to the outside world, how we handle that is important to consider.
@@ -28,19 +28,48 @@ Each of these would be something that calls our document transformation function
     \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
-    Apache CGI Script & Description \\ \hline
-    Kore Web-application framework & Description \\ \hline
-    Flask Web-application framework & Description \\ \hline
+    Apache CGI Script \cite{cgi-tutorial} &
+    \begin{itemize}
+      \item HTTP requests are handled by the Apache web-server.
+      \item XZES functionality is called by ``shelling out'' to the program and returning the results.
+      \item Requires a running Apache Server on the host.
+    \end{itemize}\\ \hline
+    Kore Web-app framework \cite{kore-io} \cite{kore-feature} &
+    \begin{itemize}
+      \item HTTP Requests are handled by the Kore framework.
+      \item XZES functionality is called natively with C code.
+      \item Acts as an independent daemon.
+    \end{itemize}\\ \hline
+    Flask Web-app framework \cite{flask-site} &
+    \begin{itemize}
+      \item HTTP Requests are handled by the Flask framework.
+      \item XZES functionality is called either natively or by using \inlinecode{exec} to ``shell out''.
+      \item Can act as an independent daemon or be managed by Apache.
+    \end{itemize}\\ \hline
     \end{tabular}
 \end{center}
 
 \subsection{Discussion}
 
-\cite{kore-io}
-\cite{kore-feature}
-\cite{cgi-tutorial}
-\cite{flask-site}
+The above three technologies are all entirely valid choices for our application, and each approach the problem from different angles.
+
+The Apache CGI solution is the Occam's Razor solution relative to the others.
+Using the Apache Web Server we can register a script written in Python, Perl, Ruby, etc to accept requests and return a response.
+This is simple, maintainable, and easy to create, especially if we are only concerned with implementing the API and not fancy features like accessing a database or storing user sessions.
+This option also allows us to leverage existing Apache Web-server power like load balancing and simple authentication without needing to write those features ourselves, they're just a configuration option away from being a reality.
+
+Kore is a web-app framework which would allow us to develop our application in C/C++, which has it's pros and cons.
+C/C++ is notoriously difficult to write, and harder to write \textit{well}, so it may be a time-sink.
+That said, it is nice to have a project which is written entirely in one language as contributors (ourselves and others) do not need to learn multiple languages to contribute.
+
+Flask is another web-app framework, but one which is substantially easier to read and write.
+This has the benefit of being easier to maintain than a Kore framework, and we can write exactly the level of complexity we want from our API.
+On the other hand we would need to maintain a knowledge base of python, python frameworks, and python dependencies.
+So this is versatile but ultimately not necessarily easier to maintain than a kore framework.
 
 \subsection{Selection}
 
-We will chose to use an Apache CGI script for our web API.
+Since we are working with Apache on this project, we want to develop a simple solution to our API problem, and the Apache Web server is a powerful tool we will choose to use this in our design.
+We will write a simple CGI script (which calls our C binary) and hook this into an Apache Web server.
+We will need to depend on the Apache Web server for our project's package, but this should not be as hard as writing a webapp ourselves.
+We can also use the server to easily host our Web UI, which is a nice bonus.
