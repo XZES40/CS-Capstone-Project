@@ -13,44 +13,41 @@
 
 \subsection{Goals for use in design}
 
-Our team will do the research and benchmarking to gurantee our application is the fastest.  
+Our team will do the research and benchmarking to grantee that our application is fast enough.
 
 \subsection{Criteria being evaluated}
 
-We will test 10000 requests on three differenet transfomers to find which transformers use the time less. 
-At the same time, we test our application by using 10000 requests and compare which use the time less. 
+We will test some number of requests against a comparable to find which transformers use the time less.
+Throughout development we will put our application through the same paces and compare which is faster.
 
 \subsection{Comparison breakdown}
-
 
 \begin{center}
     \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
-    Xalan \cite{Xalan-C} &
+    Xalan CLI \cite{Xalan-C} &
     \begin{itemize}
-      \item Xalan-C++ uses Xerces-C++ to parse XML documents and XSL stylesheets
-      \item Along with a complete API for performing transformations in your C++ applications
-      \item Xalan-C++ supports C++ extension functions
-    \end{itemize}\\ \hline
-    Xerces \cite{Xerces-C} &
-    \begin{itemize}
-      \item Xerces has rich generating and validating capabilities. 
-      \item Building truly internationalized XML applications. 
-      \item Building next generation of vertical applications that use XML as their data format. 
+      \item Xalan-C++ uses Xerces-C++ to parse XML documents and XSL stylesheets.
+      \item The project provides an open source CLI program to test the project libraries.
+      \item Free and Open Source
     \end{itemize}\\ \hline
     Altova \cite{Altova} &
     \begin{itemize}
-      \item To meet industry demands for an ultra-fastor processor
-      \item It offers powerful, flexible options for developers including cml, python. 
-      \item Superior error reporting capabilities include reporting of multiple errors, detailed error descriptions. 
+      \item To meet industry demands for an ultra-fastor processor.
+      \item It offers powerful, flexible options for developers including cml, python.
+      \item Superior error reporting capabilities include reporting of multiple errors, detailed error descriptions.
     \end{itemize}\\ \hline
 \end{center}
 
 \subsection{Discussion}
-Xalan includes the XSL transformation vocabulary and Xpath, a language for addressing parts of XML documents.
-Xerces is a validating XML parser written in a portable subset of C++.  
+
+Xerces is a simple CLI application developed by the Xerces project to test the library.
+This is very similar to our program as it is open source, uses the same libraries, but lacks the caching we will implement.
+
 RaptorXML is built from the ground up to be optimized for the latest standard and parallel computing environments.
+It is proprietary tool which we may try to out-perform as a stretch goal, but to start with out application will not try to out-perform.
+
 \subsection{Selection}
 
-We will use our application to compare those three applications which one is the fastest. 
+We will compare our application to the Xalan-C CLI as it is the closest competitor to our application.
