@@ -1,10 +1,38 @@
 % Section Five: Prallel Transformation 
 % Owned by Zixun Lu 
 \section{Parallel Document Transformation}
-The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm. First, the entries of the fully-inverted index are distributed among the cluster nodes for processing. Second, the containment query is processed by the cluster nodes to generate the corresponding lists of index entries. Third, the elements of the generated lists are checked against one another to produce the result set. The proposed algorithms can be differentiated based on the technique used for distributing the index entries between the slave nodes for processing.
-\subsection{Round-robin distribution of index entries}
-Using a round-robin scheme, the master node distributes the index entries uniformly over the slave nodes. At the end of this step, the number of index entries allocated to each node will be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. It is important to note here that the index entries with the same term values might land 
-into the same or different slave nodes.
-\subsection{Hash-based distribution of index entries}
-This algorithm uses a hash function to partitions the index entries into a number of disjoint sets. This number is equal to that of the slave nodes. Each one of the disjoint sets is then assign to a different slave node for further processing. As a result, the number of index entries allocated to each node will roughly be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. Several variants do exist for this algorithm based on the entity that computes the hash function and the field in the index entry for which the hash function is computed. The entity that computes the hash function can be the master node or the slave ones. In the latter case, we assume that the complete inverted index is replicated across all of the slave nodes, and therefore, each one of these nodes can apply the hash function to its local copy and select those entries that maps to the slave node itself. This process eliminates the initial need to transfer the index terms across the network. This step is skipped if the index entries are already distributed among the slave nodes as result of processing an earlier query.
-\subsection{}
+\subsection{Options}
+\subsection{Goals for use in design}
+
+XZES40-Transformer will be increased performance by using parrallel computation.
+The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm. 
+There are two ways to do the prallel computation. One is Round-Robin distribution of index entries, the other is Hash-based distribution of index entries. 
+
+\subsection{Criteria being evaluated}
+
+XZES40-Transformer use the parallel computation method do the same processing and operating side by side. First, the entries of the fully-inverted index are distributed among the cluster nodes for processing. Second, the containment query is processed by the cluster nodes to generate the corresponding lists of index entries. Third, the elements of the generated lists are checked against one another to produce the result set. This method will be increased the efficiency and save time. 
+
+\subsection{Comparison breakdown}
+
+The first option is Round-Robin distribution of index entries which is the master node distributes the index entries uniformly over the slave nodes. The second option is Hash-based distribution of index entries which algorithm uses a hash function to partitions the index entries into a number of disjoint sets.
+
+\begin{center}
+    \begin{tabular}{ | l | p{10cm} |} 
+    \hline
+    Technology & Description    \\ \hline
+    Round-Robin distribution of index entries 
+    the number of index entries allocated to each node will be (1/n) * size of index-table, where n is the number of slave nodes in the      Beowulf cluster. It is important to note here that the index entries with the same term values might land into the same or different slave nodes.   \\ \hline
+    Hash-based distribution of index entries
+    This number is equal to that of the slave nodes. Each one of the disjoint sets is then assign to a different slave node for further processing. As a result, the number of index entries allocated to each node will roughly be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. Several variants do exist for this algorithm based on the entity that computes the hash function and the field in the index entry for which the hash function is computed. The entity that computes the hash function can be the master node or the slave ones. In the latter case, we assume that the complete inverted index is replicated across all of the slave nodes, and therefore, each one of these nodes can apply the hash function to its local copy and select those entries that maps to the slave node itself. This process eliminates the initial need to transfer the index terms across the network. This step is skipped if the index entries are already distributed among the slave nodes as result of processing an earlier query. \\ \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Discussion}
+
+\subsection{Selection}    
+%The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm. First, the entries of the fully-inverted index are distributed among the cluster nodes for processing. Second, the containment query is processed by the cluster nodes to generate the corresponding lists of index entries. Third, the elements of the generated lists are checked against one another to produce the result set. The proposed algorithms can be differentiated based on the technique used for distributing the index entries between the slave nodes for processing.
+%\subsection{Round-robin distribution of index entries}
+%Using a round-robin scheme, the master node distributes the index entries uniformly over the slave nodes. At the end of this step, the number of index entries allocated to each node will be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. It is important to note here that the index entries with the same term values might land into the same or different slave nodes.
+%\subsection{Hash-based distribution of index entries}
+%This algorithm uses a hash function to partitions the index entries into a number of disjoint sets. This number is equal to that of the slave nodes. Each one of the disjoint sets is then assign to a different slave node for further processing. As a result, the number of index entries allocated to each node will roughly be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. Several variants do exist for this algorithm based on the entity that computes the hash function and the field in the index entry for which the hash function is computed. The entity that computes the hash function can be the master node or the slave ones. In the latter case, we assume that the complete inverted index is replicated across all of the slave nodes, and therefore, each one of these nodes can apply the hash function to its local copy and select those entries that maps to the slave node itself. This process eliminates the initial need to transfer the index terms across the network. This step is skipped if the index entries are already distributed among the slave nodes as result of processing an earlier query.
+%\subsection{}
