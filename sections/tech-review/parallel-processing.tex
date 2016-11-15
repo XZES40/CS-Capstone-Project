@@ -29,7 +29,12 @@ The first option is Round-Robin distribution of index entries which is the maste
 
 \subsection{Discussion}
 
-\subsection{Selection}    
+The Round-Robin method is suitable for queries which requires scanning the entire relation. 
+The Hash method sequential scan can be done efficiently.
+
+\subsection{Selection}
+
+We will both use Round-Robin and Hash method. 
 %The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm. First, the entries of the fully-inverted index are distributed among the cluster nodes for processing. Second, the containment query is processed by the cluster nodes to generate the corresponding lists of index entries. Third, the elements of the generated lists are checked against one another to produce the result set. The proposed algorithms can be differentiated based on the technique used for distributing the index entries between the slave nodes for processing.
 %\subsection{Round-robin distribution of index entries}
 %Using a round-robin scheme, the master node distributes the index entries uniformly over the slave nodes. At the end of this step, the number of index entries allocated to each node will be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. It is important to note here that the index entries with the same term values might land into the same or different slave nodes.
