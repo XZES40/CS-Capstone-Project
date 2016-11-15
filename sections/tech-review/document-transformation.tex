@@ -3,33 +3,47 @@
 \section{XML/XSLT Document Transformation}
 
 \subsection{Option}
-Xalan-C++ is an XSLT processor for transforming XML documents into HTML, text, or other XML document types. Xalan-C++ implementation is based on two part -- XSLT and XPah. XSLT (version 1.0) is the initial element of the XSL template language for XML. It contain the XSL Transformation vocabulary and XPath, a language for addressing to parts of XML archives.
-
-Saxon XSLT
+There is three option for the XML/XSLT Document Transformation.
+The first option technology is Xalan-C++, and the second option technology is Saxon C . The third option technology is Sablotron.
 
 \subsection{Goals for use in design}
-The major function of XZES40-Transformer is XML/XSLT document transforming. Apech foundation provide many ways to achieve this function.
+The major function of XZES40-Transformer is XML/XSLT document transforming. Apache foundation provide many ways to achieve this function.
 
 \subsection{Criteria being evaluated}
+The XML/XSLT document transformation is our major function for XZES40-Transformer application.
+We want this transformation compatible with good parse tools, and version of XSLT and XPath.
 
-\subsection{Table compare}
-%\documentclass{article} 
-%\usepackage[english]{babel}
-%	\begin{document}
-%		\begin{center}
-%			\begin{tabular}{ | l | l | l | l | l | p{5cm} |}
-%			\hline
-%			Option & Open source & Cost & Security & Stable & Learning speed\\ \hline
-%			WiX & YES & Free & Strong & Strong & Steep learning cure\\ \hline
-%			EMCO MSI Package Builder & NO & Free version & Acceptable & Natural & Easy to learn\\ \hline
-%			Advanced Installer & NO & Expensive & Acceptable & Natural & Easy to learn\\ \hline
-%			\end{tabular}
-%		\end{center}
-%	\end{document}
+\subsection{Comparison breakdown}
+The first option is Xalan-C++, this technology is required by our client, and this technology is supported by Apache. Xalan-C++ is an XSLT processor for transforming XML documents into HTML, text, or other XML document types. The second option is Saxon C, which is Saxon company project. It did the same behavior of Xalan-C++, but it support different version of XSLT and Xpath. The third option technology is Sablotron. It used same version of XSLT and Xpath with Xalan-C++, but it designed to be as small program.
+
+\begin{center}
+    \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    Xalan-C++ \cite{xalan} &
+    \begin{itemize}
+      \item Xalan-C++ is open source project developed by Apache. It is implemented by XSLT version 1.0 and XPath version 1.0.
+      \item Xalan-C++ uses Xerces-C++ to parse XML documents and XSL style sheets.
+    \end{itemize}\\ \hline
+    Saxon C \cite{Saxon_c} &
+    \begin{itemize}
+      \item Saxon C is open source project. It is implemented by XSLT 2.0/3.0 version and XPath version 2.0/3.0.
+      \item Saxon C use different parse tools to handle the date.
+    \end{itemize}\\ \hline
+    Sablotron \cite{Sablotron_intro} &
+    \begin{itemize}
+      \item Sablotron is open source project by gingerall. It is implemented by XSLT 1.0 and Xpath 1.0.
+	  \item Sablotron need extra parse tools to complete transformation.
+    \end{itemize}\\ \hline
+    \end{tabular}
+\end{center}
 
 \subsection{Discussion}
+The Xalan-C++ is the most powerful and popular XML/XSLT document transformation tools. It a robust implementation of the W3C recommendations for XSL Transformations (XSLT) and the XML Path Language (XPath). Xalan-C++ is perfect but it run in older version of XSLT and Xpath. Xalan-C++ is not work great with new version of XSLT and Xpath.
+The Saxon C is a option of Xalan-C++. Saxon C can handle higher version of XSLT and Xpath. However, it using different parse tools, so we need find out other technology.
+The Sablotron do the same work as the Xalan-C++, but Sablotron is designed to be as compact and portable as possible. The size of Sablotron is much small than Xalan-C. However, Sablotron is old. No one update it since 2006.
 
 \subsection{The Best option}
-We will choose Xalan-C++ as our solution technology.
+We will choose Xalan-C++ as our solution technology. The first reason is that Xalan-C is required by our client. We want to using Xerces-C as our parse tools, so Xalan-C is the best choice. The second reason is that Sablotron is not stable. Even they are open source project, but people forget it. Saxon C is option if client require different tools to complete XML/XSLT document transformation.
 
 
