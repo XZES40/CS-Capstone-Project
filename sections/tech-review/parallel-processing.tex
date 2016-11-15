@@ -6,7 +6,7 @@
 
 XZES40-Transformer will be increased performance by using parrallel computation.
 The parallel processing of the containment queries against an XML document utilizes parallel variants of the serial algorithm. 
-There are two ways to do the prallel computation. One is Round-Robin distribution of index entries, the other is Hash-based distribution of index entries. 
+There are two ways to do the prallel computation. 
 
 \subsection{Criteria being evaluated}
 
@@ -14,27 +14,40 @@ XZES40-Transformer use the parallel computation method do the same processing an
 
 \subsection{Comparison breakdown}
 
-The first option is Round-Robin distribution of index entries which is the master node distributes the index entries uniformly over the slave nodes. The second option is Hash-based distribution of index entries which algorithm uses a hash function to partitions the index entries into a number of disjoint sets.
-
 \begin{center}
-    \begin{tabular}{ | l | p{10cm} |} 
+  \begin{tabular}{ | l | p{10cm} | }
     \hline
-    Technology & Description    \\ \hline
-    Round-Robin distribution of index entries 
-    \hline
-    the number of index entries allocated to each node will be (1/n) * size of index-table, where n is the number of slave nodes in the      Beowulf cluster. It is important to note here that the index entries with the same term values might land into the same or different slave nodes.   \\ \hline
-    Hash-based distribution of index entries
-    \hline
-    This number is equal to that of the slave nodes. Each one of the disjoint sets is then assign to a different slave node for further processing. As a result, the number of index entries allocated to each node will roughly be (1/n) * size of index-table, where n is the number of slave nodes in the Beowulf cluster. Several variants do exist for this algorithm based on the entity that computes the hash function and the field in the index entry for which the hash function is computed. The entity that computes the hash function can be the master node or the slave ones. In the latter case, we assume that the complete inverted index is replicated across all of the slave nodes, and therefore, each one of these nodes can apply the hash function to its local copy and select those entries that maps to the slave node itself. This process eliminates the initial need to transfer the index terms across the network. This step is skipped if the index entries are already distributed among the slave nodes as result of processing an earlier query. \\ \hline
-    \end{tabular}
+    Technology & Description  \\ \hline
+    POSIX Threads \cite{posix threads} &
+    \begin{itemize}
+      \item Defines a set of C types, functions and constants 
+      \item Spawn concurrent units of processing
+      \item Achieve big speedups, as all cores of CPU are used at the same time. 
+      \end{itemize}\\ \hline
+    OpenMP \cite{Openmp} &
+    \begin{itemize}
+      \item An API that implements a multi-thread, shared memory form of parallelism.
+      \item Uses a set of compiler directives 
+      \item Take care of many of low-level details
+    \end{itemize}\\ \hline
+    MPI \cite{mpi} &
+    \begin{itemize}
+      \item Core syntax and semantics of library
+      \item Complexity, scope and control
+      \item Manage allocation, communication, and synchronization of a set of processes 
+    \end{itemize}\\ \hline
+  \end{tabular}
 \end{center}
+
+
 
 \subsection{Discussion}
 
-The Round-Robin method is suitable for queries which requires scanning the entire relation. 
-The Hash method sequential scan can be done efficiently.
+Pthreads is a standard for prgramming with threads, it can achieve big speedups, as all cores of your CPU are used at the same time.
+OpenMP uses a set of compiler directives that are incorporated at compile-time to generate a multi-threaded version of your code.
+MPI allows us to manage allocation, communication, and synchronization of a set of process.
 
 \subsection{Selection}
 
-We will both use Round-Robin and Hash method. 
+We will use MSI because it is a high-level standard. 
 
