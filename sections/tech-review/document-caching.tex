@@ -3,27 +3,41 @@
 \section{XML/XSLT Document Caching}
 
 \subsection{Option}
+There is three option technology for cache. The first option technology is storing cache into memory. The second option technology is that we create temporary binary file. The third option technology is that we create database to handle all of data.
 
 \subsection{Goals for use in design}
+Caching is the core function of XZES40-Transformer application. Other similar application compile files each time, and this waste lots of time and resource. We create cache to solve this problem.
 
 \subsection{Criteria being evaluated}
+Because we want save the time and resource to complete XML transformer, the efficiency is the most element that we consider.
 
-\subsection{Table compare}
-%\documentclass{article} 
-%\usepackage[english]{babel}
-%	\begin{document}
-%		\begin{center}
-%			\begin{tabular}{ | l | l | l | l | l | p{5cm} |}
-%			\hline
-%			Option & Open source & Cost & Security & Stable & Learning speed\\ \hline
-%			WiX & YES & Free & Strong & Strong & Steep learning cure\\ \hline
-%			EMCO MSI Package Builder & NO & Free version & Acceptable & Natural & Easy to learn\\ \hline
-%			Advanced Installer & NO & Expensive & Acceptable & Natural & Easy to learn\\ \hline
-%			\end{tabular}
-%		\end{center}
-%	\end{document}
+\subsection{Comparison breakdown}
+The first option technology is that storing cache into memory with allocate memory, the is the faster and easy way to store cache. The second option technology is that we create temporary file. When we are running our application, we retired data from temporary file and put data into memory. The third option technology is that we create database to handle memory. this spends time to design and create database.
 
+\begin{center}
+    \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    Memory&
+    \begin{itemize}
+      \item Application check data from memory, and put cache into memory.
+	  \item Retiring data from memory is the faster way.
+    \end{itemize}\\ \hline
+    Temporary binary file&
+    \begin{itemize}
+      \item Application load temporary binary file when it start. After we close it, application save binary file in external storage driver.
+	  \item Loading temporary binary file spend time, so it is slower than memory.
+    \end{itemize}\\ \hline
+    Database \cite{foundation_intro}&
+    \begin{itemize}
+      \item Application access data from database.
+	  \item It spends time to create database. 
+    \end{itemize}\\ \hline
+    \end{tabular}
+\end{center}
 
 \subsection{Discussion}
+Storing cache into memory is the most easy way. We just need allocate memory. However, the main drawback of this technology is when we close application, all of cache data will be wiped out. We have to compile file next time when we are running application. Creating temporary binary file can avoid losing cache data, but it spends time to load file into memory when application starts. Creating database is bad option technology for XZES40-Transformer application. Access database spend resource, and it waste time to search cache data.
 
-\subsection{The Best option}
+\subsection{Selection}
+The best option technology is that storing cache into memory. Although it will lost data after close application, it save the time, and it the faster way.
