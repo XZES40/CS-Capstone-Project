@@ -4,9 +4,12 @@
 
 \subsection{Options}
 
+Our web API may be implemented via a native-code web application, a Python or Ruby web application, or an Apache webserver CGI script.
+Each of these has pros and cons, but they all get the job done at some cost and with some benefits.
+
 \subsection{Goals for use in design}
 
-XZES40-Transformer will be accessible via a Web API.
+XZES40-Transformer will be accessible via a web API.
 This can be implemented a few different ways, but all of them must accomplish the same goal to allow people across the world to use the service over internet protocols.
 Three options being evaluated here vary widely in the way they achieve this goal, and so may represent more their technology and less the specific implementation.
 
@@ -14,7 +17,7 @@ Three options being evaluated here vary widely in the way they achieve this goal
 
 The core of this application is related to document transformation.
 The more time that is spent on non-document transformation tasks should be kept to a minimum.
-Any technology we use to implement our Web API should be simple, easy to develop, and easy to maintain.
+Any technology we use to implement our web API should be simple, easy to develop, and easy to maintain.
 In short, \textit{keep it simple stupid}.
 
 \subsection{Comparison breakdown}
@@ -34,13 +37,13 @@ Each of these would be something that calls our document transformation function
       \item XZES functionality is called by ``shelling out'' to the program and returning the results.
       \item Requires a running Apache Server on the host.
     \end{itemize}\\ \hline
-    Kore Web-app framework \cite{kore-io} \cite{kore-feature} &
+    Kore web-app framework \cite{kore-io} \cite{kore-feature} &
     \begin{itemize}
       \item HTTP Requests are handled by the Kore framework.
       \item XZES functionality is called natively with C code.
       \item Acts as an independent daemon.
     \end{itemize}\\ \hline
-    Flask Web-app framework \cite{flask-site} &
+    Flask web-app framework \cite{flask-site} &
     \begin{itemize}
       \item HTTP Requests are handled by the Flask framework.
       \item XZES functionality is called either natively or by using \inlinecode{exec} to ``shell out''.
@@ -54,7 +57,7 @@ Each of these would be something that calls our document transformation function
 The above three technologies are all entirely valid choices for our application, and each approach the problem from different angles.
 
 The Apache CGI solution is the Occam's Razor solution relative to the others.
-Using the Apache Web Server we can register a script written in Python, Perl, Ruby, etc to accept requests and return a response.
+Using the Apache web server we can register a script written in Python, Perl, Ruby, etc to accept requests and return a response.
 This is simple, maintainable, and easy to create, especially if we are only concerned with implementing the API and not fancy features like accessing a database or storing user sessions.
 This option also allows us to leverage existing Apache Web-server power like load balancing and simple authentication without needing to write those features ourselves, they're just a configuration option away from being a reality.
 

@@ -4,40 +4,67 @@
 
 \subsection{Options}
 
+XZES40 Transformer will be created with an installation package so that it can easily be installed on a host system.
+One platform we will create a package for in our stretch goal is FreeBSD.
+This can be created manually, with FreeBSD system tools, or with a more general system-package creation tool.
+
 \subsection{Goals for use in design}
 
+In an ideal world this tool would be easy to use, and would automatically take our source code, compile it, and package it for distribution.
+Unfortunately that isn't a feasible solution for such a small project, but in our design we will be considering anything that gets us close to that reality.
 
 \subsection{Criteria being evaluated}
 
+The technology chosen should be easy to use, and allow for modifications to the host package in an expedient way.
+Creating system packages can be a pain, but creating one \textit{incorrectly} is even worse.
+The tool chosen should be free, relatively painless to use, and require minimal human interaction to prevent the introduction of human errors.
 
 \subsection{Comparison breakdown}
 
-
 \begin{center}
-    \begin{tabular}{ | l | p{10cm} |}
+  \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
-    xxx \cite{cgi-tutorial} &
+    Poudriere \cite{poudriere-tutorial} &
     \begin{itemize}
-      \item AAA.
-      \item BBB.
-      \item CCC.
+      \item Creates builds for multiple platforms including other versions of FreeBSD and other CPU architectures.
+      \item Builds packages in parallel.
+      \item Free.
     \end{itemize}\\ \hline
-    xxx \cite{cgi-tutorial} &
+    FPM \cite{fpm-home} &
     \begin{itemize}
-      \item AAA.
-      \item BBB.
-      \item CCC.
+      \item Translates packages from one format to another.
+      \item Allows re-use of other system's packages.
+      \item Free.
     \end{itemize}\\ \hline
-    xxx \cite{cgi-tutorial} &
+    pkg-create \cite{pkg-create-man} &
     \begin{itemize}
-      \item AAA.
-      \item BBB.
-      \item CCC.
+      \item Simple to use.
+      \item Installed on most FreeBSD systems.
+      \item Free.
     \end{itemize}\\ \hline
+  \end{tabular}
 \end{center}
 
 \subsection{Discussion}
 
+Each of these three technologies offers similar end results, but some offer a better development experience or a more feature rich pipline.
+
+Poudriere is appealing because it is by far the most feature rich option available.
+It essentially offers a system for us to test and build our software all in one using the BSD Jails system.
+The consequence is that this package would need to be created manually each time we want to release an update to our software, or even make changes to the package.
+
+FPM is appealing mostly because this FreeBSD package will be a stretch goal.
+FPM will be able to take a Debian or CentOS package and produce a FreeBSD package.
+This will require minimal intervention, and as long as we can test that the package produced is correct we can use this for future iterations of the package.
+The downside is that this is not guaranteed to work correctly as it does not provide any testing infrastructure for the package produced.
+
+The last option is not appealing, but viable all the same.
+pkg-create can be used to create a package on FreeBSD.
+The tool is convenient to acquire, and allows us to create the package, but does not offer nearly as many benefits as the others.
+
 \subsection{Selection}
 
+For convenience we will use FPM.
+Once we have a Debian package creating a FreeBSD package should be smooth sailing.
+The solution is free, requires minimal human interaction, and allows us to create reproducible results (i.e., weather the package works or not is not determined by the package creator's coffee intake).
