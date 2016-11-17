@@ -1,0 +1,306 @@
+\section{Design}
+
+\tableofcontents
+
+\subsection{Identified Stakeholders and Design Concerns}
+
+\subsection{Context viewpoint}
+
+% The Context viewpoint depicts services provided by a design subject with reference to an explicit context. That context is defined by reference to actors that include users and other stakeholders, which interact with the design subject in its environment. The Context viewpoint provides a “black box” perspective on the design subject.
+% 
+% Services depict an inherently functional aspect or anticipated cases of use of the design subject (hence “use cases” in UML). Stratification of services and their descriptions in the form of scenarios of actors' interactions with the system provide a mechanism for adding detail. Services may also be associated with actors through information flows. The content and manner of information exchange with the environment implies additional design information and the need for additional viewpoints (see 5.10).
+% 
+% A Deployment overlay to a Context view can be transformed into a Deployment view whenever the execution hardware platform is part of the design subject; for stand-alone software design, a Deployment overlay maps software entities onto externally available entities not subject of the current design effort. Similarly, work allocation to teams and other management perspectives are overlays in the design.
+%
+% Design concerns
+% 
+% The purpose of the Context viewpoint is to identify a design subject's offered services, its actors (users and other interacting stakeholders), to establish the system boundary and to effectively delineate the design subject's scope of use and operation.
+% 
+% Drawing a boundary separating a design subject from its environment, determining a set of services to be provided, and the information flows between design subject and its environment, is typically a key design decision. That makes this viewpoint applicable to most design efforts.
+% 
+% When the system is portrayed as a black box, with internal decisions hidden, the Context view is often a starting point of design, showing what is to be designed functionally as the only available information about the design subject: a name and an associated set of externally identifiable services. Requirements analysis identifies these services with the specification of quality of service attributes, henceforth invoking many non-functional requirements. Frequently incomplete, a Context view is begun in requirements analysis. Work to complete this view continues during design.
+%
+% 5.2.2 Design elements
+% 
+% Design entities: actors—external active elements interacting with the design subject, including users, other stakeholders and external systems, or other items; services—also called use cases; and directed information flows between the design subject, treated as a black box, and its actors associating actors with services. Flows capture the expected information content exchanged.
+% 
+% Design relationships: receive output and provide input (between actors and the design subject).
+% 
+% Design constraints: qualities of service; form and medium of interaction (provided to and received from) with environment.
+%
+% Example languages
+% 
+% Any black-box type diagrams can be used to realize the Context viewpoint. Appropriate languages include Structured Analysis [e.g., IDEF0 (IEEE Std 1320.1-1998 [B18]), Structured Analysis and Design Technique (SADT) (Ross [B32]) or those of the DeMarco or Gane-Sarson variety], the Cleanroom's black box diagrams, and UML use cases (OMG [B28]).
+
+\subsection{Composition viewpoint}
+
+% The Composition viewpoint describes the way the design subject is (recursively) structured into constituent parts and establishes the roles of those parts.
+%
+% Design concerns
+% 
+% Software developers and maintainers use this viewpoint to identify the major design constituents of the design subject, to localize and allocate functionality, responsibilities, or other design roles to these constituents. In maintenance, it can be used to conduct impact analysis and localize the efforts of making changes. Reuse, on the level of existing subsystems and large-grained components, can be addressed as well. The information in a Composition view can be used by acquisition management and in project management for specification and assignment of work packages, and for planning, monitoring, and control of a software project. This information, together with other project information, can be used in estimating cost, staffing, and schedule for the development effort. Configuration management may use the information to establish the organization, tracking, and change management of emerging work products (see IEEE Std 12207-2008 [B21]).
+%
+% Design elements
+% 
+% Design entities: types of constituents of a system: subsystems, components, modules; ports and (provided and required) interfaces; also libraries, frameworks, software repositories, catalogs, and templates.
+% 
+% Design relationships: composition, use, and generalization. The Composition viewpoint supports the recording of the part-whole relationships between design entities using realization, dependency, aggregation, composition, and generalization relationships. Additional design relationships are required and provided (interfaces), and the attachment of ports to components.
+% 
+% Design attributes: For each design entity, the viewpoint provides a reference to a detailed description via the identification attribute. The attribute descriptions for identification, type, purpose, function, and definition attribute should be utilized.
+%
+% Function attribute
+% 
+% A statement of what the entity does. The function attribute states the transformation applied by the entity to its inputs to produce the output. In the case of a data entity, this attribute states the type of information stored or transmitted by the entity.
+% 
+% This design attribute is retained for compatibility with IEEE Std 1016-1998.
+%
+% Subordinates attribute
+% 
+% The identification of all entities composing this entity. The subordinates attribute identifies the “composed of” relationship for an entity. This information is used to trace requirements to design entities and to identify parent/child structural relationships through a design subject.
+% 
+% This design attribute is retained for compatibility with IEEE Std 1016-1998.
+% 
+% An equivalent capability is available through the composition relationship.
+%
+% Example languages
+% 
+% UML component diagrams (see OMG [B28]) cover this viewpoint. The simplest graphical technique used to describe functional system decomposition is a hierarchical decomposition diagram; such diagram can be used together with natural language descriptions of purpose and function for each entity, such as is provided by IDEF0 (IEEE Std 1320.1-1998 [B18]), the Structure Chart (Yourdon and Constantine [B38], and the HIPO Diagram. Run-time composition can also use structured diagrams (Page-Jones [B29]).
+
+\subsection{Logical viewpoint}
+
+% The purpose of the Logical viewpoint is to elaborate existing and designed types and their implementations as classes and interfaces with their structural static relationships. This viewpoint also uses examples of instances of types in outlining design ideas.
+% Design concerns
+%
+% The Logical viewpoint is used to address the development and reuse of adequate abstractions and their implementations. For any implementation platform, a set of types is readily available for the domain abstractions of interest in a design subject, and a number of new types is to be designed, some of which may be considered for reuse. The main concern is the proper choice of abstractions and their expression in terms of existing types (some of which may had been specific to the design subject).
+% Design elements
+%
+% Design entities: class, interface, power type, data type, object, attribute, method, association class, template, and namespace.
+%
+% Design relationships: association, generalization, dependency, realization, implementation, instance of, composition, and aggregation.
+%
+% Design attributes: name, role name, visibility, cardinality, type, stereotype, redefinition, tagged value, parameter, and navigation efficiency.
+% Design constraints: value constraints, relationships exclusivity constraints, navigability, generalization sets, multiplicity, derivation, changeability, initial value, qualifier, ordering, static, pre-condition, post-condition, and generalization set constraints.
+%
+% Example languages
+% UML class diagrams and UML object diagrams (showing objects as instances of their respective classes) (OMG [B28]). Lattices of types and references to implemented types are commonly used as supplementary information.
+
+\subsection{Dependency viewpoint}
+
+% The Dependency viewpoint specifies the relationships of interconnection and access among entities. These relationships include shared information, order of execution, or parameterization of interfaces.
+% 
+% 5.5.1 Design concerns
+% 
+% A Dependency view provides an overall picture of the design subject in order to assess the impact of requirements or design changes. It can help maintainers to isolate entities causing system failures or resource bottlenecks. It can aid in producing the system integration plan by identifying the entities that are needed by other entities and that must be developed first. This description can also be used by integration testing to aid in the production of integration test cases.
+% 
+% 5.5.2 Design elements
+% 
+% Design entities: subsystem, component, and module.
+% 
+% Design relationships: uses, provides, and requires.
+% 
+% Design attribute: name (4.6.2.1), type (4.6.2.2), purpose (4.6.2.3), dependencies (5.5.2.1), and resources. These attributes should be provided for all design entities.
+% 
+% 5.5.2.1 Dependencies attribute
+% 
+% A description of the relationships of this entity with other entities. The dependencies attribute identifies the uses or requires the presence of relationship for an entity. This attribute is used to describe the nature of each interaction including such characteristics as timing and conditions for interaction. The interactions involve the initiation, order of execution, data sharing, creation, duplicating, usage, storage, or destruction of entities.
+% 
+% This design entity attribute is retained for compatibility with IEEE Std 1016-1998.
+% 
+% 5.5.3 Example languages
+% 
+% UML component diagrams and UML package diagrams showing dependencies among subsystems (OMG [B28]).
+
+\subsection{Information viewpoint}
+
+% The Information viewpoint is applicable when there is a substantial persistent data content expected with the design subject.
+% 
+% 5.6.1 Design concerns
+% 
+% Key concerns include persistent data structure, data content, data management strategies, data access schemes, and definition of metadata.
+% 
+% 5.6.2 Design elements
+% 
+% Design entities: data items, data types and classes, data stores, and access mechanisms.
+% 
+% Design relationships: association, uses, implements. Data attributes, their constraints and static relationships among data entities, aggregates of attributes, and relationships.
+% 
+% Design attributes: persistence and quality properties.
+% 
+% 5.6.2.1 Data attribute
+% 
+% A description of data elements internal to the entity. The data attribute describes the method of representation, initial values, use, semantics, format, and acceptable values of internal data. The description of data may be in the form of a data dictionary that describes the content, structure, and use of all data elements. Data information should describe everything pertaining to the use of data or internal data structures by this entity. It should include data specifications such as formats, number of elements, and initial values. It should also include the structures to be used for representing data such as file structures, arrays, stacks, queues, and memory partitions.
+% 
+% The meaning and use of data elements should be specified. This description includes such things as static versus dynamic, whether it is to be shared by transactions, used as a control parameter, or used as a value, loop iteration count, pointer, or link field. In addition, data information should include a description of data validation needed for the process.
+% 
+% This design attribute is retained for compatibility with IEEE Std 1016-1998.
+% 
+% 5.6.3 Example languages
+% 
+% IDEF1X (IEEE Std 1320.2™-1998 [B19]), UML class diagrams (OMG [B28]).
+
+\subsection{Patterns viewpoint}
+
+% This viewpoint addresses design ideas (emergent concepts) as collaboration patterns involving abstracted roles and connectors.
+% 
+% 5.7.1 Design concerns
+% 
+% Key concerns include reuse at the level of design ideas (design patterns), architectural styles, and framework templates.
+% 
+% 5.7.2 Design elements
+% 
+% Design entities: collaboration, class, connector, role, framework template, and pattern.
+% 
+% Design relationships: association, collaboration use, and connector.
+% 
+% Design attributes: name.
+% 
+% Design constraints: collaboration constraints.
+% 
+% 5.7.3 Example languages
+% 
+% UML composite structure diagram and a combination of the UML class diagram and the UML package diagram (OMG [B28]).
+
+\subsection{Interface viewpoint}
+
+% The Interface viewpoint provides information designers, programmers, and testers the means to know how to correctly use the services provided by a design subject. This description includes the details of external and internal interfaces not provided in the SRS. This viewpoint consists of a set of interface specifications for each entity.
+% 
+% User interfaces are addressed separately.
+%
+% 5.8.1 Design concerns
+% 
+% An Interface view description serves as a binding contract among designers, programmers, customers, and testers. It provides them with an agreement needed before proceeding with the detailed design of entities. The interface description is used by technical writers to produce customer documentation or may be used directly by customers. In the latter case, the interface description could result in the production of a human interface view.
+% 
+% Designers, programmers, and testers often use design entities that they did not develop. These entities can be reused from earlier projects, contracted from an external source, or produced by other developers. The interface description establishes an agreement among designers, programmers, and testers about how cooperating entities will interact. Each entity interface description should contain everything another designer or programmer needs to know to develop software that interacts with that entity. A clear description of entity interfaces is essential on a multi-person development for smooth integration and ease of maintenance.
+% 5.8.2 Design elements
+% 
+% The attributes for identification (4.6.2.1), function (5.3.2.1), and interface (5.8.2.1) should be provided for all design entities.
+%
+% 5.8.2.1 Interface attribute
+% 
+% A description of how other entities interact with this entity. The interface attribute describes the methods of interaction and the rules governing those interactions. Methods of interaction include the mechanisms for invoking or interrupting the entity, for communicating through parameters, common data areas or messages, and for direct access to internal data. The rules governing the interaction include the communications protocol, data format, acceptable values, and the meaning of each value.
+% 
+% This attribute provides a description of the input ranges, the meaning of inputs and outputs, the type and format of each input or output, and output error codes. For information systems, it should include inputs, screen formats, and a complete description of the interactive language.
+% 
+% This design attribute is retained for compatibility with IEEE Std 1016-1998
+%
+% 5.8.3 Example languages
+% 
+% Interface definition languages (IDL), UML component diagram (OMG [B28]). In case of user interfaces the Interface view should include screen formats, valid inputs, and resulting outputs. For data-driven entities, a data dictionary should be used to describe the data characteristics. Those entities that are highly visible to a user and involve the details of how the customer should perceive the system should include a functional model, scenarios for use, detailed feature sets, and the interaction language.
+
+\subsection{Structure viewpoint}
+
+% The Structure viewpoint is used to document the internal constituents and organization of the design subject in terms of like elements (recursively).
+% 
+% 5.9.1 Design concerns
+% 
+% Compositional structure of coarse-grained components and reuse of fine-grained components.
+% 
+% 5.9.2 Design elements
+% 
+% Design entities: port, connector, interface, part, and class.
+% 
+% Design relationships: connected, part of, enclosed, provided, and required.
+% 
+% Design attributes: name, type, purpose, and definition.
+% 
+% Design constraints: interface constraints, reusability constraints, and dependency constraints.
+% 
+% 5.9.3 Example languages
+% 
+% UML composite structure diagram, UML class diagram, and UML package diagram (OMG [B28]).
+% 
+\subsection{Interaction viewpoint}
+
+% The Interaction viewpoint defines strategies for interaction among entities, regarding why, where, how, and at what level actions occur.
+% 
+% 5.10.1 Design concerns
+% 
+% For designers. this includes evaluating allocation of responsibilities in collaborations, especially when adapting and applying design patterns; discovery or description of interactions in terms of messages among affected objects in fulfilling required actions; and state transition logic and concurrency for reactive, interactive, distributed, real-time, and similar systems.
+% 
+% 5.10.2 Design elements
+% 
+% Classes, methods. states, events, signals, hierarchy, concurrency, timing, and synchronization.
+% 
+% 5.10.3 Examples
+% 
+% UML composite structure diagram, UML interaction diagram (OMG [B28]).
+
+\subsection{State dynamics viewpoint}
+
+% Reactive systems and systems whose internal behavior is of interest use this viewpoint.
+% 
+% 5.11.1 Design concerns
+% 
+% System dynamics including modes, states, transitions, and reactions to events.
+% 
+% 5.11.2 Design elements
+% 
+% Design entities: event, condition, state, transition, activity, composite state, submachine state, critical region, and trigger.
+% 
+% Design relationships: part-of, internal, effect, entry, exit, and attached to.
+% 
+% Design attributes: name, completion, active, initial, and final.
+% 
+% Design constraints: guard conditions, concurrency, synchronization, state invariant, transition constraint, and protocol.
+% 
+% 5.11.3 Example languages
+% 
+% UML state machine diagram (OMG [B28]), Harel statechart, state transition table (matrix), automata, Petri net.
+
+\subsection{Algorithm viewpoint}
+
+% The detailed design description of operations (such as methods and functions), the internal details and logic of each design entity.
+% 
+% 5.12.1 Design concerns
+% 
+% The Algorithm viewpoint provides details needed by programmers, analysts of algorithms in regard to time-space performance and processing logic prior to implementation, and to aid in producing unit test plans.
+% 
+% 5.12.2 Design elements
+% 
+% These should include the attribute descriptions for identification, processing (5.12.1), and data for all design entities.
+% 
+% 5.12.3 Processing attribute
+% 
+% A description of the rules used by the entity to achieve its function. The processing attribute describes the algorithm used by the entity to perform a specific task and its contingencies. This description is a refinement of the function attribute and is the most detailed level of refinement for the entity.
+% 
+% This description should include timing, sequencing of events or processes, prerequisites for process initiation, priority of events, processing level, actual process steps, path conditions, and loop back or loop termination criteria. The handling of contingencies should describe the action to be taken in the case of overflow conditions or in the case of a validation check failure.
+% 
+% This design attribute is retained for compatibility with IEEE Std 1016-1998.
+% 
+% 5.12.4 Examples
+% 
+% Decision tables and flowcharts; program design languages, “pseudo-code,” and (actual) programming languages may also be used.
+
+\subsection{Resources viewpoint}
+
+% The purpose of the Resource viewpoint is to model the characteristics and utilization of resources in a design subject.
+%
+% 5.13.1 Design concerns
+% 
+% Key concerns include resource utilization, resource contention, availability, and performance.
+%
+% 5.13.2 Design elements
+% 
+% Design entities: resources, usage policies.
+% 
+% Design relationships: allocation and uses.
+% 
+% Design attributes: identification (4.6.2.1), resource (5.13.2.1), performance measures (such as throughput, rate of consumption).
+% 
+% Design constraints: priorities, locks, resource constraints.
+%
+% 5.13.2.1 Resources attribute
+% 
+% A description of the elements used by the entity that are external to the design. The resources attribute identifies and describes all of the resources external to the design that are needed by this entity to perform its function. The interaction rules and methods for using the resource are to be specified by this attribute.
+% 
+% This attribute provides information about items such as physical devices (printers, disc-partitions, memory banks), software services (math libraries, operating system services), and processing resources (CPU cycles, memory allocation, buffers).
+% 
+% The resources attribute should describe usage characteristics such as the processing time at which resources are to be acquired and sizing to include quantity, and physical sizes of buffer usage. It should also include the identification of potential race and deadlock conditions as well as resource management facilities.
+% 
+% This design attribute is retained for compatibility with IEEE Std 1016-1998.
+%
+% 5.13.3 Examples
+% 
+% Woodside [B37], UML class diagram, UML Object Constraint Language (OMG [B28]).
+
+\subsection{Design rationale}
