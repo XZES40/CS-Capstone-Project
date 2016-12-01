@@ -5,45 +5,38 @@
 %% Note: Files in this directory are included in parent directory docs.
 %% This means you need to source local files as `extras/file_name` instead of `file_name`.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{graphicx}                                        
-\graphicspath{ {figures/} }
-\usepackage{amssymb}                                         
-\usepackage{amsmath}                                         
-\usepackage{amsthm}                                          
-\usepackage{caption}
-
-\usepackage{alltt}                                           
-\usepackage{float}
-\usepackage{color}
-\usepackage{url}
-
-\usepackage{pst-gantt}
-\usepackage{pst-uml}
-
-\usepackage[T1]{fontenc}
-\usepackage{hyperref}
-
-%% \usepackage{balance}
-%% \usepackage[TABBOTCAP, tight]{subfigure}
-\usepackage{enumitem}
-%% \usepackage{pstricks, pst-node}
-
-\usepackage[margin=0.75in]{geometry}
-\geometry{textheight=8.5in, textwidth=6in}
-
-\graphicspath{ {imgs/} } 
-
-\newcommand{\cred}[1]{{\color{red}#1}}
-\newcommand{\cblue}[1]{{\color{blue}#1}}
-\newcommand{\inlinecode}[1]{\texttt{#1}}
-
-\usepackage{hyperref}
-\usepackage{geometry}
-\usepackage[english]{babel}
-\usepackage{titling}
 
 \newcommand{\subparagraph}{}
+
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[margin=0.75in]{geometry}
+\usepackage[pdf]{pstricks}
+\usepackage[utf8]{inputenc}
+\usepackage{alltt}                                           
+\usepackage{amsmath}                                         
+\usepackage{amssymb}                                         
+\usepackage{amsthm}                                          
+\usepackage[backend=bibtex]{biblatex}
+\usepackage{blindtext}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{calc}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{glossaries}
+\usepackage{graphicx}                                        
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{pst-gantt}
+\usepackage{pst-uml}
 \usepackage{titlesec}
+\usepackage{titling}
+\usepackage{url}
+
+\graphicspath{ {figures/} }
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -52,8 +45,13 @@
     \vskip0.5em}%
 }
 
-\usepackage{listings}
-\usepackage{color}
+\geometry{textheight=8.5in, textwidth=6in}
+
+\graphicspath{ {imgs/} } 
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+\newcommand{\inlinecode}[1]{\texttt{#1}}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -88,3 +86,7 @@
 \newpsstyle{Important}{fillstyle=solid, fillcolor=red}
 \newpsstyle{NotImportant}{fillstyle=vlines }
 
+% \bibliographystyle{plain}
+\addbibresource{sections/references.bib}
+
+\makeglossaries

@@ -1,19 +1,75 @@
+\tableofcontents
+
 \section{Introduction}
 
 \subsection{Purpose}
 
+The purpose of this document is to outline the entirety of the design of the XZES40 application for the purposes of reference during development and for communication with the project sponsor(s).
+
 \subsection{Scope}
 
-\subsection{Context}
+The scope of this document is to outline in broad and specific terms the means by which the XZES40-Transformer application will be developed.
+
+\subsection{Development Time-line}
+
+The following Gantt chart outlines the projected time-line for development.
+This starts at the first week of January (winter-term week 1), and goes through project completion in June (end of spring term).
+
+\begin{figure}[hp]
+    \centering
+    \captionsetup{justification=centering,margin=2cm}
+    \begin{PstGanttChart}[yunit=1,
+                          xunit=1,
+                          ChartUnitIntervalName=W,
+                          ChartUnitBasicIntervalName=W,
+                          TaskUnitIntervalValue=10,
+                          TaskUnitType=W,
+                          ChartStartInterval=1,
+                          ChartShowIntervals]{20}{19}
+        \psset{gradangle=180}
+        \PstGanttTask[TaskStyle=Important,TaskInsideLabel={Alpha}]{0}{6}
+        \PstGanttTask[TaskInsideLabel={Benchmark Data Collection}]{0}{3}
+        \PstGanttTask[TaskInsideLabel={Core Functionality}]{0}{11}
+        \PstGanttTask[TaskInsideLabel={Basic Transformation}]{0}{3}
+        \PstGanttTask[TaskInsideLabel={Caching}]{3}{7}
+        \PstGanttTask[TaskInsideLabel={Parallel Computation}]{3}{7}
+        \PstGanttTask[TaskInsideLabel={Demo}]{5}{1}
+        \PstGanttTask[TaskStyle=Important,TaskInsideLabel={Beta}]{6}{5}
+        \PstGanttTask[TaskInsideLabel={CGI Script}]{7}{1}
+        \PstGanttTask[TaskInsideLabel={Web Interface}]{8}{2}
+        \PstGanttTask[TaskInsideLabel={Debian Package}]{9}{2}
+        \PstGanttTask[TaskInsideLabel={Demo}]{10}{1}
+        \PstGanttTask[TaskStyle=Important,TaskInsideLabel={Release}]{12}{7}
+        \PstGanttTask[TaskInsideLabel={CLI Interface}]{12}{2}
+        \PstGanttTask[TaskInsideLabel={RedHat Package}]{12}{6}
+        \PstGanttTask[TaskInsideLabel={BSD Package}]{12}{6}
+        \PstGanttTask[TaskInsideLabel={Windows Package}]{12}{6}
+        \PstGanttTask[TaskInsideLabel={Demo}]{17}{2}
+        \PstGanttTask[TaskStyle=NotImportant]{11}{1}
+    \end{PstGanttChart}
+    \caption{Development Gantt Chart Timeline.}
+\end{figure}
 
 \subsection{Summary}
 
+XZES40-Transformer is an application for transforming one XML with one XSLT document for the purposes of data transformation, similar to data transformation in a spreadsheet program.
+The uses for this rage widely from business to scientific to personal.
+Most importantly, any XML/XSLT document transformer needs to be able to handle a high volume of requests by a wide variety of clients.
+To address these needs the XZES40 team is building an Open Source XML/XSLT document transformer with key optimization built in to improve the document transformation process; helping businesses, institutions, and individuals get more done in a day.
+\cite{xml-spec} \cite{xslt-spec} 
+
 \subsection{Issuing organization}
 
-This document was issued by...
+This document has been issued by Oregon State University and the Apache Software Foundation through the OSU 2016-2017 CS Capstone class.
 
 \subsection{Change history}
-
-\begin{itemize}
-  \item \textbf{v0.0} Document draft \textit{2016-11-17}
-\end{itemize}
+\begin{figure}[hp]
+  \centering
+  \captionsetup{justification=centering,margin=2cm}
+    \begin{tabular}{ | p{5cm} | p{5cm} |}
+    \hline
+      Revision & Date\\ \hline
+      Working Draft & 2016-11-17 \\ \hline
+    \end{tabular}
+  \caption{Change History Table}
+\end{figure}

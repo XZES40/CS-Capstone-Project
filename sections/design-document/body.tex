@@ -1,306 +1,947 @@
-\section{Design}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Document Transformer}
+\label{document-transformer}
 
-\tableofcontents
+This section outlines the views and viewpoints related to the Document Transformer.
+These components relate to core functionality of the application; taking input \gls{xml} and \gls{xslt} documents, parsing them into \gls{dom} objects, transforming those into a new \gls{xml} document, and then returning the final product to a user.
+This section does not necessarily outline how users interact with the application, for that one should see the User Interface section (\ref{user-interface}).
 
-\subsection{Identified Stakeholders and Design Concerns}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transformer}
+\label{transformer}
 
-\subsection{Context viewpoint}
+As the name suggests, the Transformer is the core of the XZES40 Document Transformer, and the application as a whole.
+At a high level this component takes two documents, an \gls{xml} and \gls{xslt} document, and returns a transformed \gls{xml} document.
+The rest of the application is built around this component and all other parts of the application depend on or work toward this feature.
 
-% The Context viewpoint depicts services provided by a design subject with reference to an explicit context. That context is defined by reference to actors that include users and other stakeholders, which interact with the design subject in its environment. The Context viewpoint provides a “black box” perspective on the design subject.
-% 
-% Services depict an inherently functional aspect or anticipated cases of use of the design subject (hence “use cases” in UML). Stratification of services and their descriptions in the form of scenarios of actors' interactions with the system provide a mechanism for adding detail. Services may also be associated with actors through information flows. The content and manner of information exchange with the environment implies additional design information and the need for additional viewpoints (see 5.10).
-% 
-% A Deployment overlay to a Context view can be transformed into a Deployment view whenever the execution hardware platform is part of the design subject; for stand-alone software design, a Deployment overlay maps software entities onto externally available entities not subject of the current design effort. Similarly, work allocation to teams and other management perspectives are overlays in the design.
-%
-% Design concerns
-% 
-% The purpose of the Context viewpoint is to identify a design subject's offered services, its actors (users and other interacting stakeholders), to establish the system boundary and to effectively delineate the design subject's scope of use and operation.
-% 
-% Drawing a boundary separating a design subject from its environment, determining a set of services to be provided, and the information flows between design subject and its environment, is typically a key design decision. That makes this viewpoint applicable to most design efforts.
-% 
-% When the system is portrayed as a black box, with internal decisions hidden, the Context view is often a starting point of design, showing what is to be designed functionally as the only available information about the design subject: a name and an associated set of externally identifiable services. Requirements analysis identifies these services with the specification of quality of service attributes, henceforth invoking many non-functional requirements. Frequently incomplete, a Context view is begun in requirements analysis. Work to complete this view continues during design.
-%
-% 5.2.2 Design elements
-% 
-% Design entities: actors—external active elements interacting with the design subject, including users, other stakeholders and external systems, or other items; services—also called use cases; and directed information flows between the design subject, treated as a black box, and its actors associating actors with services. Flows capture the expected information content exchanged.
-% 
-% Design relationships: receive output and provide input (between actors and the design subject).
-% 
-% Design constraints: qualities of service; form and medium of interaction (provided to and received from) with environment.
-%
-% Example languages
-% 
-% Any black-box type diagrams can be used to realize the Context viewpoint. Appropriate languages include Structured Analysis [e.g., IDEF0 (IEEE Std 1320.1-1998 [B18]), Structured Analysis and Design Technique (SADT) (Ross [B32]) or those of the DeMarco or Gane-Sarson variety], the Cleanroom's black box diagrams, and UML use cases (OMG [B28]).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
 
-\subsection{Composition viewpoint}
+The Transformer provides the core functionality of the application, transforming input documents into output documents.
 
-% The Composition viewpoint describes the way the design subject is (recursively) structured into constituent parts and establishes the roles of those parts.
-%
-% Design concerns
-% 
-% Software developers and maintainers use this viewpoint to identify the major design constituents of the design subject, to localize and allocate functionality, responsibilities, or other design roles to these constituents. In maintenance, it can be used to conduct impact analysis and localize the efforts of making changes. Reuse, on the level of existing subsystems and large-grained components, can be addressed as well. The information in a Composition view can be used by acquisition management and in project management for specification and assignment of work packages, and for planning, monitoring, and control of a software project. This information, together with other project information, can be used in estimating cost, staffing, and schedule for the development effort. Configuration management may use the information to establish the organization, tracking, and change management of emerging work products (see IEEE Std 12207-2008 [B21]).
-%
-% Design elements
-% 
-% Design entities: types of constituents of a system: subsystems, components, modules; ports and (provided and required) interfaces; also libraries, frameworks, software repositories, catalogs, and templates.
-% 
-% Design relationships: composition, use, and generalization. The Composition viewpoint supports the recording of the part-whole relationships between design entities using realization, dependency, aggregation, composition, and generalization relationships. Additional design relationships are required and provided (interfaces), and the attachment of ports to components.
-% 
-% Design attributes: For each design entity, the viewpoint provides a reference to a detailed description via the identification attribute. The attribute descriptions for identification, type, purpose, function, and definition attribute should be utilized.
-%
-% Function attribute
-% 
-% A statement of what the entity does. The function attribute states the transformation applied by the entity to its inputs to produce the output. In the case of a data entity, this attribute states the type of information stored or transmitted by the entity.
-% 
-% This design attribute is retained for compatibility with IEEE Std 1016-1998.
-%
-% Subordinates attribute
-% 
-% The identification of all entities composing this entity. The subordinates attribute identifies the “composed of” relationship for an entity. This information is used to trace requirements to design entities and to identify parent/child structural relationships through a design subject.
-% 
-% This design attribute is retained for compatibility with IEEE Std 1016-1998.
-% 
-% An equivalent capability is available through the composition relationship.
-%
-% Example languages
-% 
-% UML component diagrams (see OMG [B28]) cover this viewpoint. The simplest graphical technique used to describe functional system decomposition is a hierarchical decomposition diagram; such diagram can be used together with natural language descriptions of purpose and function for each entity, such as is provided by IDEF0 (IEEE Std 1320.1-1998 [B18]), the Structure Chart (Yourdon and Constantine [B38], and the HIPO Diagram. Run-time composition can also use structured diagrams (Page-Jones [B29]).
+All users of the application use the Transformer indirectly by way of using it to transform their input documents into output documents.
+The Transformer component will not be directly exposed in the final application, however it will be accessible via the Web \gls{api} (\ref{web-api}).
 
-\subsection{Logical viewpoint}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
 
-% The purpose of the Logical viewpoint is to elaborate existing and designed types and their implementations as classes and interfaces with their structural static relationships. This viewpoint also uses examples of instances of types in outlining design ideas.
-% Design concerns
-%
-% The Logical viewpoint is used to address the development and reuse of adequate abstractions and their implementations. For any implementation platform, a set of types is readily available for the domain abstractions of interest in a design subject, and a number of new types is to be designed, some of which may be considered for reuse. The main concern is the proper choice of abstractions and their expression in terms of existing types (some of which may had been specific to the design subject).
-% Design elements
-%
-% Design entities: class, interface, power type, data type, object, attribute, method, association class, template, and namespace.
-%
-% Design relationships: association, generalization, dependency, realization, implementation, instance of, composition, and aggregation.
-%
-% Design attributes: name, role name, visibility, cardinality, type, stereotype, redefinition, tagged value, parameter, and navigation efficiency.
-% Design constraints: value constraints, relationships exclusivity constraints, navigability, generalization sets, multiplicity, derivation, changeability, initial value, qualifier, ordering, static, pre-condition, post-condition, and generalization set constraints.
-%
-% Example languages
-% UML class diagrams and UML object diagrams (showing objects as instances of their respective classes) (OMG [B28]). Lattices of types and references to implemented types are commonly used as supplementary information.
+The Transformer's functionality is outlined in the following steps:
 
-\subsection{Dependency viewpoint}
+\begin{enumerate}
+	\item Receive parsed \gls{dom} object.
+	\item {
+    	Check to see if the specified documents have already been transformed by checking for the transformed file in the in-memory cache (\ref{cache}).
+        
+       	The input to this component is a retrieved cache object.
+        By hashing these input objects together a unique key is generated.
+        This key is used to check if the input documents have already been transformed, and is where the new document is stored if it has not already been transformed.
+    }
+    \item If the documents have already been transformed the object in the cache is \textbf{returned}; otherwise proceed.
+    \item Call the Xalan-C++ transformation library functions for \gls{xml} transformation. \cite{xalan-library}
+    \item Store the newly parsed document into the in-memory cache.
+    \item \textbf{Return} the newly parsed document.
+\end{enumerate}
 
-% The Dependency viewpoint specifies the relationships of interconnection and access among entities. These relationships include shared information, order of execution, or parameterization of interfaces.
-% 
-% 5.5.1 Design concerns
-% 
-% A Dependency view provides an overall picture of the design subject in order to assess the impact of requirements or design changes. It can help maintainers to isolate entities causing system failures or resource bottlenecks. It can aid in producing the system integration plan by identifying the entities that are needed by other entities and that must be developed first. This description can also be used by integration testing to aid in the production of integration test cases.
-% 
-% 5.5.2 Design elements
-% 
-% Design entities: subsystem, component, and module.
-% 
-% Design relationships: uses, provides, and requires.
-% 
-% Design attribute: name (4.6.2.1), type (4.6.2.2), purpose (4.6.2.3), dependencies (5.5.2.1), and resources. These attributes should be provided for all design entities.
-% 
-% 5.5.2.1 Dependencies attribute
-% 
-% A description of the relationships of this entity with other entities. The dependencies attribute identifies the uses or requires the presence of relationship for an entity. This attribute is used to describe the nature of each interaction including such characteristics as timing and conditions for interaction. The interactions involve the initiation, order of execution, data sharing, creation, duplicating, usage, storage, or destruction of entities.
-% 
-% This design entity attribute is retained for compatibility with IEEE Std 1016-1998.
-% 
-% 5.5.3 Example languages
-% 
-% UML component diagrams and UML package diagrams showing dependencies among subsystems (OMG [B28]).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
 
-\subsection{Information viewpoint}
+The Transformer directly depends on the following internal application components for the following reasons:
 
-% The Information viewpoint is applicable when there is a substantial persistent data content expected with the design subject.
-% 
-% 5.6.1 Design concerns
-% 
-% Key concerns include persistent data structure, data content, data management strategies, data access schemes, and definition of metadata.
-% 
-% 5.6.2 Design elements
-% 
-% Design entities: data items, data types and classes, data stores, and access mechanisms.
-% 
-% Design relationships: association, uses, implements. Data attributes, their constraints and static relationships among data entities, aggregates of attributes, and relationships.
-% 
-% Design attributes: persistence and quality properties.
-% 
-% 5.6.2.1 Data attribute
-% 
-% A description of data elements internal to the entity. The data attribute describes the method of representation, initial values, use, semantics, format, and acceptable values of internal data. The description of data may be in the form of a data dictionary that describes the content, structure, and use of all data elements. Data information should describe everything pertaining to the use of data or internal data structures by this entity. It should include data specifications such as formats, number of elements, and initial values. It should also include the structures to be used for representing data such as file structures, arrays, stacks, queues, and memory partitions.
-% 
-% The meaning and use of data elements should be specified. This description includes such things as static versus dynamic, whether it is to be shared by transactions, used as a control parameter, or used as a value, loop iteration count, pointer, or link field. In addition, data information should include a description of data validation needed for the process.
-% 
-% This design attribute is retained for compatibility with IEEE Std 1016-1998.
-% 
-% 5.6.3 Example languages
-% 
-% IDEF1X (IEEE Std 1320.2™-1998 [B19]), UML class diagrams (OMG [B28]).
+\begin{itemize}
+    \item {
+    	The Document Parser (\ref{parser}) is used to create a transformable \gls{dom} object from an input file. \cite{dom-spec}
+    }
+	\item {
+    	The Document Cache (\ref{cache}) is used to store and retrieve parsed and transformed documents.
+		While this cache isn't strictly necessary for document transformation, it is used to speed up the process drastically.
+    }
+\end{itemize}
 
-\subsection{Patterns viewpoint}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Dynamics}
 
-% This viewpoint addresses design ideas (emergent concepts) as collaboration patterns involving abstracted roles and connectors.
-% 
-% 5.7.1 Design concerns
-% 
-% Key concerns include reuse at the level of design ideas (design patterns), architectural styles, and framework templates.
-% 
-% 5.7.2 Design elements
-% 
-% Design entities: collaboration, class, connector, role, framework template, and pattern.
-% 
-% Design relationships: association, collaboration use, and connector.
-% 
-% Design attributes: name.
-% 
-% Design constraints: collaboration constraints.
-% 
-% 5.7.3 Example languages
-% 
-% UML composite structure diagram and a combination of the UML class diagram and the UML package diagram (OMG [B28]).
+The Transformer deals heavily with state dynamics in two ways: transforming documents and storing/retrieving cached documents.
 
-\subsection{Interface viewpoint}
+\paragraph{Transforming documents}
 
-% The Interface viewpoint provides information designers, programmers, and testers the means to know how to correctly use the services provided by a design subject. This description includes the details of external and internal interfaces not provided in the SRS. This viewpoint consists of a set of interface specifications for each entity.
-% 
-% User interfaces are addressed separately.
-%
-% 5.8.1 Design concerns
-% 
-% An Interface view description serves as a binding contract among designers, programmers, customers, and testers. It provides them with an agreement needed before proceeding with the detailed design of entities. The interface description is used by technical writers to produce customer documentation or may be used directly by customers. In the latter case, the interface description could result in the production of a human interface view.
-% 
-% Designers, programmers, and testers often use design entities that they did not develop. These entities can be reused from earlier projects, contracted from an external source, or produced by other developers. The interface description establishes an agreement among designers, programmers, and testers about how cooperating entities will interact. Each entity interface description should contain everything another designer or programmer needs to know to develop software that interacts with that entity. A clear description of entity interfaces is essential on a multi-person development for smooth integration and ease of maintenance.
-% 5.8.2 Design elements
-% 
-% The attributes for identification (4.6.2.1), function (5.3.2.1), and interface (5.8.2.1) should be provided for all design entities.
-%
-% 5.8.2.1 Interface attribute
-% 
-% A description of how other entities interact with this entity. The interface attribute describes the methods of interaction and the rules governing those interactions. Methods of interaction include the mechanisms for invoking or interrupting the entity, for communicating through parameters, common data areas or messages, and for direct access to internal data. The rules governing the interaction include the communications protocol, data format, acceptable values, and the meaning of each value.
-% 
-% This attribute provides a description of the input ranges, the meaning of inputs and outputs, the type and format of each input or output, and output error codes. For information systems, it should include inputs, screen formats, and a complete description of the interactive language.
-% 
-% This design attribute is retained for compatibility with IEEE Std 1016-1998
-%
-% 5.8.3 Example languages
-% 
-% Interface definition languages (IDL), UML component diagram (OMG [B28]). In case of user interfaces the Interface view should include screen formats, valid inputs, and resulting outputs. For data-driven entities, a data dictionary should be used to describe the data characteristics. Those entities that are highly visible to a user and involve the details of how the customer should perceive the system should include a functional model, scenarios for use, detailed feature sets, and the interaction language.
+The Transformer does not directly handle transforming documents, this task is delegated to the \gls{xalan} library. \cite{xalan-library}
+The transformer takes two or more documents as input: an \gls{xml} \gls{dom} object and list of \gls{xslt} \gls{dom} objects.
+The input documents are transformed by the \gls{xalan} library and the resulting document is eventually returned by the writer (\ref{writer}) via the \gls{api} (\ref{web-api}).
 
-\subsection{Structure viewpoint}
+\paragraph{Cached documents}
 
-% The Structure viewpoint is used to document the internal constituents and organization of the design subject in terms of like elements (recursively).
-% 
-% 5.9.1 Design concerns
-% 
-% Compositional structure of coarse-grained components and reuse of fine-grained components.
-% 
-% 5.9.2 Design elements
-% 
-% Design entities: port, connector, interface, part, and class.
-% 
-% Design relationships: connected, part of, enclosed, provided, and required.
-% 
-% Design attributes: name, type, purpose, and definition.
-% 
-% Design constraints: interface constraints, reusability constraints, and dependency constraints.
-% 
-% 5.9.3 Example languages
-% 
-% UML composite structure diagram, UML class diagram, and UML package diagram (OMG [B28]).
-% 
-\subsection{Interaction viewpoint}
+The Transformer also operates with the cache (\ref{cache}).
+Input files are references to locations in the cache, and output documents are stored in the cache to avoid duplicate computations later on.
 
-% The Interaction viewpoint defines strategies for interaction among entities, regarding why, where, how, and at what level actions occur.
-% 
-% 5.10.1 Design concerns
-% 
-% For designers. this includes evaluating allocation of responsibilities in collaborations, especially when adapting and applying design patterns; discovery or description of interactions in terms of messages among affected objects in fulfilling required actions; and state transition logic and concurrency for reactive, interactive, distributed, real-time, and similar systems.
-% 
-% 5.10.2 Design elements
-% 
-% Classes, methods. states, events, signals, hierarchy, concurrency, timing, and synchronization.
-% 
-% 5.10.3 Examples
-% 
-% UML composite structure diagram, UML interaction diagram (OMG [B28]).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interactions}
 
-\subsection{State dynamics viewpoint}
+Few components directly call the Transformer, however the transformer depends heavily on communicating with the cache.
+This is done by using a ``cache'' object.
+Documents are retrieved by using a ``get'' method and added to the cache with a ``set'' method.
+More information can be found in the Cache section of this document (\ref{cache}).
 
-% Reactive systems and systems whose internal behavior is of interest use this viewpoint.
-% 
-% 5.11.1 Design concerns
-% 
-% System dynamics including modes, states, transitions, and reactions to events.
-% 
-% 5.11.2 Design elements
-% 
-% Design entities: event, condition, state, transition, activity, composite state, submachine state, critical region, and trigger.
-% 
-% Design relationships: part-of, internal, effect, entry, exit, and attached to.
-% 
-% Design attributes: name, completion, active, initial, and final.
-% 
-% Design constraints: guard conditions, concurrency, synchronization, state invariant, transition constraint, and protocol.
-% 
-% 5.11.3 Example languages
-% 
-% UML state machine diagram (OMG [B28]), Harel statechart, state transition table (matrix), automata, Petri net.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
 
-\subsection{Algorithm viewpoint}
+The transformer has one programmer-facing interface, the ``transform()'' function.
+This can be used for testing, mocking, or implementation purposes.
 
-% The detailed design description of operations (such as methods and functions), the internal details and logic of each design entity.
-% 
-% 5.12.1 Design concerns
-% 
-% The Algorithm viewpoint provides details needed by programmers, analysts of algorithms in regard to time-space performance and processing logic prior to implementation, and to aid in producing unit test plans.
-% 
-% 5.12.2 Design elements
-% 
-% These should include the attribute descriptions for identification, processing (5.12.1), and data for all design entities.
-% 
-% 5.12.3 Processing attribute
-% 
-% A description of the rules used by the entity to achieve its function. The processing attribute describes the algorithm used by the entity to perform a specific task and its contingencies. This description is a refinement of the function attribute and is the most detailed level of refinement for the entity.
-% 
-% This description should include timing, sequencing of events or processes, prerequisites for process initiation, priority of events, processing level, actual process steps, path conditions, and loop back or loop termination criteria. The handling of contingencies should describe the action to be taken in the case of overflow conditions or in the case of a validation check failure.
-% 
-% This design attribute is retained for compatibility with IEEE Std 1016-1998.
-% 
-% 5.12.4 Examples
-% 
-% Decision tables and flowcharts; program design languages, “pseudo-code,” and (actual) programming languages may also be used.
+\paragraph{DOM object transform(hash-map * cache, DOM-object-reference xml\_document, [DOM-object-reference xslt\_document\_1, ...])}
 
-\subsection{Resources viewpoint}
+\begin{itemize}
+	\item This function takes as argument the object cache, the \gls{xml} object, and a list of references to \gls{xslt} documents.
+	\item As output it returns a new \gls{dom} object.
+\end{itemize}
 
-% The purpose of the Resource viewpoint is to model the characteristics and utilization of resources in a design subject.
-%
-% 5.13.1 Design concerns
-% 
-% Key concerns include resource utilization, resource contention, availability, and performance.
-%
-% 5.13.2 Design elements
-% 
-% Design entities: resources, usage policies.
-% 
-% Design relationships: allocation and uses.
-% 
-% Design attributes: identification (4.6.2.1), resource (5.13.2.1), performance measures (such as throughput, rate of consumption).
-% 
-% Design constraints: priorities, locks, resource constraints.
-%
-% 5.13.2.1 Resources attribute
-% 
-% A description of the elements used by the entity that are external to the design. The resources attribute identifies and describes all of the resources external to the design that are needed by this entity to perform its function. The interaction rules and methods for using the resource are to be specified by this attribute.
-% 
-% This attribute provides information about items such as physical devices (printers, disc-partitions, memory banks), software services (math libraries, operating system services), and processing resources (CPU cycles, memory allocation, buffers).
-% 
-% The resources attribute should describe usage characteristics such as the processing time at which resources are to be acquired and sizing to include quantity, and physical sizes of buffer usage. It should also include the identification of potential race and deadlock conditions as well as resource management facilities.
-% 
-% This design attribute is retained for compatibility with IEEE Std 1016-1998.
-%
-% 5.13.3 Examples
-% 
-% Woodside [B37], UML class diagram, UML Object Constraint Language (OMG [B28]).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Reader}
+\label{reader}
 
-\subsection{Design rationale}
+The Reader takes input documents of varying file encoding, converts them to the \gls{utf} file encoding, and prepares them to be parsed (\ref{parser}). \cite{utf-8-standard} \cite{icu-library}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
+
+The Reader performs the simple but necessary operation of taking an input file and normalizing it for the parser to handle its contents.
+This is done with the following steps:
+
+\begin{enumerate}
+	\item A file pointer is passed to the Reader.
+    \item {
+    	This file is processed into a string.
+        If necessary the character encoding of the file is determined.
+    }
+    \item The file is read into a temporary file.
+    \item If the file is of the Unicode encoding it is kept so; otherwise it is passed to the \gls{icu} library for proper encoding. \cite{icu-library}
+    \item The file's contents are saved locally for the parser to handle later.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
+
+The Reader depends internally on the \gls{os-api} (\ref{os-agnostic-api}) to read an input file.
+It is also a decency of the parser as non-unicode files will not be accepted by the Parser (\ref{parser}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Dynamics}
+
+The Reader takes in an input file and transforms it to a \gls{utf} encoded document to be passed to the parser.
+The following conditions and types of events are of interest:
+
+\begin{enumerate}
+	\item If the input file is completely mangled, or not a recognizable human-readable file the program will return an error the user.
+    \item If the input document is human readable but is not \gls{utf} encoded then the \gls{icu} library will transform the document to the correct encoding for further processing.
+    \item If the input document is human readable and \gls{utf} encoded then nothing is done to the file and it is saved for the parser.
+\end{enumerate}
+
+It should be noted that the Reader does not handle checking if the document is \textit{well formatted} (i.e., an \gls{xml} 1.0 formatted document \cite{xml-spec}), just that it is a \gls{utf} document.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The Reader externally depends on the \gls{icu} library to decode the input document and encode it in Unicode for the Parser (\ref{parser}). \cite{icu-library}
+
+The Reader also utilizes the \gls{os-api} (\ref{parser}) to perform reading input files.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interface}
+
+The Reader has one interface to be used for testing, mocking, or implementation:
+
+\paragraph{file reader( file-pointer input\_document)}
+
+The function takes as input an open file pointer (integer) and returns a parsed file (string) or panics and causes and application exit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parser}
+\label{parser}
+
+The Parser gets the input \gls{xml} and \gls{xslt} files and transforms them to \gls{dom} objects for the Transformer to use in the transformation process.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The Parser is a major component of the application.
+The Parser receives as input an \gls{xml} and a \gls{xslt} file and then outputs the \gls{dom} representation of those files.
+The user will not use this function directly, but it executed by the Reader (\ref{reader}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
+
+The Parser depends on the Reader to format the input file correctly as \gls{unicode}.
+The Parser also depends on the Cache to store and retrieve parsed objects.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interactions}
+
+The parser function is the middle step of the transformer function.
+
+\begin{enumerate}
+\item The Parser obtains a \gls{unicode} formatted \gls{xml} or \gls{xslt} file from the Reader.
+\item The Parser checks if the file has been parsed and stored in the Cache, and does not re-parse the file if it is in the Cache.
+\item The Parser generates a \gls{dom} object via the \gls{xerces} library.
+\item The Parser stores the \gls{dom} object to the Cache.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The \gls{xerces} library will be used during the parsing to generate a \gls{dom} object from the input file.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+The following function declaration will be used for the parser method:
+
+\paragraph{dom\_object document\_parser( file )} receives an \gls{xml} file or a \gls{xslt} file, and then parses it into a \gls{dom} object which is stored in the Cache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cache}
+\label{cache}
+
+The Cache is a core feature of the XZES40 application.
+The Cache speeds up document transformation by storing and retrieving previously parsed documents.
+
+In practice the Cache will operate much the same as a \gls{hash-map} does, storing data at a location given a key which can also be used to retrieve the data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The program heavily depends on the Cache.
+The Cache can store, delete, and retriever the \gls{dom} object from the in-memory cache 
+
+\paragraph{Storing data} is the major element of the Cache.
+Cache stores data from the user, primarily parsed \gls{dom} data to avoid re-compiling files again.
+
+\paragraph{Deleting data} provides the ability to remove items from the cache for whatever reason.
+
+\paragraph{Retrieving data} allows users to fetch information stored in the cache given the object's key.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
+
+Below are few of the components making up the Cache.
+
+\begin{itemize}
+    \item The Cache stores input data in a \gls{struct} along with with the last time it was accessed and they key used to access the data.
+    \item The Cache can retrieve the data via searching the associated key.
+    \item The Cache can delete data corresponding with a key.
+    \item The Cache can dump its contents to disk periodically.
+    \item {
+    	The Cache can load its data form an input file.
+    	This along with the previous item is used to recover from a system failure.
+    }
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Logical}
+
+XZES40 handles object as a special structure.
+The Cache saves the data as the following information.
+
+\paragraph{Key}
+This is a hash value associated with a cached object.
+This value is for retrieving the data from the Cache.
+
+\paragraph{Content}
+The content is the parsed or transformed \gls{dom} object.
+
+\begin{lstlisting}
+struct node {
+	dom data;
+    string key;
+    date last_used;
+}
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Information}
+
+If the object is not in the Cache, the set Cache stores the \gls{dom} object into the in-memory cache. 
+The way to remove the object in the cache is the delete method.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Dynamics}
+
+The Cache handles the following state changes in the following ways.
+
+\begin{itemize}
+    \item {
+    	When the Cache starts it allocates a block of memory for storage.
+        If a previously dumped cache contents exist on disk this data populates the cache contents.
+   	}
+    \item {
+    	If an item is being set the cache ignores previously existing data.
+       	It is the developers duty to ensure important data is not being overwritten.
+    }
+    \item {
+    	When data is being read the state of that item in cache is assumed not to change.
+        If the item is not found it returns an empty object.
+    }
+    \item  When an item is deleted it returns a SUCCESS status if the object existed and is not deleted, and a FAILURE status if the object did not exist in the cache before the call.
+    \item {
+    	Periodically the Cache dumps it's contents in memory to a local storage.
+    	This is used to recover from a system failure and is loaded on startup.
+    }
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interactions}
+
+The parser sends a parsed \gls{dom} object to the Cache. 
+The Cache will search the flies if it is exist in the memory. 
+If the file exists in the memory, the Cache retrieves the \gls{dom} object from the Cache and return to the Parser. 
+If the file does not exist in the memory, the Parser continues to process the file, and stores parsed file into the Cache.
+The Transformer does a similar thing. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Algorithms}
+
+The Cache can be divided into five major function.
+The First function is \textbf{set}, second is \textbf{get}, third is \textbf{dump}, fourth is \textbf{load}, and fifth is \textbf{delete}.
+
+\paragraph{Set} stores an object at a location in the allocated memory block based on the an \gls{md5} hash of the ``key'' parameter given.
+
+\paragraph{Get} This function retrieves the \gls{dom} object from the cache by the key of the parsed file.
+
+\begin{enumerate}
+    \item If there is key exist in the cache, \textbf{return} the \gls{dom} object at that location.
+    \item If the key does not exist in the cache, \textbf{return} an empty storage struct object.
+\end{enumerate}
+
+\paragraph{Dump} This function saves the contents of the Cache to disk.
+
+\begin{itemize}
+    \item The Dump saves all data from the cache.
+    \item The Dump outputs data to disk.
+\end{itemize}
+
+\paragraph{Load} This function loads the cache to memory.
+
+\begin{itemize}
+    \item The load read all data from the disk.
+    \item The load allocate the memory size for storing data.
+    \item The load write data to memory.
+\end{itemize}
+
+\paragraph{Delete} This function delete the \gls{dom} object from the cache by the key of the parsed file.
+
+\begin{enumerate}
+    \item The Delete receives a key to delete the data it's located at.
+    \item If there is key exist in the cache, the Delete deletes this \gls{dom} object in the cache, and \textbf{return} that there is successfully delete.
+    \item If the keys is not key in the cache, \textbf{return} is no \gls{dom} object inside of cache.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The Cache needs a large memory allocation to function well.
+The Cache needs a storage device to dump data to so it can save its contents.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
+
+The Cache depends on the Parser and the Transformer to populate it.
+The Parser sends a file to the Cache for checking if file exists in the Cache.
+The Parser also can send a parsed \gls{dom} object for storing into the Cache if file does not exist in the Cache.
+The Cache may either return a \gls{dom} object to the Transformer, or the cache return null if the \gls{dom} object is not in the Cache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+Below are the major interfaces for the cache component of XZES40-Transformer.
+
+\paragraph{void document\_cache( dom\_object file )} 
+This checks the \gls{dom} object if it exist in the Cache.
+
+\begin{itemize}
+    \item If it's not in the cache, return fail. 
+    \item If it is in the cache, return true.
+\end{itemize}
+
+\paragraph{dom\_object store\_cache( dom\_object file )} 
+This receives object file and store it into the memory.
+
+\paragraph{dom\_object delete\_cache( dom\_object file )}
+This deletes data from the Cache.
+
+\begin{itemize}
+    \item If the \gls{dom} object exists in the cache, return true.
+    \item If the \gls{dom} object does not exist in the Cache, return error.
+\end{itemize}
+
+\paragraph{dom\_object read\_cache( dom\_object file )} 
+This retrieves data from the cache.
+
+\begin{itemize}
+    \item If the \gls{dom} object exists in the cache, return the \gls{dom} object.
+    \item If the \gls{dom} object does not exist in the Cache, return error.
+\end{itemize}
+
+\paragraph{dom\_object dump\_cache( dom\_object file )} 
+Periodically the Cache dumps data out from memory to disk, because we don't want lose any data.
+Loading data from memory ensures continuous speed improvements as the cache grows.
+
+\paragraph{dom\_object load\_cache( dom\_object file )} 
+When the application crashed, the Cache can load the older data from the disk.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parallel Computation}
+\label{parallel-computation}
+
+In addition to the Cache component of XZES40-Transformer (\ref{cache}), the application will also carry out certain computations in parallel to further leverage the computing resources available to it and compile documents even faster.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The Parallel Computation component of the application carries out the following operations in parallel to speed up documentation transformations.
+
+\paragraph{Document Parsing} will be carried out in parallel.
+These operations are logically independent so they can be carried out simultaneously without affecting data integrity.
+
+\paragraph{User Requests} will also be carried out in Parallel, handled by Apache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
+
+The Parallel Computation component of the application will be carried out at the high level by Apache delegating parsing jobs, see the \gls{web-api} section for more information \ref{web-api}.
+the application will also carry out parallel computation internally (C++) using the MPI library.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interactions}
+
+Our MPI-based thread computing will operate mostly autonomously, except when putting data into and fetching data from the application Cache (\ref{cache}).
+With the exception of interacting with the Cache each parsing thread will not interact with other internal components of the application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Algorithms}
+
+One major concern with handling a cache by multiple threads and processes in parallel is avoiding data corruption.
+This is not a problem we have yet solved and further revisions of this document will elaborate on how we will handle this dilemma.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+When documents are being parsed each parsed document will spawn it's own thread.
+This functionality is in the Parser component of the application in section \ref{parser}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Writer}
+\label{writer}
+
+The Writer takes a \gls{dom} object and writes it to disk at a specified location on disk.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
+
+The Writer performs a straight-forward task by the following steps:
+
+\begin{enumerate}
+	\item The function gets passed a \gls{dom} object to write to disk.
+    \item The \gls{dom} object gets translated to a string.
+    \item That string is converted to \gls{utf}.
+    \item The \gls{utf} string is written to disk at the specified location on disk.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
+
+The Writer depends internally on the Cache (\ref{cache}) to retrieve documents which have been transformed to disk.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Dynamics}
+
+The only state that the application works with is encoding documents and writing them to disk.
+This entails the following processes:
+
+\begin{itemize}
+	\item A \gls{dom} object is un-parsed into a human-readable string.
+    \item That human readable string is encoded as \gls{utf}.
+    \item That \gls{utf} string is written to a specified location on disk relative to the application's storage directory root.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The writer depends externally on the \gls{icu} library to encode a string in the Unicode character encoding. \cite{icu-library}
+It also depends on the \gls{os-api} \ref{os-agnostic-api} to perform system operations like writing files.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+The writer will have one interface: 
+
+\paragraph{status-code write(DOM-object document, path location)}
+
+Where the inputs are a \gls{dom} object and a path.
+The path is relative to the configured basepath of the application, this defaults on \gls{unix} systems to ``/tmp/xzes/''.
+
+The output is a status code for reporting to the user interface if the document was written correctly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{User Interface}
+\label{user-interface}
+
+The Document Transformer is fine and great, but without a user interface it's not useful.
+The following two sections, the \gls{web-api} (\ref{web-api}), Website interface (\ref{website}), and \gls{cli} (\ref{cli}) together outline the ways users will will interact with the system described in the previous section.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\gls{web-api}}
+\label{web-api}
+
+The \gls{web-api} is the standardized interface between the user interfaces and an instance of the application running on a host, communicating over \gls{http}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The users for the \gls{web-api} are those who use the application from the \gls{cli} (\ref{cli}) and (Website \ref{website}).
+Both interfaces interact with the XZES40-Transformer host via standard \gls{http} request methods.
+But nobody should use the \gls{api} directly as a \gls{ui} is much easier than crafting an \gls{http} POST request.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
+
+The \gls{web-api}is composed of the following components:
+
+\begin{enumerate}
+	\item  An \gls{apache} runs on the remote host.\cite{apache-server}
+    \item The server manages a \gls{python} \gls{cgi} script which handles accepting requests and sending responses.
+    \item The \gls{python} script calls the XZES40-Transformer application locally, passing input documents from a POST request and sending response files via the \gls{cgi} interface.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Dependencies}
+
+The \gls{web-api} internally depends on an XZES40-Transformer binary which accepts an input \gls{xml} file, and input \gls{xslt} file, and writes a transformed file to disk in a predictable location.
+The binary should also exit with predictable exit codes to communicate any errors or successes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+The \gls{web-api} communicates with remote clients via a standard \gls{http} \gls{api}.
+Below are the requests a client can send and the possible responses:
+
+\paragraph{POST /api/}
+
+This is a request sent to the \gls{api} endpoint (/api/) with the intention of getting two input files transformed into a new document.
+This can respond in the following ways.
+
+\begin{description}
+	\item {
+    	\textbf{200 OK}	Means the transformation was successful.
+        This response includes a body containing the transformed file and a \gls{uri} to re-download the response file.
+    }
+    \item {
+    	\textbf{400 USER ERROR} Means that the user sent malformed documents.
+        This can include a document which does not follow the \gls{xml}/\gls{xslt} standard to a document which does not have a readable character encoding.
+        This response includes a body containing an appropriately specific error.
+    }
+    \item {
+    	\textbf{500 SERVER ERROR} Means that the server experienced an internal error while processing the request.
+       	This includes fatal XZES40-Transformer errors.
+        This response includes a body containing an appropriately specific error.
+    }
+\end{description}
+
+The POST request is a request with a Form containing input documents in fields titled \gls{xml} and \gls{xslt} for an \gls{xml} 1.0 formatted document and an \gls{xslt} 1.0 formatted document respectively.
+
+\paragraph{GET /api/}
+
+This is a request sent to the \gls{api} endpoint (/api/) with the intention of getting a status of the server. This can respond in the following ways:
+
+\begin{description}
+	\item \textbf{200 OK} Means the \gls{web-api} endpoint is active and functioning correctly.
+    \item \textbf{404 NOT FOUND} Means that the \gls{web-api} endpoint is not configured correctly or the user is accessing a page which is not available.
+    \item \textbf{503 SERVICE UNAVAILABLE} Means that the \gls{web-api} is setup correctly, but the application on the remote host is not operating correctly.
+\end{description}
+
+The GET request is an empty GET request to the servers ``/api/'' endpoint.
+
+\paragraph{\gls{python} Interfaces}
+
+The following interfaces are used for implementing the above \gls{http} interfaces.
+
+\textbf{process\_request(http-request req)}
+
+This method is used to receive an \gls{http} \gls{api} request.
+It does this by reading the request header and deciding based on that to carry out one of the above responses.
+In the case of a POST request it uses an ``exec'' call to the local XZES40-Transformer application binary and responds with the error / output file of that application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The \gls{web-api} has the following external dependencies:
+
+\begin{itemize}
+	\item The \textbf{\gls{apache}} is used to process \gls{http} requests by running the \gls{python} \gls{cgi} script.
+    \item \textbf{\gls{python} 2.7+} is the programming language the \gls{web-api} is written in.
+    \item \textbf{cgi} is a \gls{python} library for processing web requests in \gls{python}.
+    \item \textbf{cgitb} is a \gls{python} library for developing with the cgi library.
+    \item \textbf{mod\_wsgi} is an Apache module for interacting with \gls{python}.
+    \item \textbf{mod\_python} is another Apache module for interacting with \gls{python}.
+\end{itemize}
+
+They should be installed via a system package manager or the \gls{python} package manager (whichever is appropriate) for the \gls{web-api} to operate correctly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Website}
+\label{website}
+
+The website interface is the major user interface for the XZES40 application.
+Website interface is a \gls{gui} interface for user.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The Website interface is common interface for application.
+User can uses website to complete request with few of instructions.
+User can upload the \gls{xml}/\gls{xslt} files that they want, and the website will give the feed back.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
+
+The web interface to access the application in a browser.
+Here is components of the \gls{web-ui}.
+
+\begin{itemize}
+    \item An upload field for the \textbf{\gls{xml}} file.
+    \item An upload field for the \textbf{\gls{xslt}} file.
+    \item A button for user send the request to server via \textbf{POST} method.
+    \item {
+   		After user sends a request to server the website will respond with a message to user.
+        This message may be error or successfully upload or generate download link.
+    }
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{State Dynamics}
+
+There are few of states for website.
+
+\begin{itemize}
+    \item If user upload bad files the website gives feedback that the files were bad.
+    \item If user upload files and server transforming the documents the website gives the feedback that user upload files successfully.
+    \item If user uploads files and server is down the website gives the warning that transformation service is not working.
+    \item If user uploads good files and the server successfully transforms the documents the user is given a download link to the new file.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interactions}
+
+The initialization status of website is waiting for user upload files.
+After user select flies that they want upload and click the submit button.
+Website will send the request to server via the \gls{web-api}.
+There will be many possible feedback as following.
+
+\begin{itemize}
+    \item If the files uploaded are bad the website pops up a warning about the malformed files.
+    \item  If the user uploads both an \gls{xml} and \gls{xslt} file the user is alerted that the request is good to go and that the website will generate a download link for them.
+    \item If the connection is broken the website will give them a warning that user should check the connection between client and server.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+The Web interface is XZES40 main interface for user.
+The web interface asks user to upload \gls{xml} files and \gls{xslt} files, and gives the feedback of result.
+Here is the diagram for website interface.
+
+% \paragraph{Web interface Diagram}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\gls{cli}}
+\label{cli}
+
+The \gls{cli} is used to interact with the system via a text-based terminal/shell interface.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The users of this interface are individuals who either prefer the \gls{cli} over a web interface or for testing purposes as automating tasks with the \gls{cli} is very common.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Composition}
+
+The \gls{cli}, written in \gls{python}, and will be composed of the following components.
+
+\begin{itemize}
+	\item The main function parses command-line arguments specified below in the ``Interfaces'' part of this section.
+    \item A query is built for the server including the \gls{xml}and \gls{xslt} documents to the specified server.
+    \item The query is sent to the server in a POST request.
+    \item When the response is received either an error message is displayed to the user or a file is saved locally.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The \gls{cli} depends on the following system dependencies:
+
+\begin{itemize}
+	\item {Python 2.7+} is the programming language it will be implemented in, so a Python runtime will be necessary for the application to run.
+    \item {Requests} is the standard Python library for interacting with servers over \gls{http}.
+    \item {A terminal and \gls{unix} compliant shell} will also be necessary to access the application via the \gls{cli}.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+The \gls{cli} has the following options available at the command-line:
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40
+    --server=<server-url[:port]> # API endpoint and port to be used.
+    --xml=<input-file>.xml       # Input XML file
+    --xslt=<style-sheet>.xslt    # Input XSLT file
+    \end{lstlisting}
+    \caption{\gls{cli} Flags. All fields encased in chevrons symbols are required. All fields with square brackets are optional.}
+\end{figure}
+
+\subsection{Example Use-cases}
+
+The following are examples of the \gls{cli} in use:
+
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40 --server=http://xzes40.example.com:8080 \
+         --xml=input-file.xml \
+         --xslt=style.xslt
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Downloading transformed document to ./xzes40-transformer-2016-11-22.xml
+    \end{lstlisting}
+    \caption{``Happy path'' use-case without specifying return file name.}
+\end{figure}
+
+
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40 --server=http://xzes40.example.com:8080 \
+	     --xml=input-file.xml \
+         --xslt=style.xslt \
+         --output=transformed-doc.xml
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Downloading transformed document to ./transformed-doc.xml
+    \end{lstlisting}
+   \caption{``Happy path'' use-case with return file name.}
+\end{figure}
+
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40 --server=http://xzes40.example.com:8080 \
+         --xml=input-file.xml \
+         --xslt=style.xslt \
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Server responded with error. One of your documents is malformed.
+    \end{lstlisting}
+    \caption{``Un-happy path'' with malformed document.}
+\end{figure}
+
+
+``Un-happy path'' with bad host.
+\begin{figure}
+\begin{lstlisting}
+$ xzes40 --server=http://fakesite.com:8080 \
+         --xml=input-file.xml --xslt=style.xslt \
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Unable to reach server. Is the host/port correct?
+\end{lstlisting}
+\caption{``Un-happy path'' with bad host.}
+\end{figure}
+
+\begin{figure}
+\begin{lstlisting}
+$ xzes40  --xml=input-file.xml--xslt=style.xslt
+Please specify a host
+\end{lstlisting}
+\caption{``Un-happy path'' with no host.}
+\end{figure}
+
+\begin{figure}
+\begin{lstlisting}
+$ xzes40  --server=http://xzes40.example.com:8080
+Please specify an input xml and/or xslt document.
+\end{lstlisting}
+\caption{``Un-happy path'' with missing input document.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{System Requirements}
+\label{system-requirements}
+
+The XZES40-Transformer will be required to work on the Debian Linux system.
+Once development on Debian is completed the application will be ported to other \gls{os} platforms.
+Our team will release \gls{debian}, \gls{centos}, \gls{bsd} and \gls{windows} packages.
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Installation Packages}
+\label{installation-packages}
+
+For installation convenience the XZES40 project will provide a \gls{linux}, \gls{bsd}, and \gls{windows} installation packages.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+The user can directly download installation packages through the internet and install the XZES40-Transformer on their local systems.
+We will create the Debian package initially.
+After this, we will create the \gls{centos}, \gls{bsd}, and \gls{windows} packages.
+We will upload those packages to the internet and the users can directly download the packages in their operation system.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+The following tools will be used to create the installation packages. 
+\begin{figure}
+\begin{center}                                                                       
+    \begin{tabular}{ | p{2.5cm} | p{5cm} | p{5cm} | }
+    \hline
+      Packages & Tools & Description\\ \hline
+      \gls{linux} \& \gls{bsd} Packages  & 
+      \begin{itemize}
+      \item \gls{fpm}
+      \end{itemize}
+      & \begin{itemize}
+      \item Translates packages from one format to another
+      \item Allows re-use of other system's packages
+      \end{itemize}
+      \\ \hline
+      \gls{windows} Packages & 
+      \begin{itemize}
+      \item \gls{wix}
+      \end{itemize}
+      & \begin{itemize}
+      \item It is a open source project.
+      \item It is more stable and security than other tools.
+      \item It has steed
+      \end{itemize}
+      \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Installation Packages Resources}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\gls{os-api}}
+\label{os-agnostic-api}
+
+The \gls{os-api} will be the programs interface with the \gls{os}.
+It will be created to make porting the application easier. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Logical}
+
+Any operating system specific operation will be wrapped by the \gls{api}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interactions}
+
+The application will interact with the host system via an \gls{os-api}.
+This means that all operating system specific operations (e.g., read, write, seek, etc) will be done via an \gls{api}.
+When the application is compiled on a new target platform (e.g., \gls{linux}, \gls{bsd}, \gls{windows}) a new platform \gls{api} must be created for compatibility.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Interfaces}
+
+The \gls{os-api} interface is for the developer.
+This interface performs operations by asking the \gls{os-api} to carry out the task and that request is translated to the system-specific system-call. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Performance Benchmark}
+\label{performance-benchmark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+We will run test against similar application to determine how fast XZES40 should be.
+Throughout development we will put our application through the same paces and compare which is faster.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resources}
+
+We will be bench-marking these applications specifically for the following reasons.
+
+\begin{figure}
+  \centering
+  \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    \gls{xalan} \gls{cli}&
+    \begin{itemize}
+      \item \gls{xalan} uses \gls{xerces} to parse \gls{xml} documents and \gls{xslt}.
+      \item The project provides an open source \gls{cli} program to test the project libraries.
+      \item Free and Open Source
+    \end{itemize}\\ \hline
+    Altova &
+    \begin{itemize}
+      \item To meet industry demands for an ultra-fast processor.
+      \item It offers powerful, flexible options for developers including cml, python.
+      \item Superior error reporting capabilities include reporting of multiple errors, detailed error descriptions.
+    \end{itemize} \\ \hline
+  \end{tabular}
+  \caption{Bench-marking Resources}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Design Rationale}
+
+This section explains why certain design decisions were made and ``connects the pieces'' of the application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cache Decisions}
+
+The reason the Cache uses an in-memory system rather than a database or a file-based cache is purely for performance reasons.
+Using an in-memory cache over a file-based one should yeild faster performance.
+As a compromise the cache is dumped to a file periodically to save the state of the cache in case the application daemon (which holds the cache) is restarted.
+
+This may cause problems as the service may run out of memory.
+In an attempt to mitigate this a Garbage Collector may be built which is triggered when a certain percentage of the application's allocated memory is used, or on certain time intervals.
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\gls{web-api} Decisions}
+
+The \gls{web-api} connects the application to the outside world in an ideally simple to implement and quick to operate fashion.
+The application uses Apache to handle incoming requests, these are passed to a \gls{cgi} script which could be written in anything, we chose \gls{python} because it is easy to write, maintain, and is well supported.
+
+\gls{python} is called by \gls{apache} which then in turn, based on the request, either returns an application status or calls the XZES40 application locally.
+In this way \gls{python} with \gls{apache} is a simple, well supported set of tools which expose the application to the outside world.
+
+These tools were not necessarily chosen for their speed, and so a redesign may be necessary if they create a bottle-neck in the request pipeline.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Packaging Decisions}
+
+This document outlines the use of \gls{fpm} to create its \gls{linux} and \gls{unix} packages.
+This decision was made for convenience and to allow for quick iteration on the package.
+In doing research there \textit{are} other tools which can be used to create packages on \gls{centos}, \gls{debian}, and \gls{bsd} but they are very system specific and so would make iterating on the package very difficult, and updates to the software a pain to package.
+Using \gls{fpm} we can even automate the build of packages on our \gls{unix}-like systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bench-marking decisions}
+
+To demonstrate the competitiveness of the XZES40-Transformer application we chose to compare the performance of this application against an \gls{foss} tool, the \gls{xerces} \gls{cli}, and a Closed Source tool, the Altova application.
+
+This feels like a fair and balanced comparison as we hope to be competitive with Closed Source alternatives but need to ensure we are at least better than a close \gls{foss} alternative.

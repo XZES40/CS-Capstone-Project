@@ -1,12 +1,19 @@
 \input{preamble}
 
+\renewcommand{\glossarysection}[2][]{}
+
+\makeglossaries
+
+\newpsstyle{Important}{fillstyle=solid, fillcolor=red}
+\newpsstyle{NotImportant}{fillstyle=vlines }
+
 \title{High Performance XML/XSLT Transformation Server}
 \subtitle{Design document}
 \author{
   \IEEEauthorblockN{Zixun Lu (luzi),}
   \IEEEauthorblockN{Shuai Peng (pengs),}
   \IEEEauthorblockN{Elijah Voigt (voigte)}
-  \IEEEauthorblockA{\\CS 461 | CS Senior Capstone \\ Fall 2016}
+  \IEEEauthorblockA{\\CS 461 | CS Senior Capstone | Group \#40 \\ Fall 2016}
 }
 \date{\today}
 
@@ -29,8 +36,10 @@
 
 \input{sections/design-document/references}
 
-\input{sections/design-document/glossary}
+\input{sections/glossary}
 
 \input{sections/design-document/body}
+
+\input{sections/signature}
 
 \end{document}

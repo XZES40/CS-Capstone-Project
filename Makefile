@@ -1,6 +1,7 @@
 BASEPATH = /usr/local/apps/tex_live/current/bin/x86_64-linux/
 LATEX	= $(BASEPATH)/latex -shell-escape
 BIBTEX	= $(BASEPATH)/bibtex
+GLOSSARIES = $(BASEPATH)/makeglossaries
 DVIPS	= $(BASEPATH)/dvips
 DVIPDF  = $(BASEPATH)/dvipdft
 XDVI	= $(BASEPATH)/xdvi -gamma 4
@@ -19,6 +20,8 @@ ps: $(PSF)
 $(TRG): %.dvi: %.tex $(EXAMPLES)
 	$(LATEX) $<
 	$(BIBTEX) $(<:%.tex=%)
+	$(GLOSSARIES) $(<:%.tex=%)
+	$(LATEX) $<
 	$(LATEX) $<
 
 $(PSF): %.ps: %.dvi
@@ -35,7 +38,7 @@ showps: $(PSF)
 	@for i in $(PSF) ; do $(GH) $$i & done
 
 clean:
-	rm -rf {*,*/*}.{log,aux,bbl,blg,dvi,out,ps,toc}
+	git clean -Xf
 
 
 default: pdf
