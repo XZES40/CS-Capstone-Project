@@ -1,0 +1,45 @@
+\input{preamble}
+
+\renewcommand{\glossarysection}[2][]{}
+
+\makeglossaries
+
+\newpsstyle{Important}{fillstyle=solid, fillcolor=red}
+\newpsstyle{NotImportant}{fillstyle=vlines }
+
+\title{High Performance XML/XSLT Transformation Server}
+\subtitle{Design document}
+\author{
+  \IEEEauthorblockN{Zixun Lu (luzi),}
+  \IEEEauthorblockN{Shuai Peng (pengs),}
+  \IEEEauthorblockN{Elijah Voigt (voigte)}
+  \IEEEauthorblockA{\\CS 461 | CS Senior Capstone | Group \#40 \\ Fall 2016}
+}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+\begin{abstract}
+  \input{sections/design-document/abstract}
+\end{abstract}
+
+\clearpage
+
+\input{sections/design-document/introduction}
+
+\input{sections/design-document/references}
+
+\input{sections/glossary}
+
+\input{sections/design-document/body}
+
+\input{sections/signature}
+
+\end{document}

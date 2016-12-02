@@ -7,3 +7,14 @@ build/
 *.blg
 *.bbl
 *.toc
+.*.swp
+.*.swo
+*.run.xml
+*.bcf
+*.glo
+*.glsdefs
+*.ist
+*.run.xml
+*.glg
+*.gls
+*-blx.bib
