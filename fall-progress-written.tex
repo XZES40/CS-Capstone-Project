@@ -1,0 +1,189 @@
+\input{preamble}
+
+\title{
+	High Performance XML/XSLT Transformation Server \\
+    {
+    	% Document Sub-title
+    	\LARGE Fall 2016 Progress Report 
+    }
+}
+\author{
+  \IEEEauthorblockN{Zixun Lu (luzi),}
+  \IEEEauthorblockN{Shuai Peng (pengs),}
+  \IEEEauthorblockN{Elijah Voigt (voigte)}
+  \IEEEauthorblockA{\\CS 461 | CS Senior Capstone | Fall 2016}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+\begin{abstract}
+  A progress report for development during the Fall 2016 term the high-throughput XML/XSLT transformation server project.
+  Outlining the development progress, stumbling blocks, and solutions during the planning stage of development.
+\end{abstract}
+
+\begin{figure}[h]
+  \begin{centering}
+    \includegraphics[width=0.45\textwidth,bb=0 0 1080 438]{figures/osu-logo.PNG}
+    \caption{Source: Wikimedia Commons \cite{osu-logo}}
+  \end{centering}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{centering}
+    \includegraphics[width=0.45\textwidth,bb=0 0 1080 438]{figures/asf-logo.PNG}
+    \caption{Source: Apache Software Foundation \cite{asf-logo}}
+  \end{centering}
+\end{figure}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Program Purpose and Goals
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Program Purpose and Goals}
+
+The XZES40-Transformer project is a collaboration between the Oregon State University Computer Science Capstone course and Steven Hathaway in affiliation with the Apache Software Foundation.
+
+\subsection{Purpose}
+
+The purpose of the XZES40-Transformer is to perform high throughput XML/XSLT document transformations. 
+Given an XML 1.0 and XSLT 1.0 input document our application will return a transformed XML 1.0 formatted document.
+In addition to transforming the document we are adding key optimization to the transformation pipeline to increase throughput, allowing for users of the system to accomplish more in a day.
+
+\subsection{Goals}
+
+The goal of the project is to create an Open Source application which performs faster XML/XSLT transformations than older XML/XSLT document transformers.
+In theory the application would be competitive with paid proprietary applications, but will at the very least it will be more performer than Open Source alternatives.
+
+We will achieve increased performance by adding a caching layer and parallel transformations to our application.
+Caching will be added in key areas like the compilation stage and the transformation stage.
+Parallel computation will be implemented in the parsing stage as that is computationally heavy but should not create race-conditions.
+
+The application will be exposed over a Web API for remote use of the application.
+This will make the application convenient to use as anybody with a web-browser and connection to the host server, and will ensure users do not need to install the package locally.
+Exposing the application over a remote client helps users maximize the use of the application as the Caching layer will be collective for all users, making the massive cache a problem for ``the cloud'' instead of a burden on local systems.
+
+The application will, as a stretch goal, compile on and be packaged for multiple platforms including Linux, Berkeley Software Distribution (BSD), and Windows.
+
+The following technologies will be used in the process of development:
+\begin{itemize}
+    \item The \textbf{Apache Xalan-C++ and Xerces-C++} libraries will be used in transforming XML documents.
+	\item The \textbf{International Components of Unicode (ICU) C++} library will be used to convert files to and from Unicode.
+	\item The \textbf{Apache webserver} and a \textbf{Python Common Gateway Interface (CGI) script} will be used to provide the service over the internet to web-browser and command-line interface (CLI) clients.
+    \item \textbf{Python} will be used to create and distribute the \textbf{CLI}.
+    \item \textbf{Bootstrap} will be used to create the web interface so it is aesthetically appealing and usable. 
+    \item \textbf{FPM} and \textbf{WIX} will be used to package the application on Unix-like and Windows systems respectively.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Project State
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Project State}
+
+Although we have not yet begun developing code for our project, we have begun working with our client to create a Development Virtual Machine which will be used for C/C++ code development.
+The VM will be used as soon as development begins and should reflect the production environment as it will look when the project is being used \textit{for real}.
+
+The VM is a 25+GiB Debian Linux VM with the following packages, libraries, and tools:
+
+\begin{itemize}
+    \item The Xerces, Xalan, and ICU libraries we are required to use.
+	\item Common C/C++ Build Dependencies.
+    \item Git, Text Editors, Gnome and common VM tools.
+	\item The TeXLive series of packages.
+\end{itemize}
+
+Although big it should will no doubt be feature rich enough for us to carry out development.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problems Encountered
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problems Encountered}
+% describes any problems that have impeded your progress, with any solutions you have
+Although we have did the technology reviews, there is still problem about the XZS40-Transformer.
+\begin{itemize}
+
+\item {
+	Early on in the term our team had a hard time staying on the same page understanding the project as a whole.
+    This has mostly been resolved as we worked together regularly on document writing.
+}
+\item {
+	Our team confused about the format of some documents, including the Design Document.
+  	After we speaking with our TA we re-structured our documents to fit the requirements and gain a better understanding of the assignment goals.
+}
+\item {
+	Toward the end of the term our client (Steven Hathaway) became less highly available and was too busy to have in-person meetings with us. 
+	This was not necessarily a show stopper, and was expected with the holiday season, but it did prove problematic in our turnaround.
+}
+      
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Retrospective
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Retrospective}
+
+\begin{longtable}{ | p{0.075\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |} \hline
+  Weeks & Positives & Deltas & Actions \\ \hline
+  	Week3 &
+    We met with our client to discuss his vision for the application, initial requirements, and any resources we would need. &
+    We needed to start working on the problem statement for the project. &
+    Next we needed to meet with our sponsor to obtain a development virtual machine and finish the Problem Statement \\
+  \hline
+  	Week4 &
+    We met with our sponsor to obtain a Debian Linux development virtual machine (which was 25+GiB!) and ask further clarifying questions about how best to move forward with our Problem Statement and Client Requirements document. &
+    The Client Requirements document needed to be written and signed. We also needed to stat thinking about how best to use the VM our sponsor provide to us. &
+    We needed to complete the Client requirement documents and contact our sponsor to sign our revised Problem Statement document.\\
+  \hline
+  	Week5 &
+    We spent this week clearing up a \textbf{lot} of fundamental confusion about what our project is, what problem we were fixing, and how we were going to create a solution for that problem. &
+    We didn't truly understand what we should be doing for our program, so we need to spend a lot of time getting caught up. &
+    We needed to re-factor the Client Requirements documents next week after getting caught up. 
+    \\
+  \hline
+  	Week6 &
+  	We got into the habit of working together on our documents, scheduling almost daily meetings to work on and complete projects. This was effective in helping us complete a good Client Requirements document.&
+    Our client was too busy to contact, so we were not able to get our document signed in person. We were able to get signed digitally, but we needed to keep our client's schedule in mind going forward.&
+  	Next we needed to start work on our the technology review due soon. \\
+  \hline
+  	Week7 &
+  	We partitioned our project into roughly 12 equally sized parts for the Technology Review and started work on that document. &
+  	We got trouble with our technology review as some elements we did not fully understand. To fix this we needed to do further research. &
+  	We later met with our TA to talk about the technology review to correct formatting and learning outcome misunderstandings. \\
+  \hline
+    Week8 &
+  	We completed the Technology review at the deadline and began working on the Design Document. &
+  	Unfortunately not as much work was done on the Design Document as we had hoped because we as a group did not understand the intention of the IEEE format prescribed for the assignment. We had to re-write a lot of the design document to organize it correctly. &
+    We would try finish the rough draft of the design document the following week. \\
+  \hline
+    Week9 &
+  	This week was Thanksgiving, so that got in the way of much getting done. &
+  	We finished the rough draft for our design documents, but had to talk with our TA to see if we were structuring it correctly.&
+  	We would finish the design documents next week after meeting with our TA and get ready for the final presentation/report.  \\
+  \hline
+    Week10 &
+  	We completely restructured our Design Document and turned in an unsigned draft because our client did not get back to us before the deadline. &
+  	We need contact our client, and request the sign document as soon as possible. &
+   	We needed to completely write, finish, and record the progress report/presentation, hopefully during the weekend of Fall week 10 before finals. \\
+  \hline
+\end{longtable}
+
+\section{Conclusion}
+
+Looking to the future we are excited to work on the application.
+There are a few holes in our design document that may influence the implementation time-line, but for the most part our application is coming together nicely.
+In designing the application we were not met with any surprises, so what initially seemed like a simple application continues to look straight-forward.
+
+All in all our project has not encountered many problems and if we are able to hit our deadlines the final product should work well.
+In practice this will be harder to achieve than just writing the code the design document lays out, just as so many horror stories regale.
+We will start early, work often, and stay focused.
+
+\printbibliography
+
+\end{document}
