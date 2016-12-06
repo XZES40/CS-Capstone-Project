@@ -18,3 +18,5 @@ build/
 *.glg
 *.gls
 *-blx.bib
+*.snm
+*.nav

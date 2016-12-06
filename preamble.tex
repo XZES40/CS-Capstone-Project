@@ -9,6 +9,7 @@
 \newcommand{\subparagraph}{}
 
 \usepackage[T1]{fontenc}
+\usepackage[backend=bibtex]{biblatex}
 \usepackage[english]{babel}
 \usepackage[margin=0.75in]{geometry}
 \usepackage[pdf]{pstricks}
@@ -17,26 +18,25 @@
 \usepackage{amsmath}                                         
 \usepackage{amssymb}                                         
 \usepackage{amsthm}                                          
-\usepackage[backend=bibtex]{biblatex}
 \usepackage{blindtext}
+\usepackage{calc}
 \usepackage{caption}
 \usepackage{color}
-\usepackage{calc}
 \usepackage{csquotes}
 \usepackage{enumitem}
 \usepackage{float}
 \usepackage{geometry}
 \usepackage{glossaries}
-\usepackage{graphicx}                                        
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{longtable}
 \usepackage{pst-gantt}
 \usepackage{pst-uml}
+\usepackage{subcaption}
 \usepackage{titlesec}
 \usepackage{titling}
 \usepackage{url}
-
-\graphicspath{ {figures/} }
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -47,7 +47,7 @@
 
 \geometry{textheight=8.5in, textwidth=6in}
 
-\graphicspath{ {imgs/} } 
+\graphicspath{ {figures/} } 
 
 \newcommand{\cred}[1]{{\color{red}#1}}
 \newcommand{\cblue}[1]{{\color{blue}#1}}
@@ -89,4 +89,3 @@
 % \bibliographystyle{plain}
 \addbibresource{sections/references.bib}
 
-\makeglossaries

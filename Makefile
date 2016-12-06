@@ -3,7 +3,7 @@ LATEX	= $(BASEPATH)/latex -shell-escape
 BIBTEX	= $(BASEPATH)/bibtex
 GLOSSARIES = $(BASEPATH)/makeglossaries
 DVIPS	= $(BASEPATH)/dvips
-DVIPDF  = $(BASEPATH)/dvipdft
+DVIPDF  = $(BASEPATH)/dvipdfm
 XDVI	= $(BASEPATH)/xdvi -gamma 4
 GH	= $(BASEPATH)/gv
 
@@ -20,7 +20,7 @@ ps: $(PSF)
 $(TRG): %.dvi: %.tex $(EXAMPLES)
 	$(LATEX) $<
 	$(BIBTEX) $(<:%.tex=%)
-	$(GLOSSARIES) $(<:%.tex=%)
+	- $(GLOSSARIES) $(<:%.tex=%)
 	$(LATEX) $<
 	$(LATEX) $<
 
