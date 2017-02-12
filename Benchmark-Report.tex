@@ -1,0 +1,83 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+
+\usepackage{graphicx}                                        
+                                        
+                                       
+\usepackage{longtable}
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\def\name{Zixun Lu}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        \Huge
+        \textbf{High Performance XML/XSLT Transformation Server}
+        \vspace{0.5cm}
+        
+        \LARGE
+        Benchmark Report \\
+        \vspace{1cm}
+        CS Senior Capstone \\
+        \vspace{1.5cm}
+
+        \textbf{XZES40}
+        \date{February, 2017}
+        \vfill
+        February, 2017
+    \end{center}
+\end{titlepage}
+
+Benchmark Description:
+Our team tests two software. One is Xalan and the other one is Altova. Our client
+requires us XZES40 transformer should be worked in Debian system. Only the Xalan
+can work in the Debian system. The Altova is worked in Windows platform. Our goal
+is that comparing two software which one is faster. After we compare, we can set up a
+goal for our application. We use LAN Speed Test to test how long the file can transfer
+completely. For the test file, we used simple.xml and simple.xsl which those two files 
+are provided in https://github.com/XZES40/XZES40-Transformer/tree/master/xzes40/transformer/examples.
+
+\begin{longtable}{ | p{0.075\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |} \hline
+  Software Name & Stylesheet Compile(1st) & Stylesheet Compile(2nd) & Stylesheet Compile(3rd) \\ \hline
+  	Altova &
+    0.287s &
+    0.287s &
+    0.287s \\
+  \hline
+  	Xalan &
+    0.307s &
+    0.307s &
+    0.307s\\
+  \hline
+\end{longtable}
+
+Summary:
+Because the Altova is not free application so that it is faster than the Xalan application.
+Our team will improve the XML/XSLT transform performance by using caching and
+parallel method. We will try to finish the output between 0.250 seconds to 0.300 seconds.
+
+
+\newpage
+
+
+
+\end{document}
