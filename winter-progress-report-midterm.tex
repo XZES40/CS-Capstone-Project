@@ -24,7 +24,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
 \begin{abstract}
-  An abstract
+  An update on the development, stumbling blocks, and more broadly the execution of the High Performance XML/XSLT Transformation Server \textit{XZES40 Transformer}.
 \end{abstract}
 
 \begin{figure}[h]
@@ -49,23 +49,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Purpose}
 
-\subsection{Zixun Lu}
+XZES40 Transformer is an implementation of a standard XML document transformer.
+This type of application takes two documents as input: an XML document and an XSLT document, and performs and XML document transformation.
+This can be thought of like how in an Excel document one might take a series of columns, perform some operation on that data, and set the output to be a new column, except that this can be highly automated.
 
-\subsection{Shuai Peng}
-The purpose of the XZES40-Transformer is to be high efficient output of XML/XSLT document transformation.
-After User input XML file and one or more XSLT document, the XZES40-Transformer will perform document transformation, and return the result which is a new XML file.
-For increasing performance, we want the XZES40-Transformer can be running as parallel computation.
-
-\subsection{Elijah C. Voigt}
+XZES40 Transformer is unique in that it increases performance by caching processed XSLT and performs document transformations in parallel.
+The use of an in-memory cache will cut down considerably on the time required to perform a document transformation as much of the time transforming documents is spent compiling XSLT documents.
+The application will also accept transformation jobs over the internet via a web API, allowing users to perform document transformations without installing the application locally.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Project Status
 % > describes where you are currently on the project
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Status}
+
 Because all of our teammate is busy in this term, we are slow than our schedule that we planed in the design document. 
 So far, we just complete the basic function of the XZES40-Transformer. The XZES40-Transformer can get one XML file and XLS file and generate a new XML file.
 The cache and the parallel computation will be completed during the beta version.  
+
+\subsection{Zixun Lu}
+
+\subsection{Shuai Peng}
+
+\subsection{Elijah C. Voigt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Remaining Tasks
