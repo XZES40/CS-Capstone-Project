@@ -1,11 +1,12 @@
 % Section Ten: BSD Package
 % Owned by Elijah C. Voigt
-\section{BSD Package}
+\section{BSD Package (Elijah C. Voigt)}
 
 \subsection{Options}
 
 XZES40 Transformer will be created with an installation package so that it can easily be installed on a host system.
-One platform we will create a package for in our stretch goal is FreeBSD.
+One platform we will create a package is FreeBSD.
+This package will be a stretch goal.
 This can be created manually, with FreeBSD system tools, or with a more general system-package creation tool.
 
 \subsection{Goals for use in design}
@@ -51,13 +52,13 @@ The tool chosen should be free, relatively painless to use, and require minimal 
 Each of these three technologies offers similar end results, but some offer a better development experience or a more feature rich pipline.
 
 Poudriere is appealing because it is by far the most feature rich option available.
-It essentially offers a system for us to test and build our software all in one using the BSD Jails system.
-The consequence is that this package would need to be created manually each time we want to release an update to our software, or even make changes to the package.
+It essentially offers a system for us to test and build our software all in one tool using the BSD Jails system.
+The consequence is that this package would need to be created manually each time we want to release an update to our software, or just to make changes to the package.
 
 FPM is appealing mostly because this FreeBSD package will be a stretch goal.
-FPM will be able to take a Debian or CentOS package and produce a FreeBSD package.
+FPM will be able to take a Debian or CentOS package \textit{as well as} produce a FreeBSD package.
 This will require minimal intervention, and as long as we can test that the package produced is correct we can use this for future iterations of the package.
-The downside is that this is not guaranteed to work correctly as it does not provide any testing infrastructure for the package produced.
+The downside is that this is not guaranteed to work correctly as it does not provide any testing infrastructure for the package produced, so some amount of manual testing will be required.
 
 The last option is not appealing, but viable all the same.
 pkg-create can be used to create a package on FreeBSD.

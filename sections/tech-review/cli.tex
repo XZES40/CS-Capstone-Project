@@ -1,14 +1,14 @@
 % Section Ten: CLI
 % Owned by Elijah C. Voigt
-\section{Command Line Interface}
+\section{Command Line Interface (Elijah C. Voigt)}
 
 \subsection{Options}
 
-For the CLI we can develop a native C client, a simple Bash client, and split the difference with a Python client.
+For the CLI we can develop a native C client, a simple Bash client, or split the difference with a Python client.
 
 \subsection{Goals for use in design}
 
-Each of these CLI tools must be able to construct an HTTP POST request with two documents, send that request to a server, and parse a response.
+Each of these CLI tools must be able to construct an HTTP POST request with two documents, send that request to a server, and parse a response payload.
 
 \subsection{Criteria being evaluated}
 
@@ -35,7 +35,7 @@ The criteria for this, as it is not part of the core functionality, is simplicit
     Bash \cite{} &
     \begin{itemize}
       \item Very simple to write.
-      \item Uses system tools like \inlinecode{curl} or \inlinecode{wget}.
+      \item Quick to write using existing system tools like \inlinecode{curl} or \inlinecode{wget}.
     \end{itemize}\\ \hline
   \end{tabular}
 \end{center}
@@ -51,10 +51,11 @@ This means we can write a tool which performs well, is easy to maintain, require
 It will also be available on all platforms which run python, which includes Unix and Windows systems.
 
 Bash is a viable candidate, especially when other tools like \inlinecode{curl} and \inlinecode{wget} will make quick work of the task.
-The downside to this is that we cannot host our CLI on any standard package manager for verifiable distribution. Forcing users to download the CLI from our website directly.
+The downside to this is that we cannot host our CLI on any standard package manager for verifiable distribution.
+This forces users to download the CLI from our website directly.
 Ultimately this will probably be used as a proof of concept, but it is not a final product.
 
 \subsection{Selection}
 
-We will write our CLI in Python.
-The language offers the best of both worlds in terms of simplicity, maintainability, and ease of use for end users.
+We will start by creating a CLI in Bash for testing purposes, and if time allows we will create a more polished CLI in Python.
+Python language offers the best of both worlds in terms of simplicity, maintainability, and ease of use for end users, but for the sake of ``getting something out the door'' we will first create a tool that works in Bash.
