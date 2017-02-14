@@ -11,9 +11,9 @@ The third option is to create database to handle all of data.
 
 \subsection{Goals for use in design}
 
-Caching is the core function of XZES40-Transformer application.
+Caching is the "plus one" function of XZES40-Transformer application.
 Other similar application compile files each time and this wastes a lot of time and resource.
-We will create cache to solve this problem, but how that cache is stored is open to discussion.
+We will create cache to solve this problem. 
 
 \subsection{Criteria being evaluated}
 
@@ -58,6 +58,8 @@ This spends time to design and create database.
 Storing cache into memory is the most easy way, we just need to allocate memory.
 However, the main drawback of this technology is when we close application, all of cache data will be wiped out.
 We have to compile file next time when we start running the application.
+When we are developing the XZES40-Transformer, we find a tools that KeyList is built in XercesC.
+This tools is helpful for managing memory, and it has good data structure.
 
 Creating a binary file can avoid losing cache data, but it spends time to load file into memory when application starts.
 
@@ -68,3 +70,5 @@ Creating database is bad option for XZES40-Transformer application because acces
 The best option technology is that storing cache into memory.
 Although it will lost data after close application, it save the time, and it the faster way.
 We may add a 'backup cache' solution to make this the best of both worlds, restoring from the backup when the system restarts but working mostly in-memory.
+And we will using KeyList, because it is built in XercesC.
+We can just add API, and easy to control the cache storing.

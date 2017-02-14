@@ -21,6 +21,7 @@ We want this transformation compatible with good parse tools, and version of XSL
 
 The first option is Xalan-C++, this technology is required by our client, and this technology is supported by Apache.
 Xalan-C++ is an XSLT processor for transforming XML documents into HTML, text, or other XML document types.
+Xalan-C++ contain the XercesC tools, so we don't need consider the parse tools.
 
 The second option is Saxon C, which is Saxon company project.
 It performs the same operations as Xalan-C++, but it supports different version of XSLT and Xpath.
@@ -54,8 +55,9 @@ It used same version of XSLT and Xpath with Xalan-C++, but it designed to be as 
 
 The Xalan-C++ is the most powerful and popular XML/XSLT document transformation library and is used in many propetary as well as open source tools.
 It a robust implementation of the W3C recommendations for XSL Transformations (XSLT) and the XML Path Language (XPath).
-Xalan-C++ is perfect but it run in older version of XSLT and Xpath.
-Xalan-C++ is not work great with new version of XSLT and Xpath.
+The Xalan-C++ is continuing update, and it is good tools for transforming documents.
+However, Xalan-C++ has poor structure API reference, and it makes developer hard to read and understand.
+Thus, developer need spend time on doing research with API.
 
 The Saxon C is a good alternative to Xalan-C++.
 Saxon C can handle higher version of XSLT and Xpath, however implements different parse tools, so we need find out other technology.
@@ -69,6 +71,7 @@ However, Sablotron is old and has not been updated it since 2006.
 We will choose Xalan-C++ as our solution technology.
 The first reason is that Xalan-C is required by our client.
 We want to using Xerces-C as our parse tools, so Xalan-C is the best choice.
+Xalan-C++ is easy to use with clear example.
 
 The second reason is that Sablotron is not stable.
 Even they are open source project, but the community has forgetten it.

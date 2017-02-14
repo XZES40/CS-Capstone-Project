@@ -9,13 +9,14 @@ The first one is WiX Toolset, the second is EMCO MSI Package Builder, and the th
 
 \subsection{Goals for use in design}
 
-XZES40-Transformer will eventually be packaged to run on multiple platforms.
+XZES40-Transformer may be packaged to run on multiple platforms.
 We want to create install package, so users do not need to install our package manually from source.
 
 \subsection{Criteria being evaluated}
 
 Although windows install package is our option work for our project, we want it move from other platform smoothly.
 We want it easy to learn how to use this technology, and we also want it free.
+The flow of install should be simple for user, so user can just install and run application quickly.
 
 \subsection{Comparison breakdown}
 
@@ -112,5 +113,9 @@ If we get some weired problem, we can't solve it via GUI software.
 
 Third reason is that it can be completely integrated into our application build processes.
 When install progress start, other setup modification are made in parallel, so no vital information will be lost.
+
+The fourth reason is that it use XML as the main language.
+We don't need spend time on learning how to use WIX.
+
 The setup program will complete together with the application itself.
 This is not required by client, but if client want to different way to create windows install package, we can choose advanced installer as our alternate technology.
