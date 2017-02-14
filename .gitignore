@@ -20,3 +20,6 @@ build/
 *-blx.bib
 *.snm
 *.nav
+.DS_Store
+.AppleDouble
+
