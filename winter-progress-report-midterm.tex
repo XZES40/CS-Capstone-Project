@@ -52,6 +52,9 @@
 \subsection{Zixun Lu}
 
 \subsection{Shuai Peng}
+The purpose of the XZES40-Transformer is to be high efficient output of XML/XSLT document transformation.
+After User input XML file and one or more XSLT document, the XZES40-Transformer will perform document transformation, and return the result which is a new XML file.
+For increasing performance, we want the XZES40-Transformer can be running as parallel computation.
 
 \subsection{Elijah C. Voigt}
 
@@ -60,7 +63,9 @@
 % > describes where you are currently on the project
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Status}
-
+Because all of our teammate is busy in this term, we are slow than our schedule that we planed in the design document. 
+So far, we just complete the basic function of the XZES40-Transformer. The XZES40-Transformer can get one XML file and XLS file and generate a new XML file.
+The cache and the parallel computation will be completed during the beta version.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Remaining Tasks
@@ -71,6 +76,7 @@
 \subsection{Zixun Lu}
 
 \subsection{Shuai Peng}
+The remaining tasks that I am responsible for is complete the cache function, web interface, and Windows package.
 
 \subsection{Elijah C. Voigt}
 
@@ -83,6 +89,15 @@
 \subsection{Zixun Lu}
 
 \subsection{Shuai Peng}
+When we are working on the basic document transformation, we face a strange problem.
+The structure and the implementation of our code should be no any problem.
+However the compile also say that we have expected unquality-id bugs for the xalanc++ transformer function.
+Elijiah and me search on the Google, and most of answers said that you should check the syntax of code and some semicolon error.
+We double check the code, but there is no error such that syntax and semicolon problem.
+So, we come together and write a new prototype for test xalanc++ transformer, and the prototype is work correctly.
+Thus, we decided to re-write the transformer.cpp, and make sure this code is only doing one things -- transformer document.
+We change the structure of transformer.cpp from OOP to normal function code, and also make sure the document.cpp pair this file.
+Finally, we get over this bugs, and our program can transformer document successful. 
 
 \subsection{Elijah C. Voigt}
 
@@ -108,6 +123,28 @@
 \subsection{Zixun Lu}
 
 \subsection{Shuai Peng}
+\begin{document}
+\begin{figure}
+  \includegraphics[width=\linewidth]{./figures/dir_of_program.png}
+  \caption{The structure of program.}
+  \label{fig:screen1}
+\end{figure}
+Figure \ref{fig:screen1} shows a boat.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{./figures/usage_of_program.png}
+  \caption{The usage of the program.}
+  \label{fig:screen2}
+\end{figure}
+Figure \ref{fig:screen2} The usage of program.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{./figures/result_of_program.png}
+  \caption{The result of the program.}
+  \label{fig:screen3}
+\end{figure}
+Figure \ref{fig:screen3} We print the result to screen for easy debug, but when beta version, it will generate a output file.
+\end{document}
 
 \subsection{Elijah C. Voigt}
 
