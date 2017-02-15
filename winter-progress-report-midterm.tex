@@ -67,6 +67,17 @@ The application will also accept transformation jobs over the internet via a web
 
 \subsection{Zixun Lu}
 
+Our team finish the basic transformer before the midterm. 
+This transformer doesn’t include cache and parallel computation features. 
+This application only can transfer one XML with one XSLT document to a new stylesheet. 
+It can handle parsing XML and XSL objects. 
+Our team also did the benchmark report for application. 
+This benchmark report include two similar applications which those can transfer one XML with one XSLT document. 
+From this benchmark report, our team will set a goal for application. 
+The most important competitor is Xalan because it is also an open source. 
+Our team hopes our application is faster than Xalan. 
+Right now, we only have basic transformer. 
+After we add cache and parallel computation, we have a strong confidence to complete our goal.
 
 \subsection{Shuai Peng}
 
@@ -93,6 +104,14 @@ This fixed the bug and got us to completing the core function of our project: XM
 
 \subsection{Zixun Lu}
 
+After we finish the basic XZES40-Transformation, I will help my teammates to do the cache firstly. 
+Because our client Steven Hathaway thinks the cache is the core of application. 
+After we finish the cache function, I will start develop the parallel computation. 
+The application will carry out computations in parallel to further leverage the computing resources available to it and compile documents even faster. 
+At the end, our team finish the whole project, I will develop the Centos packages.
+Because our team hopes each platforms uses will use our application.
+My teammates will develop Windows and BSD packages.
+
 \subsection{Shuai Peng}
 
 The remaining tasks that I am responsible for is complete the cache function, web interface, and Windows package.
@@ -109,6 +128,14 @@ The latter two tasks being stretch goals, the former two being hard requirements
 \section{Problems Encountered}
 
 \subsection{Zixun Lu}
+
+At the beginning, our team had difficult on handling to parse XML and XSL objects.
+We also didn’t clear the data flow in the project.
+When we try to compile and test our projects, there are a lots of bugs in our application. 
+I think the most important reason that we can’t fix bugs immediately is my fault. 
+After I took CS261, I didn’t write any C++ code for 2 years. M
+y terrible coding ability delay the project progress. I’m struggle to debug the codes. 
+When I tried to look for helps on the Internet, I still didn’t get anything. 
 
 \subsection{Shuai Peng}
 
@@ -136,6 +163,21 @@ All together the biggest thing that has bitten us so far is prioritizing work on
 \section{Interesting Code}
 
 \subsection{Zixun Lu}
+
+\begin{lstlisting}
+xzes::cli_arguments_t* args = xzes::parse_args( &argc , &argv )
+\end{lstlisting}
+We create own logo xzes as namespace. We parse CLI arguments into struct ‘cli_arguments_t’
+
+\begin{lstlisting}
+Int main (int argc, char * argv[])
+\end{lstlisting}
+The application parses user input file. 
+
+\begin{lstlisting}
+xzes::Document::Document( xzes::uri_t file_path )
+\end{lstlisting}
+The application stores all data about documents and functions to act on that data. 
 
 \subsection{Shuai Peng}
 
