@@ -90,11 +90,19 @@ The cache and the parallel computation will be completed during the beta version
 
 As mentioned above, our group has made unfortunately slow progress on development.
 I made considerable progress over winter break before the term started.
-This work included outlining the structure of the code, the code repository, setting up automated testing, and documenting what had been and had yet to be done.
+This work included outlining the structure of the code, writing skeleton code to the repository, setting up automated testing, creating a portable development environment with Vagrant \cite{vagrant}, and documenting what had been and had yet to be done.
 
-Unfortunately we quickly reached a show-stopping bug which, with two out of three developers playing catch-up, halted development for a week.
+When Winter term began we had not all made similar progress on the application; for one reason or another Zixun Lu and Shuai Peng were not able to do more than light research on some components of the project.
+As the term picked up I tried to solidify what needed to be done and how to do that.
+This included helping team members use the development environment, understand the existing code, and outline where components of the project ought to be written.
+I was unable to meet as frequently as I did in Fall term, but did my best to help Zixun Lu and Shuai Peng get caught up, making myself available remotely if not physically.
+Despite this help, and because of busy schedules, Zixun Lu and Shuai Peng still had a hard time getting caught up; Shuai less so than Zixun.
+
+We quickly reached a show-stopping bug which, with two out of three developers playing catch-up, halted development for a week.
 I made the decision after that week to gut the incorrect code and fix the bug by re-designing the problematic portion from the ground up.
 This fixed the bug and got us to completing the core function of our project: XML document transformation.
+
+Although we are behind schedule we have the core of our project working and it is at least \textit{possible} to complete the project's requirements on time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Remaining Tasks
@@ -120,6 +128,11 @@ The remaining tasks that I am responsible for is complete the cache function, we
 
 Having completed basic document transformation, my remaining tasks include turning the application into a daemon (long-running process), exposing it over the web with a CGI script, creating a Command-line interface, and creating a FreeBSD package for the application.
 The latter two tasks being stretch goals, the former two being hard requirements necessary for the beta release of our application.
+
+As a group we \textit{also} have to complete the document caching, parallel document transformation, \textbf{benchmarking} (required to grade our project performance), the website, and the Debian Linux package.
+This is to say nothing of the stretch goals.
+We have spoken with our sponsor about this and while our requirements have not changed, the priority of them has.
+This change in priority has been reflected in our updated design document.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problems Encountered
@@ -151,10 +164,26 @@ Finally, we get over this bugs, and our program can transformer document success
 
 \subsection{Elijah C. Voigt}
 
-Although we purposely scoped our project to be relatively simple and straight forward, we have encountered a lot of stumbling blocks.
+Although we purposely scoped our project to be relatively simple and straight forward, we have encountered a lot of stumbling blocks, both technically and non-technically.
+
 Technically we encountered the aforementioned unqualified-id compilation error, this halted development for far too long.
+Beyond this, members of our team struggle with basic concepts in programming like object oriented programming, data structures, and how best to debug a poorly written program.
+This can be summed up as \textit{technical debt}.
+
 Non-technically Shuai Peng and Zixun Lu struggled with getting caught up after break, Shuai fairing much better than Zixun.
-All together the biggest thing that has bitten us so far is prioritizing work on this project on-par or above that of other class-work.
+There were valid excuses for this lack of preparedness, but that combined with a lack of willingness to invest an appropriate amount of time in getting caught up, compounded with the technical debt, meant that technical we have not made nearly as much progress as we need to have made by this point in the term.
+When we encountered that show-stopping bug mentioned above both team-members did not demonstrate an understanding of the code well enough to either decide to re-write the part of the code that was broken or solve the problem.
+While this sounds like a technical problem, because it is ultimately a problem solving skill I consider it non-technical.
+
+The biggest thing that has bitten us so far is prioritizing work on this project on-par or above that of other class-work.
+If we as a team spent \textit{much} more time working on the project we would be done by now.
+As it stands we, and I include myself in this, have not spent enough time on this.
+I have not spent enough time on the project because I am busy and because I feel as though I have done the lion's share of the work; for work distribution equality I hoped that we would each do equal work, but in practice I will most likely need to do more than my fair share of the work for the sake of the project.
+
+I plan to address this time-prioritization by forcing the group to spend an entire day working on the project instead of delegating jobs and individually working on these.
+I hoped that we would be able to complete the project ungraciously, checking in weekly, but I was wrong.
+We will spend Nine hours every Sunday from now until expo working on the project.
+While this may be too little too late, it is the only time in our schedule that works, so it's the best we can do.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Interesting code
@@ -167,7 +196,8 @@ All together the biggest thing that has bitten us so far is prioritizing work on
 \begin{lstlisting}
 xzes::cli_arguments_t* args = xzes::parse_args( &argc , &argv )
 \end{lstlisting}
-We create own logo xzes as namespace. We parse CLI arguments into struct ‘cli_arguments_t’
+
+We create own logo xzes as namespace. We parse CLI arguments into struct ``cli\_arguments\_t''
 
 \begin{lstlisting}
 Int main (int argc, char * argv[])
@@ -251,7 +281,8 @@ This creates a clean separation of concerns, which (in theory) makes our code mo
 \section{Relevant Media}
 
 We have not completed development enough to have screen-shots and demos to show.
-We hope to have a functioning website by the end of the term.
+We expect to have a functioning website by the end of the term.
+Usage of the application can be found above in the ``Interesting Code'' portion of this report.
 
 % \subsection{Zixun Lu}
 
