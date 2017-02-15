@@ -1,3 +1,40 @@
+\section{Component Overview}
+\label{component-overview}
+
+The following is a list of \textbf{required} project components ordered by importance:
+
+\begin{figure}
+\begin{center}
+    \begin{tabular}{ | l | r | }
+    \hline
+      Component & Owner \\ \hline
+      Document Transformer & Elijah C. Voigt \\ \hline
+      Website Interface & Shuai Peng \\ \hline
+      Web API & Elijah C. Voigt \\ \hline
+      Document Cache & Shuai Peng \\ \hline
+      Daemon Process & Elijah C. Voigt \\ \hline
+      Parallel Document Transformation & Zixun Lu \\ \hline
+      Benchmarking & Zixun Lu \\ \hline
+      Debian Software Package & Zixun Lu \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Required project components ordered by importance}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+    \begin{tabular}{ | l | r | }
+    \hline
+      Component & Owner \\ \hline
+      CLI Interface & Elijah C. Voigt \\ \hline
+      CentOS Linux software package & Elijah C. Voigt \\ \hline
+      Windows software package & Shuai Peng \\ \hline
+      FreeBSD software package & Elijah C. Voigt  \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Stretch goal project components ordered by importance}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5,7 +42,15 @@
 \label{document-transformer}
 
 This section outlines the views and viewpoints related to the Document Transformer.
-These components relate to core functionality of the application; taking input \gls{xml} and \gls{xslt} documents, parsing them into \gls{dom} objects, transforming those into a new \gls{xml} document, and then returning the final product to a user.
+These components relate to core functionality of the application:
+
+\begin{enmerate}
+\item Taking input \gls{xml} and \gls{xslt} documents
+\item Parsing them into \gls{dom} objects
+\item Transforming those into a new \gls{xml} document
+\item Returning the final product to a user
+\end{enumerate}
+
 This section does not necessarily outline how users interact with the application, for that one should see the User Interface section (\ref{user-interface}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,17 +58,17 @@ This section does not necessarily outline how users interact with the applicatio
 \subsection{Transformer}
 \label{transformer}
 
-As the name suggests, the Transformer is the core of the XZES40 Document Transformer, and the application as a whole.
+As the name suggests, the Transformer is the core of the XZES40 Document Transformer, which is the core of application as a whole.
 At a high level this component takes two documents, an \gls{xml} and \gls{xslt} document, and returns a transformed \gls{xml} document.
-The rest of the application is built around this component and all other parts of the application depend on or work toward this feature.
+The rest of the application is built around this component; all other parts of the application depend on or work toward this feature.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Context}
 
-The Transformer provides the core functionality of the application, transforming input documents into output documents.
+The Transformer provides the core functionality of the application by transforming input documents into output documents.
 
 All users of the application use the Transformer indirectly by way of using it to transform their input documents into output documents.
-The Transformer component will not be directly exposed in the final application, however it will be accessible via the Web \gls{api} (\ref{web-api}).
+The Transformer component is not be directly exposed, however it is accessible via the Web \gls{api} (\ref{web-api}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Composition}
@@ -31,19 +76,13 @@ The Transformer component will not be directly exposed in the final application,
 The Transformer's functionality is outlined in the following steps:
 
 \begin{enumerate}
-	\item Receive parsed \gls{dom} object.
-	\item {
-    	Check to see if the specified documents have already been transformed by checking for the transformed file in the in-memory cache (\ref{cache}).
-        
-       	The input to this component is a retrieved cache object.
-        By hashing these input objects together a unique key is generated.
-        This key is used to check if the input documents have already been transformed, and is where the new document is stored if it has not already been transformed.
-    }
-    \item If the documents have already been transformed the object in the cache is \textbf{returned}; otherwise proceed.
-    \item Call the Xalan-C++ transformation library functions for \gls{xml} transformation. \cite{xalan-library}
-    \item Store the newly parsed document into the in-memory cache.
-    \item \textbf{Return} the newly parsed document.
+  \item Receive the input \gls{xml} \gls{xslt} files.
+  \item Create a Document object out of the input files. This will either encode the input files as DOM objects or fetch the pre-compiled objects from the cache. \ref{cache} \ref{document}
+  \item Pass the Document's parsed contents to the \cite{xalan-library} \textbf{transform} method.
+  \item Encode the transformed document back to a text file and return this document.
 \end{enumerate}
+
+These steps will each be held in a thread spawned by the long-running daemon process. \ref{daemon}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Dependencies}
@@ -51,13 +90,13 @@ The Transformer's functionality is outlined in the following steps:
 The Transformer directly depends on the following internal application components for the following reasons:
 
 \begin{itemize}
-    \item {
-    	The Document Parser (\ref{parser}) is used to create a transformable \gls{dom} object from an input file. \cite{dom-spec}
-    }
-	\item {
-    	The Document Cache (\ref{cache}) is used to store and retrieve parsed and transformed documents.
-		While this cache isn't strictly necessary for document transformation, it is used to speed up the process drastically.
-    }
+  \item {
+      The Document class (\ref{parser}) is used to create a transformable \gls{dom} object from an input file. \cite{dom-spec}
+  }
+  \item {
+    The Document Cache (\ref{cache}) is used to store and retrieve parsed and transformed documents.
+    While this cache isn't strictly necessary for document transformation, it is used to speed up the process drastically.
+  }
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,13 +107,14 @@ The Transformer deals heavily with state dynamics in two ways: transforming docu
 \paragraph{Transforming documents}
 
 The Transformer does not directly handle transforming documents, this task is delegated to the \gls{xalan} library. \cite{xalan-library}
-The transformer takes two or more documents as input: an \gls{xml} \gls{dom} object and list of \gls{xslt} \gls{dom} objects.
+The transformer takes two or more documents as input: an \gls{xml} \gls{dom} file and an \gls{xslt} object.
 The input documents are transformed by the \gls{xalan} library and the resulting document is eventually returned by the writer (\ref{writer}) via the \gls{api} (\ref{web-api}).
 
 \paragraph{Cached documents}
 
 The Transformer also operates with the cache (\ref{cache}).
-Input files are references to locations in the cache, and output documents are stored in the cache to avoid duplicate computations later on.
+Input files are raw files in the cache.
+\gls{xslt} documents are primarily cached as they change very little and are re-used very often.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Interactions}
@@ -87,106 +127,45 @@ More information can be found in the Cache section of this document (\ref{cache}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Interfaces}
 
-The transformer has one programmer-facing interface, the ``transform()'' function.
+The Transformer has one programmer-facing interface, the ``transform\_documents( filepaths )'' function.
 This can be used for testing, mocking, or implementation purposes.
 
-\paragraph{DOM object transform(hash-map * cache, DOM-object-reference xml\_document, [DOM-object-reference xslt\_document\_1, ...])}
+\paragraph{DOM object transform\_documents( filepaths )}
 
 \begin{itemize}
-	\item This function takes as argument the object cache, the \gls{xml} object, and a list of references to \gls{xslt} documents.
-	\item As output it returns a new \gls{dom} object.
+  \item This function takes as argument the path to the \gls{xml} file, the path to \gls{xslt} document, the output destination for the output file.
+  \item As output it writes a transformed \gls{xml} and returns a status code.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Reader}
-\label{reader}
-
-The Reader takes input documents of varying file encoding, converts them to the \gls{utf} file encoding, and prepares them to be parsed (\ref{parser}). \cite{utf-8-standard} \cite{icu-library}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Composition}
-
-The Reader performs the simple but necessary operation of taking an input file and normalizing it for the parser to handle its contents.
-This is done with the following steps:
-
-\begin{enumerate}
-	\item A file pointer is passed to the Reader.
-    \item {
-    	This file is processed into a string.
-        If necessary the character encoding of the file is determined.
-    }
-    \item The file is read into a temporary file.
-    \item If the file is of the Unicode encoding it is kept so; otherwise it is passed to the \gls{icu} library for proper encoding. \cite{icu-library}
-    \item The file's contents are saved locally for the parser to handle later.
-\end{enumerate}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Dependencies}
-
-The Reader depends internally on the \gls{os-api} (\ref{os-agnostic-api}) to read an input file.
-It is also a decency of the parser as non-unicode files will not be accepted by the Parser (\ref{parser}).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{State Dynamics}
-
-The Reader takes in an input file and transforms it to a \gls{utf} encoded document to be passed to the parser.
-The following conditions and types of events are of interest:
-
-\begin{enumerate}
-	\item If the input file is completely mangled, or not a recognizable human-readable file the program will return an error the user.
-    \item If the input document is human readable but is not \gls{utf} encoded then the \gls{icu} library will transform the document to the correct encoding for further processing.
-    \item If the input document is human readable and \gls{utf} encoded then nothing is done to the file and it is saved for the parser.
-\end{enumerate}
-
-It should be noted that the Reader does not handle checking if the document is \textit{well formatted} (i.e., an \gls{xml} 1.0 formatted document \cite{xml-spec}), just that it is a \gls{utf} document.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Resources}
-
-The Reader externally depends on the \gls{icu} library to decode the input document and encode it in Unicode for the Parser (\ref{parser}). \cite{icu-library}
-
-The Reader also utilizes the \gls{os-api} (\ref{parser}) to perform reading input files.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Interface}
-
-The Reader has one interface to be used for testing, mocking, or implementation:
-
-\paragraph{file reader( file-pointer input\_document)}
-
-The function takes as input an open file pointer (integer) and returns a parsed file (string) or panics and causes and application exit.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Parser}
+\subsection{Document class}
+\label{document}
 \label{parser}
 
-The Parser gets the input \gls{xml} and \gls{xslt} files and transforms them to \gls{dom} objects for the Transformer to use in the transformation process.
+The Document class gets as input an \gls{xml} or \gls{xslt} file prepares it to be transformed.
+It does this by either compiling it into a \gls{dom} objects and adding it to the cache or fetching the already compiled object from the cache.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Context}
 
-The Parser is a major component of the application.
-The Parser receives as input an \gls{xml} and a \gls{xslt} file and then outputs the \gls{dom} representation of those files.
-The user will not use this function directly, but it executed by the Reader (\ref{reader}).
+The Document class is a major component of the application.
+It receives as input an \gls{xml} or a \gls{xslt} file, it then parses and store or just retrieves the \gls{dom} representation of that file.
+The user will not use this function directly, but it executed by the Transformer (\ref{reader}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Dependencies}
 
-The Parser depends on the Reader to format the input file correctly as \gls{unicode}.
-The Parser also depends on the Cache to store and retrieve parsed objects.
+The Document class also depends on the Cache to store and retrieve parsed objects.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Interactions}
 
-The parser function is the middle step of the transformer function.
-
 \begin{enumerate}
-\item The Parser obtains a \gls{unicode} formatted \gls{xml} or \gls{xslt} file from the Reader.
-\item The Parser checks if the file has been parsed and stored in the Cache, and does not re-parse the file if it is in the Cache.
-\item The Parser generates a \gls{dom} object via the \gls{xerces} library.
-\item The Parser stores the \gls{dom} object to the Cache.
+\item The class obtains a \gls{unicode} formatted \gls{xml} or \gls{xslt} file-path.
+\item The class checks if the file has been parsed and stored in the Cache, and does not re-parse the file if it is in the Cache.
+\item The class generates a \gls{dom} object via the \gls{xerces} library.
+\item The class stores the \gls{dom} object to the Cache.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -197,9 +176,11 @@ The \gls{xerces} library will be used during the parsing to generate a \gls{dom}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Interfaces}
 
-The following function declaration will be used for the parser method:
+The following function declaration is used for the parser method:
 
-\paragraph{dom\_object document\_parser( file )} receives an \gls{xml} file or a \gls{xslt} file, and then parses it into a \gls{dom} object which is stored in the Cache.
+\paragraph{class Document(source\_file\_path)}. This constructor receives an \gls{xml} file or a \gls{xslt} file, and then parses it into a \gls{dom} object which is stored in the Cache.
+
+In parsing and storing the object, the class has methods which read the file contents, hashes the contents of the file, and uses this as a key when inserting data into the Cache.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -215,15 +196,15 @@ In practice the Cache will operate much the same as a \gls{hash-map} does, stori
 \subsubsection{Context}
 
 The program heavily depends on the Cache.
-The Cache can store, delete, and retriever the \gls{dom} object from the in-memory cache 
+The Cache can store, delete, and retrieve \gls{dom} object from the in-memory cache 
 
 \paragraph{Storing data} is the major element of the Cache.
-Cache stores data from the user, primarily parsed \gls{dom} data to avoid re-compiling files again.
 
-\paragraph{Deleting data} provides the ability to remove items from the cache for whatever reason.
+The Cache stores data from the user, primarily parsed \gls{dom} data to avoid re-compiling files.
 
-\paragraph{Retrieving data} allows users to fetch information stored in the cache given the object's key.
+\paragraph{Deleting data} provides the ability to remove items from the Cache for whatever reason.
 
+\paragraph{Retrieving data} allows users to fetch information stored in the Cache given the object's key.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Composition}
@@ -236,8 +217,8 @@ Below are few of the components making up the Cache.
     \item The Cache can delete data corresponding with a key.
     \item The Cache can dump its contents to disk periodically.
     \item {
-    	The Cache can load its data form an input file.
-    	This along with the previous item is used to recover from a system failure.
+      The Cache can load its data form an input file.
+      This along with the previous item is used to recover from a system failure.
     }
 \end{itemize}
 
@@ -245,7 +226,7 @@ Below are few of the components making up the Cache.
 \subsubsection{Logical}
 
 XZES40 handles object as a special structure.
-The Cache saves the data as the following information.
+The Cache saves that object in the following format.
 
 \paragraph{Key}
 This is a hash value associated with a cached object.
@@ -256,17 +237,17 @@ The content is the parsed or transformed \gls{dom} object.
 
 \begin{lstlisting}
 struct node {
-	dom data;
-    string key;
-    date last_used;
+  dom data;
+  string key;
+  date last_used;
 }
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Information}
 
-If the object is not in the Cache, the set Cache stores the \gls{dom} object into the in-memory cache. 
-The way to remove the object in the cache is the delete method.
+If an object is not in the Cache, the Cache stores the \gls{dom} object into the in-memory cache. 
+Objects are removed from the cache via the Cache class' delete method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Dynamics}
@@ -275,22 +256,17 @@ The Cache handles the following state changes in the following ways.
 
 \begin{itemize}
     \item {
-    	When the Cache starts it allocates a block of memory for storage.
-        If a previously dumped cache contents exist on disk this data populates the cache contents.
-   	}
+      When the Cache starts it allocates a block of memory for storage.
+     }
     \item {
-    	If an item is being set the cache ignores previously existing data.
-       	It is the developers duty to ensure important data is not being overwritten.
+      If an item is being set the cache ignores previously existing data.
+      It is the developers duty to ensure important data is not being overwritten.
     }
     \item {
-    	When data is being read the state of that item in cache is assumed not to change.
-        If the item is not found it returns an empty object.
+      When data is being read the state of that item in cache is assumed not to change.
+      If the item is not found it returns an empty object.
     }
     \item  When an item is deleted it returns a SUCCESS status if the object existed and is not deleted, and a FAILURE status if the object did not exist in the cache before the call.
-    \item {
-    	Periodically the Cache dumps it's contents in memory to a local storage.
-    	This is used to recover from a system failure and is loaded on startup.
-    }
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,9 +274,8 @@ The Cache handles the following state changes in the following ways.
 
 The parser sends a parsed \gls{dom} object to the Cache. 
 The Cache will search the flies if it is exist in the memory. 
-If the file exists in the memory, the Cache retrieves the \gls{dom} object from the Cache and return to the Parser. 
-If the file does not exist in the memory, the Parser continues to process the file, and stores parsed file into the Cache.
-The Transformer does a similar thing. 
+If the file exists in the memory, the Cache retrieves the \gls{dom} object from the Cache and return to the Document class. 
+If the file does not exist in the memory, the Document class continues to process the file, and stores parsed file into the Cache.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Algorithms}
@@ -317,21 +292,6 @@ The First function is \textbf{set}, second is \textbf{get}, third is \textbf{dum
     \item If the key does not exist in the cache, \textbf{return} an empty storage struct object.
 \end{enumerate}
 
-\paragraph{Dump} This function saves the contents of the Cache to disk.
-
-\begin{itemize}
-    \item The Dump saves all data from the cache.
-    \item The Dump outputs data to disk.
-\end{itemize}
-
-\paragraph{Load} This function loads the cache to memory.
-
-\begin{itemize}
-    \item The load read all data from the disk.
-    \item The load allocate the memory size for storing data.
-    \item The load write data to memory.
-\end{itemize}
-
 \paragraph{Delete} This function delete the \gls{dom} object from the cache by the key of the parsed file.
 
 \begin{enumerate}
@@ -343,15 +303,14 @@ The First function is \textbf{set}, second is \textbf{get}, third is \textbf{dum
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Resources}
 
-The Cache needs a large memory allocation to function well.
-The Cache needs a storage device to dump data to so it can save its contents.
+The Cache needs a large memory allocation to function optimally.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Dependencies}
 
-The Cache depends on the Parser and the Transformer to populate it.
-The Parser sends a file to the Cache for checking if file exists in the Cache.
-The Parser also can send a parsed \gls{dom} object for storing into the Cache if file does not exist in the Cache.
+The Cache depends on the Document and the Transformer to populate it.
+The Document class sends a file to the Cache for checking if file exists in the Cache.
+The Document class also can send a parsed \gls{dom} object for storing into the Cache if file does not exist in the Cache.
 The Cache may either return a \gls{dom} object to the Transformer, or the cache return null if the \gls{dom} object is not in the Cache.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -385,13 +344,6 @@ This retrieves data from the cache.
     \item If the \gls{dom} object exists in the cache, return the \gls{dom} object.
     \item If the \gls{dom} object does not exist in the Cache, return error.
 \end{itemize}
-
-\paragraph{dom\_object dump\_cache( dom\_object file )} 
-Periodically the Cache dumps data out from memory to disk, because we don't want lose any data.
-Loading data from memory ensures continuous speed improvements as the cache grows.
-
-\paragraph{dom\_object load\_cache( dom\_object file )} 
-When the application crashed, the Cache can load the older data from the disk.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -432,61 +384,42 @@ This is not a problem we have yet solved and further revisions of this document 
 \subsubsection{Interfaces}
 
 When documents are being parsed each parsed document will spawn it's own thread.
-This functionality is in the Parser component of the application in section \ref{parser}.
+This functionality is in the Document class component of the application in section \ref{parser}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Writer}
-\label{writer}
+\section{Daemon}
+\label{daemon}
 
-The Writer takes a \gls{dom} object and writes it to disk at a specified location on disk.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Context}
+
+Because the application needs to be available continuously, and because it needs to store objects in an in-memory Cache, the application is daemonized.
+This means that it continues to run in a suspended state when it is not actively performing document transformations.
+When it does receive an incoming request it spawns a thread, does the transformation, and closes the thread.
+This allows multiple document transformations to happen in parallel conveniently.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Composition}
 
-The Writer performs a straight-forward task by the following steps:
+The daemon is composed of two main components:
 
-\begin{enumerate}
-	\item The function gets passed a \gls{dom} object to write to disk.
-    \item The \gls{dom} object gets translated to a string.
-    \item That string is converted to \gls{utf}.
-    \item The \gls{utf} string is written to disk at the specified location on disk.
-\end{enumerate}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Dependencies}
-
-The Writer depends internally on the Cache (\ref{cache}) to retrieve documents which have been transformed to disk.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{State Dynamics}
-
-The only state that the application works with is encoding documents and writing them to disk.
-This entails the following processes:
-
-\begin{itemize}
-	\item A \gls{dom} object is un-parsed into a human-readable string.
-    \item That human readable string is encoded as \gls{utf}.
-    \item That \gls{utf} string is written to a specified location on disk relative to the application's storage directory root.
+\begin{itemzie}
+  \item {
+    A parent thread which will wait for a signal to handle a request.
+    This signal is accompanied with some context for what task needs to be performed, i.e., a document transformation.
+  }
+  \item {
+    A child thread is spawned for each incoming signal.
+    The child process exits at the end of it's transformation after returning the transformed document or an error which is propagated up through the parent process to the signaling process.
+  }
 \end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Resources}
-
-The writer depends externally on the \gls{icu} library to encode a string in the Unicode character encoding. \cite{icu-library}
-It also depends on the \gls{os-api} \ref{os-agnostic-api} to perform system operations like writing files.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Interfaces}
 
-The writer will have one interface: 
-
-\paragraph{status-code write(DOM-object document, path location)}
-
-Where the inputs are a \gls{dom} object and a path.
-The path is relative to the configured basepath of the application, this defaults on \gls{unix} systems to ``/tmp/xzes/''.
-
-The output is a status code for reporting to the user interface if the document was written correctly.
+The interface to the daemon is the same as that of the daemon.
+A CLI on the host running the daemon will accept an XML and XSL document as input, pass these to the daemon, and respond with an error or transformed document.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -517,9 +450,9 @@ But nobody should use the \gls{api} directly as a \gls{ui} is much easier than c
 The \gls{web-api}is composed of the following components:
 
 \begin{enumerate}
-	\item  An \gls{apache} runs on the remote host.\cite{apache-server}
-    \item The server manages a \gls{python} \gls{cgi} script which handles accepting requests and sending responses.
-    \item The \gls{python} script calls the XZES40-Transformer application locally, passing input documents from a POST request and sending response files via the \gls{cgi} interface.
+  \item  An \gls{apache} runs on the remote host.\cite{apache-server}
+  \item The server manages a \gls{python} \gls{cgi} script which handles accepting requests and sending responses.
+  \item The \gls{python} script calls the XZES40-Transformer application locally, passing input documents from a POST request and sending response files via the \gls{cgi} interface.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -540,18 +473,18 @@ This is a request sent to the \gls{api} endpoint (/api/) with the intention of g
 This can respond in the following ways.
 
 \begin{description}
-	\item {
-    	\textbf{200 OK}	Means the transformation was successful.
+  \item {
+      \textbf{200 OK}  Means the transformation was successful.
         This response includes a body containing the transformed file and a \gls{uri} to re-download the response file.
     }
     \item {
-    	\textbf{400 USER ERROR} Means that the user sent malformed documents.
+      \textbf{400 USER ERROR} Means that the user sent malformed documents.
         This can include a document which does not follow the \gls{xml}/\gls{xslt} standard to a document which does not have a readable character encoding.
         This response includes a body containing an appropriately specific error.
     }
     \item {
-    	\textbf{500 SERVER ERROR} Means that the server experienced an internal error while processing the request.
-       	This includes fatal XZES40-Transformer errors.
+      \textbf{500 SERVER ERROR} Means that the server experienced an internal error while processing the request.
+         This includes fatal XZES40-Transformer errors.
         This response includes a body containing an appropriately specific error.
     }
 \end{description}
@@ -563,7 +496,7 @@ The POST request is a request with a Form containing input documents in fields t
 This is a request sent to the \gls{api} endpoint (/api/) with the intention of getting a status of the server. This can respond in the following ways:
 
 \begin{description}
-	\item \textbf{200 OK} Means the \gls{web-api} endpoint is active and functioning correctly.
+  \item \textbf{200 OK} Means the \gls{web-api} endpoint is active and functioning correctly.
     \item \textbf{404 NOT FOUND} Means that the \gls{web-api} endpoint is not configured correctly or the user is accessing a page which is not available.
     \item \textbf{503 SERVICE UNAVAILABLE} Means that the \gls{web-api} is setup correctly, but the application on the remote host is not operating correctly.
 \end{description}
@@ -586,7 +519,7 @@ In the case of a POST request it uses an ``exec'' call to the local XZES40-Trans
 The \gls{web-api} has the following external dependencies:
 
 \begin{itemize}
-	\item The \textbf{\gls{apache}} is used to process \gls{http} requests by running the \gls{python} \gls{cgi} script.
+  \item The \textbf{\gls{apache}} is used to process \gls{http} requests by running the \gls{python} \gls{cgi} script.
     \item \textbf{\gls{python} 2.7+} is the programming language the \gls{web-api} is written in.
     \item \textbf{cgi} is a \gls{python} library for processing web requests in \gls{python}.
     \item \textbf{cgitb} is a \gls{python} library for developing with the cgi library.
@@ -622,7 +555,7 @@ Here is components of the \gls{web-ui}.
     \item An upload field for the \textbf{\gls{xslt}} file.
     \item A button for user send the request to server via \textbf{POST} method.
     \item {
-   		After user sends a request to server the website will respond with a message to user.
+       After user sends a request to server the website will respond with a message to user.
         This message may be error or successfully upload or generate download link.
     }
 \end{itemize}
@@ -645,7 +578,7 @@ There are few of states for website.
 The initialization status of website is waiting for user upload files.
 After user select flies that they want upload and click the submit button.
 Website will send the request to server via the \gls{web-api}.
-There will be many possible feedback as following.
+There are many possible feedback as following.
 
 \begin{itemize}
     \item If the files uploaded are bad the website pops up a warning about the malformed files.
@@ -680,7 +613,7 @@ The users of this interface are individuals who either prefer the \gls{cli} over
 The \gls{cli}, written in \gls{python}, and will be composed of the following components.
 
 \begin{itemize}
-	\item The main function parses command-line arguments specified below in the ``Interfaces'' part of this section.
+  \item The main function parses command-line arguments specified below in the ``Interfaces'' part of this section.
     \item A query is built for the server including the \gls{xml}and \gls{xslt} documents to the specified server.
     \item The query is sent to the server in a POST request.
     \item When the response is received either an error message is displayed to the user or a file is saved locally.
@@ -692,7 +625,7 @@ The \gls{cli}, written in \gls{python}, and will be composed of the following co
 The \gls{cli} depends on the following system dependencies:
 
 \begin{itemize}
-	\item {Python 2.7+} is the programming language it will be implemented in, so a Python runtime will be necessary for the application to run.
+  \item {Python 2.7+} is the programming language it will be implemented in, so a Python runtime will be necessary for the application to run.
     \item {Requests} is the standard Python library for interacting with servers over \gls{http}.
     \item {A terminal and \gls{unix} compliant shell} will also be necessary to access the application via the \gls{cli}.
 \end{itemize}
@@ -730,7 +663,7 @@ Downloading transformed document to ./xzes40-transformer-2016-11-22.xml
 \begin{figure}
     \begin{lstlisting}
 $ xzes40 --server=http://xzes40.example.com:8080 \
-	     --xml=input-file.xml \
+         --xml=input-file.xml \
          --xslt=style.xslt \
          --output=transformed-doc.xml
 Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
