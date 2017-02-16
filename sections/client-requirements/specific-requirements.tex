@@ -11,31 +11,6 @@
 % Before examining specific ways of organizing the requirements it is helpful to understand the various items that comprise requirements as described in 5.3.1 through 5.3.7.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \begin{enumerate}
-%   \item You must have an XML declaration statement.
-%     \begin{itemize}
-%       \item \inlinecode{<?xml version="1.0" standalone="yes/no" encoding="UTF-8"?>}
-%       \item {
-%         The purpose of a declaration is to tell the browser or other handlers th at the document is an XML document.
-%         The version in the declaration statement indicates the version of the XML specification that the document conforms to; standalone indicates whether the document is accompanied by a DTD file.
-%       }
-%     \end{itemize}
-%     \item Is there a DTD file?
-%       \begin{itemize} 
-%         \item { 
-%           The do cument must have a corresponding DTD file, and strictly comply with the DTD file specification.
-%          The DTD file's declaration statement follows the XML declaration statement.
-%           \inlinecode{<!DOCTYPE type-of-doc SYSTEM/PUBLIC "dtd-name">}
-%         }
-%       \end{itemize}
-%     \item Note your capitalization
-%         \begin{itemize}
-%             \item In the XML file, the case is a difference.
-%         \end{itemize} 
-%     \item Quotes attributes values
-%     \item All identifiers must have a corresponding end tag.
-% \end{enumerate}
-
 \subsection{External interfaces}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This should be a detailed description of all inputs into and outputs from the software system.
@@ -159,88 +134,9 @@ As output both interfaces will send the user an XML 1.0 formatted document of UT
 % This does not imply that the software design will also be partitioned that way.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\begin{itemize}
-%  \item {
-%   \inlinecode{string utf8\_decode (string \$data)}: 
-%    This function decodes data encoded in UTF-8 to ISO-8859-1.
-% }
-% \item {
-%    \inl\begin{itemize}
-% \item {
-%    \inlinecode{string utf8\_decode (string \$data)}: 
-%    This function decodes data encoded in UTF-8 to ISO-8859-1.
-%  }
-%  \item {
-%    \inlinecode{string utf8\_encode ( string \$data )}:
-%    This function converts the data string to UTF-8 encoding and returns the encoded string.
-%  }
-%  \item {
-%    \inlinecode{string xml\_error\_string ( int \$code )}:
-%    Obtain an XML parser error string based on the given code.
-%  }
-%  \item{%   \inlinecode{int xml\_get\_current\_byte\_index ( resource \$parser )}:
-%    Gets the current byte index of the specified XML parser
-%  }
-%  \item{
-%    \inlinecode{int xml\_get\_current\_column\_number ( resource \$parser )}
-%    Gets the current column number of the specified XML parser
-%  }
-%  \item{
-%    \inlinecode{int xml\_get\_current\_line\_number ( resource \$parser )}
-%    Gets the current line number of the specified XML parser
-%  }
-%  \item{
-%    \inlinecode{int xml\_parse\_into\_struct ( resource \$parser , string \$data , array \&\$values [, array \&\$index ] )}
-%    This function parses the XML file into two corresponding arrays, and the index parameter contains a pointer to the corresponding value in the values array.
-%   The last two array parameters can be passed to the function by the pointer.
-% }
-%  \item{
-%    \inlinecode{int xml\_parse ( resource \$parser , string \$data [, bool \$is\_final = false ] )}
-%    Xml\_parse () Parses an XML document.
-%    The handler for the configured event is called indefinitely as needed
-%  }
-%\end{itemize}inecode{string utf8\_encode ( string \$data )}:
-%   This function converts the data string to UTF-8 encoding and returns the encoded string.
-%  }
-%  \item {
-%    \inlinecode{string xml\_error\_string ( int \$code )}:
-%    Obtain an XML parser error string based on the given code.
-%  }
- % \item{
-  %  \inlinecode{int xml\_get\_current\_byte\_index ( resource \$parser )}:
-   % Gets the current byte index of the specified XML parser
-%  }
-% \item{
-%    \inlinecode{int xml\_get\_current\_column\_number ( resource \$parser )}
-%    Gets the current column number of the specified XML parser
-%  }
-%  \item{
-%    \inlinecode{int xml\_get\_current\_line\_number ( resource \$parser )}
-%    Gets the current line number of the specified XML parser
-%  }
-%  \item{
-%    \inlinecode{int xml\_parse\_into\_struct ( resource \$parser , string \$data , array \&\$values [, array \&\$index ] )}
-%    This function parses the XML file into two corresponding arrays, and the index parameter contains a pointer to the corresponding value in the values array.
-%    The last two array parameters can be passed to the function by the pointer.
-%  }
-%  \item{
-%   \inlinecode{int xml\_parse ( resource \$parser , string \$data [, bool \$is\_final = false ] )}
-%    Xml\_parse () Parses an XML document.
-%   The handler for the configured event is called indefinitely as needed
-%  }
-%\end{itemize}
-
 The following functions will be the core functionality of XZES40-Transformer.
 
 \begin {itemize}
-    \item{
-        \inlinecode{int verify\_file(string input\_filename, int format\_option)}:
-        Open file and verify that it is the correct format (XML 1.0 or XSLT 1.0).
-
-        Accepts XML\_FORMAT or XSLT\_FORMAT macros for the format option.
-
-        Returns FILE\_ERROR macro if the file cannot be found, FORMAT\_ERROR macro if the given file is not of the correct format, and VALID macro if the file is of the correct format.
-    }
     \item{
         \inlinecode{int transform(string XML\_filename, string XSLT\_filename, string output\_filename)}:
         This function is called to transform the given XML\_FILE with the XSLT\_FILE.
@@ -250,21 +146,17 @@ The following functions will be the core functionality of XZES40-Transformer.
         Returns a status macro (SUCCESS or FAILURE).
     }
     \item{
-        \inlinecode{void * verify\_cache(input\_filename)}:
-        Ensures that a given file is cached.
-        Adds the file to cache if it is not already.
+        \inlinecode{type_cache* get\_cache(input\_filename)}:
         Returns a pointer to the cached file.
     }
     \item{
-        \inlinecode{int check\_cache(string input\_filename)}:
+        \inlinecode{type_cache check\_cache(string input\_filename)}:
         The system will check if the given file is in the cache.
-        
         Returns TRUE if the file is in the cache and FALSE if the file is not in the cache.
     }
     \item{
-        \inlinecode{int cache(string input\_filename)}:
+        \inlinecode{type_cache set_cache(string input\_filename)}:
         The new XML file will be saved in the cache.
-        
         Returns SUCCESS or FAILURe macro if the document was or was not successfully cached.
     }
     \item{
@@ -273,13 +165,8 @@ The following functions will be the core functionality of XZES40-Transformer.
         The system will compile the given XML/XSLT file into machine code to later be transformed.
     }
     \item{
-        \inlinecode{int perform\_transform(void * xml\_file, void * xslt\_file)}:
-        Performs the document transformation on the compiled xml\_file and xslt\_file.
-    }
-    \item{
-        \inlinecode{int clean\_cache()}:
+        \inlinecode{int delete\_cache()}:
         Removes old documents from the cache which are not being used.
-
         Triggered when the cache is filled to a certain capacity.
     }
 \end{itemize}
@@ -307,7 +194,7 @@ The application will have a higher rate transformations per minute, normalizing 
 Given a standard set XML + XSLT document pairs, the application will complete the transformations on average faster than it's leading competitors.
 
 The transformations will also be verified for correctness.
-It is expected that the application will perform document transformation with 100\% correctness.
+It is expected that the application will perform document transformation with high correctness.
 
 % XZES40-Transformer application will support 3 or 4 terminals at the same time, and we expect 3 or 4 simultaneous users to be supported.
 % XZES40-Transformer application can handle XML and XSLT file.(?) 
@@ -394,7 +281,7 @@ Malformed documents will be rejected by the application.
 
 Correctly formatted XML documents follow the W3C outlined XML 1.0 and XSLT 1.0 formats. \cite{xml-spec} \cite{xslt-spec}
 
-Input files can be of UTF-8 or ASCII character encoding, however they will be converted to, processed as, and returned as UTF-8 encododed documents.
+%Input files can be of UTF-8 or ASCII character encoding, however they will be converted to, processed as, and returned as UTF-8 encododed documents.
 
 Our application will also communicate with users over HTTP/HTTPS, however we are not implementing these standards, just using them to communicate over the internet.
 
@@ -738,3 +625,4 @@ There are no additional comments to be made at this point.
 % You can define DTDs and XML Schemas to make sure that your XML documents meet your requirements.
 % XSLT can be used to XML documents according to a certain syntax into the document you need.
 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
