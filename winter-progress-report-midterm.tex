@@ -83,8 +83,14 @@ After we add cache and parallel computation, we have a strong confidence to comp
 
 Because all of our teammate is busy in this term, we are slow than our schedule that we planed in the design document. 
 So far, we just complete the basic function of the XZES40-Transformer.
+Some personal reason, I did nothing during break, and I just read the document of the xalanC++.
+Elijah list all structure of our program and create a portable development environment during winter break. 
+All of those is helpful for us.
+Beginning at this term, I finished our basic function, the XML document transformation, individually, however it still has some bugs here.
+I tried fix bugs, and there still one question bug here.
+Thus Elijah and me come together and fix the last one question bug, and we finally get it.
 The XZES40-Transformer can get one XML file and XSLT file and generate a new XML file.
-The cache and the parallel computation will be completed during the beta version.  
+The cache and the parallel computation will be completed during the beta version.
 
 \subsection{Elijah C. Voigt}
 
@@ -122,7 +128,11 @@ My teammates will develop Windows and BSD packages.
 
 \subsection{Shuai Peng}
 
-The remaining tasks that I am responsible for is complete the cache function, web interface, and Windows package.
+The remaining tasks that I am responsible for is complete the cache function, which is the "plus one" feature for the XZES40-transformer. 
+And I also need create web interface. 
+The web interface is the GUI for user, and it makes people easy to using our application on any browser.
+I will create Windows package, this is help user to quickly install the XZES40-transformer on any PC.
+
 
 \subsection{Elijah C. Voigt}
 
@@ -158,9 +168,18 @@ However the compile also say that we have expected unqualified-id bugs for the X
 Elijah and me search on the Google, and most of answers said that you should check the syntax of code and some semicolon error.
 We double check the code, but there is no error such that syntax and semicolon problem.
 So, we come together and write a new prototype for test XalanC++ transformer, and the prototype is work correctly.
-Thus, we decided to re-write the transformer.cpp, and make sure this code is only doing one things -- transformer document.
+Thus, we decided to re-write the transformer.cpsuggestedp, and make sure this code is only doing one things -- transformer document.
 We change the structure of transformer.cpp from OOP to normal function code, and also make sure the document.cpp pair this file.
 Finally, we get over this bugs, and our program can transformer document successful. 
+
+The another problem is that the documents of the XalanC++ and the XercesC is hard to read and understand.
+If we want some special function, we can not search it on the API document, the page has bad structure to start search.
+Thus we just used the demo-code from our sponer and the usage pattern from the XalanC++ website to start write our code.
+
+Behind the tech problem, our team have to face the time schedule problem, because we did not spend much more time on this project.
+We have much slow than the schedule that we write last term, and I think we should speed up and spend more source on our project.
+Elijah suggests that we spend whole day meeting to work our project, I think this is a good idea, so teammate can help each other to finish our project.
+
 
 \subsection{Elijah C. Voigt}
 
