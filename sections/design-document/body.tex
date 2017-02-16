@@ -77,7 +77,7 @@ The Transformer's functionality is outlined in the following steps:
 
 \begin{enumerate}
   \item Receive the input \gls{xml} \gls{xslt} files.
-  \item Create a Document object out of the input files. This will either encode the input files as DOM objects or fetch the pre-compiled objects from the cache. \ref{cache} \ref{document}
+  \item Create a Document object out of the input files. This will either encode the input files as DOM objects (InputSource) or fetch the pre-compiled objects from the cache. \ref{cache} \ref{document}
   \item Pass the Document's parsed contents to the \cite{xalan-library} \textbf{transform} method.
   \item Encode the transformed document back to a text file and return this document.
 \end{enumerate}
@@ -102,19 +102,13 @@ The Transformer directly depends on the following internal application component
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{State Dynamics}
 
-The Transformer deals heavily with state dynamics in two ways: transforming documents and storing/retrieving cached documents.
+The Transformer deals heavily with state dynamics in ways: transforming documents .
 
 \paragraph{Transforming documents}
 
 The Transformer does not directly handle transforming documents, this task is delegated to the \gls{xalan} library. \cite{xalan-library}
 The transformer takes two or more documents as input: an \gls{xml} \gls{dom} file and an \gls{xslt} object.
 The input documents are transformed by the \gls{xalan} library and the resulting document is eventually returned by the writer (\ref{writer}) via the \gls{api} (\ref{web-api}).
-
-\paragraph{Cached documents}
-
-The Transformer also operates with the cache (\ref{cache}).
-Input files are raw files in the cache.
-\gls{xslt} documents are primarily cached as they change very little and are re-used very often.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Interactions}
@@ -130,7 +124,7 @@ More information can be found in the Cache section of this document (\ref{cache}
 The Transformer has one programmer-facing interface, the ``transform\_documents( filepaths )'' function.
 This can be used for testing, mocking, or implementation purposes.
 
-\paragraph{DOM object transform\_documents( filepaths )}
+\paragraph{transform\_documents( filepaths )}
 
 \begin{itemize}
   \item This function takes as argument the path to the \gls{xml} file, the path to \gls{xslt} document, the output destination for the output file.
@@ -187,10 +181,11 @@ In parsing and storing the object, the class has methods which read the file con
 \subsection{Cache}
 \label{cache}
 
-The Cache is a core feature of the XZES40 application.
+The Cache is a plus one feature of the XZES40 application.
 The Cache speeds up document transformation by storing and retrieving previously parsed documents.
 
 In practice the Cache will operate much the same as a \gls{hash-map} does, storing data at a location given a key which can also be used to retrieve the data.
+We will using keyList which is provided from XercessC.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Context}
@@ -212,14 +207,9 @@ The Cache stores data from the user, primarily parsed \gls{dom} data to avoid re
 Below are few of the components making up the Cache.
 
 \begin{itemize}
-    \item The Cache stores input data in a \gls{struct} along with with the last time it was accessed and they key used to access the data.
+    \item The Cache stores input data in a \gls{struct} along with the last time it was accessed and they key used to access the data.
     \item The Cache can retrieve the data via searching the associated key.
     \item The Cache can delete data corresponding with a key.
-    \item The Cache can dump its contents to disk periodically.
-    \item {
-      The Cache can load its data form an input file.
-      This along with the previous item is used to recover from a system failure.
-    }
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,7 +236,7 @@ struct node {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Information}
 
-If an object is not in the Cache, the Cache stores the \gls{dom} object into the in-memory cache. 
+If an object is not in the Cache, the Cache stores the object into the in-memory cache. 
 Objects are removed from the cache via the Cache class' delete method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -273,7 +263,7 @@ The Cache handles the following state changes in the following ways.
 \subsubsection{Interactions}
 
 The parser sends a parsed \gls{dom} object to the Cache. 
-The Cache will search the flies if it is exist in the memory. 
+The Cache will check the flies if it is exist in the memory. 
 If the file exists in the memory, the Cache retrieves the \gls{dom} object from the Cache and return to the Document class. 
 If the file does not exist in the memory, the Document class continues to process the file, and stores parsed file into the Cache.
 
@@ -318,7 +308,7 @@ The Cache may either return a \gls{dom} object to the Transformer, or the cache 
 
 Below are the major interfaces for the cache component of XZES40-Transformer.
 
-\paragraph{void document\_cache( dom\_object file )} 
+\paragraph{int document\_cache( dom\_object file )} 
 This checks the \gls{dom} object if it exist in the Cache.
 
 \begin{itemize}
@@ -326,7 +316,7 @@ This checks the \gls{dom} object if it exist in the Cache.
     \item If it is in the cache, return true.
 \end{itemize}
 
-\paragraph{dom\_object store\_cache( dom\_object file )} 
+\paragraph{dom\_object set\_cache( dom\_object file )} 
 This receives object file and store it into the memory.
 
 \paragraph{dom\_object delete\_cache( dom\_object file )}
@@ -337,7 +327,7 @@ This deletes data from the Cache.
     \item If the \gls{dom} object does not exist in the Cache, return error.
 \end{itemize}
 
-\paragraph{dom\_object read\_cache( dom\_object file )} 
+\paragraph{dom\_object get\_cache( dom\_object file )} 
 This retrieves data from the cache.
 
 \begin{itemize}
@@ -844,7 +834,7 @@ This section explains why certain design decisions were made and ``connects the 
 \subsection{Cache Decisions}
 
 The reason the Cache uses an in-memory system rather than a database or a file-based cache is purely for performance reasons.
-Using an in-memory cache over a file-based one should yeild faster performance.
+Using an in-memory cache over a file-based one should yield faster performance.
 As a compromise the cache is dumped to a file periodically to save the state of the cache in case the application daemon (which holds the cache) is restarted.
 
 This may cause problems as the service may run out of memory.
@@ -878,3 +868,4 @@ Using \gls{fpm} we can even automate the build of packages on our \gls{unix}-lik
 To demonstrate the competitiveness of the XZES40-Transformer application we chose to compare the performance of this application against an \gls{foss} tool, the \gls{xerces} \gls{cli}, and a Closed Source tool, the Altova application.
 
 This feels like a fair and balanced comparison as we hope to be competitive with Closed Source alternatives but need to ensure we are at least better than a close \gls{foss} alternative.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                               
