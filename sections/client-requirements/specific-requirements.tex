@@ -128,8 +128,6 @@ These files can be UTF-8 or ASCII character encoding.
 
 As output both interfaces will send the user an XML 1.0 formatted document of UTF-8 character encoding.
 
-
-
 % The system provides external interface, or system call external interface, often using XML format as the interface data transfer format.
 % 
 % \begin{enumerate}
@@ -433,7 +431,7 @@ Our application will also communicate with users over HTTP/HTTPS, however we are
 % This should specify the factors required to establish the required reliability of the software system at time of delivery.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-XZES40-Transformer will be reliable if it it's cache to be up to date, to avoid transforming documents incorrectly.
+XZES40-Transformer will be reliable if it's cache is up to date, to avoid transforming documents incorrectly.
 
 % The XML test case model is put forward by using XML to save the test cases generated in the software reliability test.
 % The XML test case file generator and test engine are implemented, and the test cases are read with the test driver to drive the tested program to run.
@@ -449,6 +447,7 @@ XZES40-Transformer will be reliable if it it's cache to be up to date, to avoid 
 
 Since XZES40-Transformer will be run as a web-service it should be highly-available during business hours.
 It will be configured to handle heavy workloads and restart if it crashes.
+Upon restart it's cache will be cleared.
 
 % XML provides a way to describe data and platform-independent,
 % has become the de facto standard for data exchange on the Internet.
