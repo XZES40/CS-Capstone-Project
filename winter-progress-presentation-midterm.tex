@@ -83,15 +83,17 @@
 \begin{frame}[fragile]
   \frametitle{Interesting Code}
   \begin{lstlisting}
-int xzes::transform_documents( xzes::cli_arguments_t *args )
-{
+int xzes::transform_documents(
+  xzes::cli_arguments_t *args
+) {
     // ...
     Document xml(args->xml);
     Document xsl(args->xsl);
 
-    int theResult = theXalanTransformer.transform( *xml.get_content().obj ,
-                                                   *xsl.get_content().obj ,
-                                                   std::cout );
+    int theResult = theXalanTransformer
+        .transform( *xml.get_content().obj ,
+                    *xsl.get_content().obj ,
+                    std::cout );
     // ...
 }
   \end{lstlisting}
