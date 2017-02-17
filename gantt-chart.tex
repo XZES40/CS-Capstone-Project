@@ -1,0 +1,39 @@
+\input{preamble}
+
+\begin{document}
+The following Gantt chart outlines the projected time-line for development.
+This starts at the first week of January (winter-term week 1), and goes through project completion in June (end of spring term).
+
+\begin{figure}
+    \begin{PstGanttChart}[yunit=1,
+                          xunit=1,
+                          ChartUnitIntervalName=W,
+                          ChartUnitBasicIntervalName=W,
+                          TaskUnitIntervalValue=10,
+                          TaskUnitType=W,
+                          ChartStartInterval=1,
+                          ChartShowIntervals]{20}{19}
+        \psset{gradangle=180}
+        \PstGanttTask[TaskStyle=Important,TaskInsideLabel={Alpha}]{0}{6}
+        \PstGanttTask[TaskInsideLabel={Benchmark Data Collection}]{0}{3}
+        \PstGanttTask[TaskInsideLabel={Core Functionality}]{0}{11}
+        \PstGanttTask[TaskInsideLabel={Basic Transformation}]{0}{3}
+        \PstGanttTask[TaskInsideLabel={Caching}]{3}{7}
+        \PstGanttTask[TaskInsideLabel={Parallel Computation}]{3}{7}
+        \PstGanttTask[TaskInsideLabel={Demo}]{5}{1}
+        \PstGanttTask[TaskStyle=Important,TaskInsideLabel={Beta}]{6}{5}
+        \PstGanttTask[TaskInsideLabel={CGI Script}]{7}{1}
+        \PstGanttTask[TaskInsideLabel={Web Interface}]{8}{2}
+        \PstGanttTask[TaskInsideLabel={Debian Package}]{9}{2}
+        \PstGanttTask[TaskInsideLabel={Demo}]{10}{1}
+        \PstGanttTask[TaskStyle=Important,TaskInsideLabel={Release}]{12}{7}
+        \PstGanttTask[TaskInsideLabel={CLI Interface}]{12}{2}
+        \PstGanttTask[TaskInsideLabel={RedHat Package}]{12}{6}
+        \PstGanttTask[TaskInsideLabel={BSD Package}]{12}{6}
+        \PstGanttTask[TaskInsideLabel={Windows Package}]{12}{6}
+        \PstGanttTask[TaskInsideLabel={Demo}]{17}{2}
+        \PstGanttTask[TaskStyle=NotImportant]{11}{1}
+    \end{PstGanttChart}
+    \caption{Development Gantt Chart Timeline.}
+\end{figure}
+\end{document}
