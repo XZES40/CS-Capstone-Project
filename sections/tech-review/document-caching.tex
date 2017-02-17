@@ -31,6 +31,8 @@ When the cache is updated it is written back to the original file.
 The third option technology is that we create database to handle memory.
 This spends time to design and create database.
 
+The fourth option is to use the in-memory key-value store Redis \cite{redis} which is a popular for this kind of task.
+
 \begin{center}
     \begin{tabular}{ | l | p{10cm} |}
     \hline
@@ -50,6 +52,12 @@ This spends time to design and create database.
       \item Application access data from database.
       \item It takes time to create and manage a database.
     \end{itemize}\\ \hline
+    Redis &
+    \begin{itemize}
+      \item Objects to be serialized before being cached.
+      \item Adding an additional dependency to the project.
+      \item Less development time spent daemonizing and designing in-memory caching system.
+    \end{itemize}\\ \hline
     \end{tabular}
 \end{center}
 
@@ -64,6 +72,9 @@ This tools is helpful for managing memory, and it has good data structure.
 Creating a binary file can avoid losing cache data, but it spends time to load file into memory when application starts.
 
 Creating database is bad option for XZES40-Transformer application because access database spend resource, and it waste time to search cache data.
+
+Redis is an appealing idea, but because it is an additional dependency, and serializing our parsed documents is not something our client wants our application to do, we are not able to pursue it.
+If our application had slightly different requirements this may be a viable option.
 
 \subsection{Selection}
 

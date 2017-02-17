@@ -4,7 +4,7 @@
 	High Performance XML/XSLT Transformation Server \\
     {
     	% Document Sub-title
-    	\LARGE Fall 2016 Progress Report 
+    	\LARGE Winter 2017 Midterm Progress Report 
     }
 }
 \author{
@@ -50,14 +50,14 @@
 \section{Project Purpose}
 
 XZES40 Transformer is an implementation of a standard XML document transformer.
-This type of application takes two documents as input: an XML document and an XSLT document, and performs and XML document transformation.
+This type of application takes two documents as input: an XML document and an XSLT document, and performs an XML document transformation.
 This is similar to how in an Excel document one might take a series of columns, perform some operation on that data, and set the output to be a new column.
-Just like Excel, XML document transformation is used to perform operations on data, except that it can be highly automated done in much larger quantities with programs like ours.
+Just like Excel, XML document transformation is used to perform operations on data, except that it can be highly automated and done in much larger quantities with programs like ours.
 
 XZES40 Transformer is unique in that it increases performance by both caching already-processed XSLT documents and it performs transformations in parallel.
 The use of an in-memory cache will cut down considerably on the time required to perform a document transformation.
 This is because much of the time transforming documents is spent compiling the (commonly re-used) style-sheet.
-The application will also accept transformation jobs over the internet via a web API; this allows users to perform document transformations without installing the application locally.
+The application will also accept transformation jobs over the internet via a web API (used through a website we will create); this allows users to perform document transformations without installing the application locally.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Project Status
@@ -72,12 +72,12 @@ It helped us to know how to do this in the beginning.
 Developing this project is hard for me at the beginning.
 Our team are required to develop our application in Debian Operation system by our client Steven Hathaway.
 Because each teammate uses different operation system, so we use different tools to develop our application.
-Shuai and Elijah used vagrant to develop their application.
+Shuai and Elijah used vagrant to develop the application.
 I downloaded the virtual machine to develop my application.
 We also need to add libraries to our compiler.  
 Even we wrote the design document and technology review in the fall term, I still don't know how to write the real code in this project. 
-I checked the Xalan C++ how to transfer the XML and XSLT document.
-The Xalan C++ is a transformer which transfer the XML and XSLT document to a new stylesheet.
+I checked the Xalan C++ how to transform an XML and XSLT document.
+The Xalan C++ is a transformer which transforms the XML and XSLT document to a new stylesheet.
 The Xalan website gives us some information about the basic function transformation how to do it. 
 Our team finish the basic transformer before the midterm.
 This transformer doesn’t include cache and parallel computation features. 
@@ -150,7 +150,7 @@ I will create Windows package, this is help user to quickly install the XZES40-t
 
 \subsection{Elijah C. Voigt}
 
-Having completed basic document transformation, my remaining tasks include turning the application into a daemon (long-running process), exposing it over the web with a CGI script, creating a Command-line interface, and creating a FreeBSD package for the application.
+Having completed basic document transformation, my remaining tasks include turning the application into a daemon (long-running process), exposing it over the web with a CGI script, creating a command-line interface, and creating a FreeBSD package for the application.
 The latter two tasks being stretch goals, the former two being hard requirements necessary for the beta release of our application.
 
 As a group we \textit{also} have to complete the document caching, parallel document transformation, \textbf{benchmarking} (required to grade our project performance), the website, and the Debian Linux package.
@@ -166,9 +166,9 @@ This change in priority has been reflected in our updated design document.
 
 \subsection{Zixun Lu}
 
-As a Windows operation system user, it is hard to use vagrant in my system.
-The Windows operation system is not like OS system. 
-The Windows operation system don't have terminal which can directly run the vagrant. 
+As a Windows operating system user, it is hard to use vagrant in my system.
+The Windows operating system is not like macOS system. 
+The Windows operating system don't have terminal which can directly run the vagrant. 
 So I decided to use virtual machine to develop the application.
 It was my first time to use Debian operation system but it is similar with Linux system. 
 There is a problem in doing the benchmark report. 
@@ -177,10 +177,10 @@ Our application is required to develop in Debian operation system but Altova onl
 The Xalan C++ can work in the Debian operation system. 
 I am concerned that the measurement of the data will affect the final outcome. 
 This class required us using Github to connect the each others.
-Before I took this class, I thought the Github is only uploading the files.
-Right now, I understand the Github is not only uploading the files but also the developers can communicate with each others. 
-They can commit and make changes for the code. 
-If you have any questions, you can pull request from the Github. 
+Before I took this class, I thought that Github is only for uploading the files.
+Right now, I understand that Github is not only uploading the files but also the developers can communicate with each other.
+They can commit and make changes in the code. 
+If you have any questions, you can make a pull request or issues on the Github. 
 The Github also has command line to help develops doing their works in terminal. 
 Our team had difficult on handling to parse XML and XSL objects.
 We also didn’t clear the data flow in the project. 
@@ -198,13 +198,13 @@ However the compile also say that we have expected unqualified-id bugs for the X
 Elijah and me search on the Google, and most of answers said that you should check the syntax of code and some semicolon error.
 We double check the code, but there is no error such that syntax and semicolon problem.
 So, we come together and write a new prototype for test XalanC++ transformer, and the prototype is work correctly.
-Thus, we decided to re-write the transformer.cpsuggestedp, and make sure this code is only doing one things -- transformer document.
+Thus, we decided to re-write the transformer.cpp, and make sure this code is only doing one things -- transformer document.
 We change the structure of transformer.cpp from OOP to normal function code, and also make sure the document.cpp pair this file.
 Finally, we get over this bugs, and our program can transformer document successful. 
 
 The another problem is that the documents of the XalanC++ and the XercesC is hard to read and understand.
 If we want some special function, we can not search it on the API document, the page has bad structure to start search.
-Thus we just used the demo-code from our sponer and the usage pattern from the XalanC++ website to start write our code.
+Thus we just used the demo-code from our sponsor and the usage pattern from the XalanC++ website to start write our code.
 
 Behind the tech problem, our team have to face the time schedule problem, because we did not spend much more time on this project.
 We have much slow than the schedule that we write last term, and I think we should speed up and spend more source on our project.
@@ -220,9 +220,10 @@ Beyond this, members of our team struggle with basic concepts in programming lik
 This can be summed up as \textit{technical debt}.
 
 Non-technically Shuai Peng and Zixun Lu struggled with getting caught up after break, Shuai fairing much better than Zixun.
-There were valid excuses for this lack of preparedness, but that combined with a lack of willingness to invest an appropriate amount of time in getting caught up, compounded with the technical debt, meant that technical we have not made nearly as much progress as we need to have made by this point in the term.
+There were valid excuses for this lack of preparedness, but that combined with a lack of willingness to invest an appropriate amount of time in getting caught up, compounded with the technical debt, meant that we have not made nearly as much progress as we need to have made by this point in the term.
 When we encountered that show-stopping bug mentioned above both team-members did not demonstrate an understanding of the code well enough to either decide to re-write the part of the code that was broken or solve the problem.
-While this sounds like a technical problem, because it is ultimately a problem solving skill I consider it non-technical.
+While this sounds like a technical problem, it is ultimately a problem solving skill I consider non-technical.
+Everybody invested time in solving the bug, so we all learned something about the project and code, but it still took a very long time and ultimately set us back a ways.
 
 The biggest thing that has bitten us so far is prioritizing work on this project on-par or above that of other class-work.
 If we as a team spent \textit{much} more time working on the project we would be done by now.
@@ -230,9 +231,9 @@ As it stands we, and I include myself in this, have not spent enough time on thi
 I have not spent enough time on the project because I am busy and because I feel as though I have done the lion's share of the work; for work distribution equality I hoped that we would each do equal work, but in practice I will most likely need to do more than my fair share of the work for the sake of the project.
 
 I plan to address this time-prioritization by forcing the group to spend an entire day working on the project instead of delegating jobs and individually working on these.
-I hoped that we would be able to complete the project ungraciously, checking in weekly, but I was wrong.
-We will spend Nine hours every Sunday from now until expo working on the project.
-While this may be too little too late, it is the only time in our schedule that works, so it's the best we can do.
+I hoped that we would be able to complete the project asynchronously, checking in weekly, but I was wrong.
+We will spend a full work day every Sunday from now until expo working on the project.
+While this may end up being too little too late, it is the only time in our schedule that works, so it's the best we can do.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Interesting code

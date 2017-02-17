@@ -58,7 +58,7 @@ This section does not necessarily outline how users interact with the applicatio
 \subsection{Transformer}
 \label{transformer}
 
-As the name suggests, the Transformer is the core of the XZES40 Document Transformer, which is the core of application as a whole.
+As the name suggests, the Transformer is the core of the XZES40 Document Transformer, which is the core of our application as a whole.
 At a high level this component takes two documents, an \gls{xml} and \gls{xslt} document, and returns a transformed \gls{xml} document.
 The rest of the application is built around this component; all other parts of the application depend on or work toward this feature.
 
@@ -77,12 +77,12 @@ The Transformer's functionality is outlined in the following steps:
 
 \begin{enumerate}
   \item Receive the input \gls{xml} \gls{xslt} files.
-  \item Create a Document object out of the input files. This will either encode the input files as DOM objects (InputSource) or fetch the pre-compiled objects from the cache. \ref{cache} \ref{document}
+  \item Create a Document object out of the input files. This will either encode the input files as DOM objects (InputSource) or fetch the pre-compiled objects from the cache. (\ref{cache} \ref{document})
   \item Pass the Document's parsed contents to the \cite{xalan-library} \textbf{transform} method.
   \item Encode the transformed document back to a text file and return this document.
 \end{enumerate}
 
-These steps will each be held in a thread spawned by the long-running daemon process. \ref{daemon}
+These steps will each be held in a thread spawned by the long-running daemon process. (\ref{daemon})
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Dependencies}
@@ -172,7 +172,9 @@ The \gls{xerces} library will be used during the parsing to generate a \gls{dom}
 
 The following function declaration is used for the parser method:
 
-\paragraph{class Document(source\_file\_path)}. This constructor receives an \gls{xml} file or a \gls{xslt} file, and then parses it into a \gls{dom} object which is stored in the Cache.
+\paragraph{class Document(source\_file\_path)}
+
+This constructor receives an \gls{xml} file or a \gls{xslt} file, and then parses it into a \gls{dom} object which is stored in the Cache.
 
 In parsing and storing the object, the class has methods which read the file contents, hashes the contents of the file, and uses this as a key when inserting data into the Cache.
 
@@ -193,13 +195,19 @@ We will using keyList which is provided from XercessC.
 The program heavily depends on the Cache.
 The Cache can store, delete, and retrieve \gls{dom} object from the in-memory cache 
 
-\paragraph{Storing data} is the major element of the Cache.
+\paragraph{Storing data}
+
+This is the major element of the Cache.
 
 The Cache stores data from the user, primarily parsed \gls{dom} data to avoid re-compiling files.
 
-\paragraph{Deleting data} provides the ability to remove items from the Cache for whatever reason.
+\paragraph{Deleting data}
 
-\paragraph{Retrieving data} allows users to fetch information stored in the Cache given the object's key.
+This provides the ability to remove items from the Cache for whatever reason.
+
+\paragraph{Retrieving data}
+
+This allows users to fetch information stored in the Cache given the object's key.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Composition}
@@ -219,10 +227,12 @@ XZES40 handles object as a special structure.
 The Cache saves that object in the following format.
 
 \paragraph{Key}
+
 This is a hash value associated with a cached object.
 This value is for retrieving the data from the Cache.
 
 \paragraph{Content}
+
 The content is the parsed or transformed \gls{dom} object.
 
 \begin{lstlisting}
@@ -273,16 +283,22 @@ If the file does not exist in the memory, the Document class continues to proces
 The Cache can be divided into five major function.
 The First function is \textbf{set}, second is \textbf{get}, third is \textbf{dump}, fourth is \textbf{load}, and fifth is \textbf{delete}.
 
-\paragraph{Set} stores an object at a location in the allocated memory block based on the an \gls{md5} hash of the ``key'' parameter given.
+\paragraph{Set}
 
-\paragraph{Get} This function retrieves the \gls{dom} object from the cache by the key of the parsed file.
+Stores an object at a location in the allocated memory block based on the an \gls{md5} hash of the ``key'' parameter given.
+
+\paragraph{Get}
+
+This function retrieves the \gls{dom} object from the cache by the key of the parsed file.
 
 \begin{enumerate}
     \item If there is key exist in the cache, \textbf{return} the \gls{dom} object at that location.
     \item If the key does not exist in the cache, \textbf{return} an empty storage struct object.
 \end{enumerate}
 
-\paragraph{Delete} This function delete the \gls{dom} object from the cache by the key of the parsed file.
+\paragraph{Delete}
+
+This function delete the \gls{dom} object from the cache by the key of the parsed file.
 
 \begin{enumerate}
     \item The Delete receives a key to delete the data it's located at.
@@ -309,6 +325,7 @@ The Cache may either return a \gls{dom} object to the Transformer, or the cache 
 Below are the major interfaces for the cache component of XZES40-Transformer.
 
 \paragraph{int document\_cache( dom\_object file )} 
+
 This checks the \gls{dom} object if it exist in the Cache.
 
 \begin{itemize}
@@ -317,9 +334,11 @@ This checks the \gls{dom} object if it exist in the Cache.
 \end{itemize}
 
 \paragraph{dom\_object set\_cache( dom\_object file )} 
+
 This receives object file and store it into the memory.
 
 \paragraph{dom\_object delete\_cache( dom\_object file )}
+
 This deletes data from the Cache.
 
 \begin{itemize}
@@ -328,6 +347,7 @@ This deletes data from the Cache.
 \end{itemize}
 
 \paragraph{dom\_object get\_cache( dom\_object file )} 
+
 This retrieves data from the cache.
 
 \begin{itemize}
@@ -347,10 +367,14 @@ In addition to the Cache component of XZES40-Transformer (\ref{cache}), the appl
 
 The Parallel Computation component of the application carries out the following operations in parallel to speed up documentation transformations.
 
-\paragraph{Document Parsing} will be carried out in parallel.
+\paragraph{Document Parsing}
+
+This will be carried out in parallel.
 These operations are logically independent so they can be carried out simultaneously without affecting data integrity.
 
-\paragraph{User Requests} will also be carried out in Parallel, handled by Apache.
+\paragraph{User Requests} 
+
+This will also be carried out in Parallel, handled by Apache.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Dependencies}
