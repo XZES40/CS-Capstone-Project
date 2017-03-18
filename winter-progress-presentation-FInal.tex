@@ -1,0 +1,120 @@
+\documentclass{beamer}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+
+\graphicspath{ {./figures/} }
+\addbibresource{sections/references.bib}
+
+\usetheme{default}
+ 
+\title{XZES40-Transformer} 
+\author{Zixun Lu (luzi),
+  Shuai Peng (pengs),
+  Elijah Voigt (voigte)}
+\institute{CS 462 | CS Senior Capstone | Group \#40}
+\date{Winter 2017}
+ 
+\begin{document}
+ 
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Program Purpose and Goals }
+\begin{figure}
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/osu-logo}
+    \caption{Source: Wikimedia Commons \cite{osu-logo}}
+\end{figure}
+
+\begin{figure}
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/asf-logo}
+    \caption{Source: Apache Software Foundation \cite{asf-logo}}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Project Purpose}
+  The purpose of the XZES40-Transformer is:
+  \begin{itemize}
+  \item Transform XML and XSLT documents into a new XML document.
+  \item The XZES40-transformer can transform multiple documents in parallel. 
+  \item Processed style sheets are cached for quick recompilation.
+  \item Accessible over the Internet via a website.
+  \item Runs on multiple platforms.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Project Status}
+  The project status of the XZES40-Transformer is:
+  \begin{itemize}
+  	\item Working web interface.
+  	\item Working web API.
+  	\item Transformer the document over the Internet.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Remaining Tasks}
+  \begin{itemize}
+    \item Lu    : Benchmarking, Linux package, Documentation.
+    \item Elijah: Command-Line, FreeBSD package, Error handle, Testing.
+    \item Shuai : Parallel document transformation , Windows package, Improve Cache.
+    \item Everyone: Poster, demo.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Problems Encountered}
+  We have following problem so far:
+  \begin{itemize}
+    \item We didn't design the cache and parallel computation carefully.
+    \item Benchmark documents need to be fixed.
+    \item Doxygen does not run perfectly. 
+    \item CGI script is tedious to create.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Retrospective Weeks 1 - 5}
+	\begin{itemize}
+		\item Week 1: Recap progress over the winter break.
+		\item Week 2: Really early development and planing time.
+		\item Week 3: Prototype basic transformation.
+		\item Week 4: Debug the bug.
+		\item Week 5: Finally get over the bug.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Retrospective Weeks 6 - 10}
+	\begin{itemize}
+		\item Week 6: Finish the Daemon. 
+		\item Week 7: Finish the Cache.
+		\item Week 8: Plan for the parallel and CGI script.
+		\item Week 9: Finish the CGI script and prototype parallel computation.
+		\item Week 10: Finish the demo.
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Demo}
+  Demo time!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Reference}
+    \printbibliography
+\end{frame}
+
+\end{document}
