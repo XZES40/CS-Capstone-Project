@@ -1,0 +1,27 @@
+\input{preamble}
+
+\makeglossaries
+
+\renewcommand{\glossarysection}[2][]{}
+
+\newpsstyle{Important}{fillstyle=solid, fillcolor=red}
+\newpsstyle{NotImportant}{fillstyle=vlines }
+
+\title{High Performance XML/XSLT Transformation Server}
+\subtitle{Design document}
+\author{
+  \IEEEauthorblockN{Zixun Lu (luzi),}
+  \IEEEauthorblockN{Shuai Peng (pengs),}
+  \IEEEauthorblockN{Elijah Voigt (voigte)}
+  \IEEEauthorblockA{\\CS 461 | CS Senior Capstone | Group \#40 \\ Winter 2017}
+}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
