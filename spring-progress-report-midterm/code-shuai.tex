@@ -1,0 +1,35 @@
+Here is our parameter passing code for the transformation.
+This part of code is parsing the request from the website.
+\begin{lstlisting}
+
+xzes::job_t* xzes::parse_request( char* input )
+{
+    xzes::job_t *out = new xzes::job_t;
+
+    std::string tmp (input);
+
+    std::vector<std::string> tmpv = xzes::split(input,',');
+
+    out->jid     = tmpv[0];
+    out->xml.uri = tmpv[1];
+    out->xsl.uri = tmpv[2];
+    out->out.uri = tmpv[3];
+
+    // Stream ends in an empty "," for buffer cruft.
+    for (int i = 4 ; i+2 < tmpv.size(); i += 2)
+    {
+        param_t x = {tmpv[i], tmpv[i+1]};
+
+        printf("%s:%s\n", x.key.c_str(), x.val.c_str());
+
+        out->param.push_back(x);
+    }
+
+
+    return out;
+}
+
+\end{lstlisting}
+
+Parse_request function receive input from the CGI script, and parse it as a string.
+We create a vector to handle the data, and split by the ",", so our program understand what value need to be set in the transformer.

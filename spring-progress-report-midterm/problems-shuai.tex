@@ -1,0 +1,14 @@
+The major problem since last term is that we get new requirement from the client.
+Cline give us a new requirement that we need pass the parameter from the website to our transformer.
+Thus we need add a new feature for that.
+However, during we were developing this function, we faced a problem is that we need additional file supporting for the XML and XSLT file transformation, and those files can not import to our transformer, because those file looks like plugin for the XML and XSLT file.
+We talked to our client, but he did not response for us, so we finally decided to ignore that additional file, and we just simply install into our system.
+Therefore, our program is support only simple transformation, and simple parameter passing.
+
+After we fix the additional file, we get some wired bug for the parameter passing.
+Elijah and me dose not a good front end developer.
+When we passing the parameter from command line, it works perfect, but if we change it to the website, we get bugs for the parameter passing.
+We did lots of test on that, and finally we fix it by check the Ajax problem.
+It looks like the Ajax parse the string into HTML, so our transformer can not get correct data from the website.
+We fix it via forcing string pass in the Ajax.
+

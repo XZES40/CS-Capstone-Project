@@ -1,0 +1,15 @@
+There are some interesting commands when doing the benchmark. 
+sends test results to an XML-based results file
+\begin{lstlisting}
+  logFile resultsFileName.xml
+\end{lstlisting}  
+
+For StylesheetTestletDriver, use a different class for the testing 
+\begin{lstlisting}
+  testlet TestletClassname
+\end{lstlisting}
+
+Most tests can either accept options from a properties file, via:
+\begin{lstlisting}
+ TestName -load file.properties
+\end{lstlisting}

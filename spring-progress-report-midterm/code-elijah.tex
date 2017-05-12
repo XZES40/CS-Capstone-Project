@@ -1,0 +1,60 @@
+I learned JQuery for this project!
+JQuery is a very small Javascript framework focused on manipulating the HTML dom and doing tasks that are \textit{very} common in Javascript, like AJAX requests.
+
+Here's some of the code I wrote for the frontned interface.:
+
+\begin{lstlisting}[language=C]
+    // When happens when you submit the form
+    $("form#transform").submit(function(event) {
+        event.preventDefault();
+
+        var file = "";
+        var formData = new FormData($(this)[0]);
+        formData.append("parameters", JSON.stringify(processParameters()));
+
+        // Send the modified form to the /cgi-bin/xzes.py endpoint.
+        // If you messed with the apache service this will need to change.
+        $.ajax({
+            url: "/cgi-bin/xzes.py",
+            type: "POST",
+            data: formData,
+            dataType: "text",
+            async: true,
+            statusCode: {
+                404: function(data) {
+                    notSuccessful("&#x1F6AB; &#x2601; Could not reach the transformer server...");
+                },
+                400: function(data) {
+                    notSuccessful(data.responseText);
+                },
+                // On successful transformation
+                200: function(data) {
+                    // If the repsonse is non-empty
+                    if (data.responseText != ""
+                     && data.responseText != undefined) {
+                        // Print the success, the filename, and give buttons to view/downlaod the file.
+                        successful(data.responseText);
+                    } else if (typeof(data) == "string") {
+                        // The response may just be a string...
+                        // We're not sure why this happens sometimes...
+                        successful(data);
+                    } else {
+                        // Otherwise give a generic failure message
+                        // Weird edge case where output xml is parsed by jquery as html
+                        notSuccessful("The transformation was not successful.");
+                    }
+                },
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
+   });
+\end{lstlisting}
+
+This describes what happens when you click the "transform" button.
+In broad terms, it constructs an HTTP POST request form, sends that form, and reacts based on the response.
+When it gets either a positive or negative status code from the server it will either display an error to the user or give the user buttons to download and display the transformation results.
+
+This results in the frontend dynamically loading the result of a document transformation in the background.
+The user is not redirected to a new webpage when they submit a document transformation, instead they click the button, the transformation is carried out in the background, and they are shown the new files when the transformation is complete.
