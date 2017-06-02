@@ -1,0 +1,92 @@
+% Section Seven: Website
+% Owned by Shuai Peng
+\subsubsection{Website UI}
+
+The Web Interface will be a simple webpage which calls our web API.
+For this reason this section focuses mostly on design technologies and less on HTTP request-handling technologies.
+
+\paragraph{Option}
+
+This document reviews three possible technologies we can use to implement our website .
+First is plain-text HTML, CSS and Javascript, second is the Bootstrap front-end framework, and third is the Foundation framework.
+
+\paragraph{Goals for use in design}
+
+XZES40-Transformer will have a web-based user interface, which will also be our main user interface.
+In considering which technology to use we will focus on making it conform with modern website design practices.
+This will allow us to write an application which is hopefully user friendly and intuitive to use.
+The website should also be look good.
+
+\paragraph{Criteria being evaluated}
+
+The most important aspect to consider for this user interface is the appearance.
+We want to create web pages that work well on most screen sizes.
+So the cost, efficiency, visual appeal, and dynamic screen adjustment are what we consider most important in our technology of choice.
+
+\paragraph{Comparison breakdown}
+
+\begin{itemize}
+  \item {
+    Cost:
+    All of our options are open source and totally free and offer free documentation / tutorials.
+  }
+  \item {
+%    Efficiency: CSS give simple plain-text interface.  We don't actually know what the size is, and what the pixel will be on the screen.  We have to try it, then we know what it looks like on our screen.  However, bootstrap and foundation is responsive design.  Both of them can change the size automatically in different size of screen.Both of them provide templates for creating web pages, but CSS do not provide.
+    Efficiency:
+    Using plain CSS/Javascript/HTML will perform well on most end-user's web-browsers, however it will be difficult to optimize the website to be responsive and adjust for smaller screen sizes.
+    Bootstrap and Foundation were created with responsive design in mind.
+    Both of them can change the size automatically in different size of screen.
+    Both of them provide templates for creating web pages, but plain CSS do not provide.
+  }
+  \item {
+%     Learning speed: CSS is the basis of HTML style sheet.  It is easy to understand and learning, however it hard to make good design.  Bootstrap and foundation spends time to learn, but after we learn the basically knowledge, bootstrap and foundation will be faster than CSS.
+    Learning speed:
+    CSS is the basis of HTML style sheet.
+    It is easy to understand and learn, however it hard to make it look good.
+    Bootstrap and foundation spends time to learn, but after we learn the basically knowledge, bootstrap and foundation will be faster than CSS.
+  }
+\end{itemize}
+
+\begin{center}
+    \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    CSS \cite{CSS_intro}&
+    \begin{itemize}
+      \item CSS is open source, and it the basis style sheet for HTML.
+      \item CSS is not able to easily create a web page that fit in different size of screen.
+      \item CSS is easy to learn, but it hard to use to make a good website.
+    \end{itemize}\\ \hline
+    Bootstrap \cite{boot_intro}&
+    \begin{itemize}
+      \item Bootstrap is open source project with good forum support.
+      \item Bootstrap is efficient because it has responsive deign. It provide many templates.
+      \item Bootstrap is easy to learn and use.
+    \end{itemize}\\ \hline
+    Foundation \cite{foundation_intro}&
+    \begin{itemize}
+      \item Foundation is open source project.
+      \item Foundation is efficiency, and it has responsive deign. It provide many templates.
+      \item Foundation is easy to lean and provides free tutorials.
+    \end{itemize}\\ \hline
+    \end{tabular}
+\end{center}
+
+\paragraph{Discussion}
+
+% The table show us that all of them did similar work. However, they have different advantages and drawback. CSS is basis of HTML style sheet, and it works great, but it hard to create web pages beautiful. CSS is not responsive design. This make us hard to move web page into different size of screen, so we don't want to take CSS as our solution technology. Bootstrap and foundation does the same work. Both of them is open source and free to use. However bootstrap is much more stable and more templates, and there is free instructions in the W3C school. Foundation provides the tutorials, but it need to pay.
+The table show us that all of them did similar work however, they have different advantages and drawback.
+CSS is basis of HTML style sheet, and it works great, but it hard to create web pages beautiful using \textit{just} CSS and HTML.
+This make it hard to move web page into different size of screen, so we don't want to take CSS as our solution technology.
+
+Bootstrap and foundation do similar work, and both are open source and free to use.
+However bootstrap is much more stable and provides more templates, and there is free instructions in the W3C school for using it.
+
+\paragraph{Selection}
+
+The best option is the Bootstrap for our project because Bootstrap is open source project and has good tutorials in W3C schools.
+Bootstrap is the most popular font-end framework for web design, and it still updated by thousands of people.
+During we are developing our code, I think that we should have second choice.
+The Second choice is plain-HTML interface.
+Althoght plain-HTML dose not look beatiful, it is most straight way to present information to user.
+Keeping simple is the best way.

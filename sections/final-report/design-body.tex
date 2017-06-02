@@ -1,0 +1,894 @@
+\subsubsection{Component Overview}
+\label{component-overview}
+
+The following is a list of \textbf{required} project components ordered by importance:
+
+\begin{figure}
+\begin{center}
+    \begin{tabular}{ | l | r | }
+    \hline
+      Component & Owner \\ \hline
+      Document Transformer & Elijah C. Voigt \\ \hline
+      Website Interface & Shuai Peng \\ \hline
+      Web API & Elijah C. Voigt \\ \hline
+      Document Cache & Shuai Peng \\ \hline
+      Daemon Process & Elijah C. Voigt \\ \hline
+      Parallel Document Transformation & Zixun Lu \\ \hline
+      Benchmarking & Zixun Lu \\ \hline
+      Debian Software Package & Zixun Lu \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Required project components ordered by importance}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+    \begin{tabular}{ | l | r | }
+    \hline
+      Component & Owner \\ \hline
+      CLI Interface & Elijah C. Voigt \\ \hline
+      CentOS Linux software package & Elijah C. Voigt \\ \hline
+      Windows software package & Shuai Peng \\ \hline
+      FreeBSD software package & Elijah C. Voigt  \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Stretch goal project components ordered by importance}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Document Transformer}
+\label{document-transformer}
+
+This subsubsection outlines the views and viewpoints related to the Document Transformer.
+These components relate to core functionality of the application:
+
+\begin{enumerate}
+\item Taking input \gls{xml} and \gls{xslt} documents
+\item Parsing them into \gls{dom} objects
+\item Transforming those into a new \gls{xml} document
+\item Returning the final product to a user
+\end{enumerate}
+
+This subsubsection does not necessarily outline how users interact with the application, for that one should see the User Interface subsubsection (\ref{user-interface}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Transformer}
+\label{transformer}
+
+As the name suggests, the Transformer is the core of the XZES40 Document Transformer, which is the core of our application as a whole.
+At a high level this component takes two documents, an \gls{xml} and \gls{xslt} document, and returns a transformed \gls{xml} document.
+The rest of the application is built around this component; all other parts of the application depend on or work toward this feature.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The Transformer provides the core functionality of the application by transforming input documents into output documents.
+
+All users of the application use the Transformer indirectly by way of using it to transform their input documents into output documents.
+The Transformer component is not be directly exposed, however it is accessible via the Web \gls{api} (\ref{web-api}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Composition}
+
+The Transformer's functionality is outlined in the following steps:
+
+\begin{enumerate}
+  \item Receive the input \gls{xml} \gls{xslt} files.
+  \item Create a Document object out of the input files. This will either encode the input files as DOM objects (InputSource) or fetch the pre-compiled objects from the cache. (\ref{cache} \ref{document})
+  \item Pass the Document's parsed contents to the \cite{xalan-library} \textbf{transform} method.
+  \item Encode the transformed document back to a text file and return this document.
+\end{enumerate}
+
+These steps will each be held in a thread spawned by the long-running daemon process. (\ref{daemon})
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Dependencies}
+
+The Transformer directly depends on the following internal application components for the following reasons:
+
+\begin{itemize}
+  \item {
+      The Document class (\ref{parser}) is used to create a transformable \gls{dom} object from an input file. \cite{dom-spec}
+  }
+  \item {
+    The Document Cache (\ref{cache}) is used to store and retrieve parsed and transformed documents.
+    While this cache isn't strictly necessary for document transformation, it is used to speed up the process drastically.
+  }
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{State Dynamics}
+
+The Transformer deals heavily with state dynamics in ways: transforming documents .
+
+\textbf{Transforming documents}
+
+The Transformer does not directly handle transforming documents, this task is delegated to the \gls{xalan} library. \cite{xalan-library}
+The transformer takes two or more documents as input: an \gls{xml} \gls{dom} file and an \gls{xslt} object.
+The input documents are transformed by the \gls{xalan} library and the resulting document is eventually returned by the writer (\ref{writer}) via the \gls{api} (\ref{web-api}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interactions}
+
+Few components directly call the Transformer, however the transformer depends heavily on communicating with the cache.
+This is done by using a ``cache'' object.
+Documents are retrieved by using a ``get'' method and added to the cache with a ``set'' method.
+More information can be found in the Cache subsubsection of this document (\ref{cache}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The Transformer has one programmer-facing interface, the ``transform\_documents( filepaths )'' function.
+This can be used for testing, mocking, or implementation purposes.
+
+\textbf{transform\_documents( filepaths )}
+
+\begin{itemize}
+  \item This function takes as argument the path to the \gls{xml} file, the path to \gls{xslt} document, the output destination for the output file.
+  \item As output it writes a transformed \gls{xml} and returns a status code.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Document class}
+\label{document}
+\label{parser}
+
+The Document class gets as input an \gls{xml} or \gls{xslt} file prepares it to be transformed.
+It does this by either compiling it into a \gls{dom} objects and adding it to the cache or fetching the already compiled object from the cache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The Document class is a major component of the application.
+It receives as input an \gls{xml} or a \gls{xslt} file, it then parses and store or just retrieves the \gls{dom} representation of that file.
+The user will not use this function directly, but it executed by the Transformer (\ref{reader}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Dependencies}
+
+The Document class also depends on the Cache to store and retrieve parsed objects.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interactions}
+
+\begin{enumerate}
+  \item The class obtains a \gls{unicode} formatted \gls{xml} or \gls{xslt} file-path.
+  \item The class checks if the file has been parsed and stored in the Cache, and does not re-parse the file if it is in the Cache.
+  \item The class generates a \gls{dom} object via the \gls{xerces} library.
+  \item The class stores the \gls{dom} object to the Cache.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Resources}
+
+The \gls{xerces} library will be used during the parsing to generate a \gls{dom} object from the input file.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The following function declaration is used for the parser method:
+
+\textbf{class Document(source\_file\_path)}
+
+This constructor receives an \gls{xml} file or a \gls{xslt} file, and then parses it into a \gls{dom} object which is stored in the Cache.
+
+In parsing and storing the object, the class has methods which read the file contents, hashes the contents of the file, and uses this as a key when inserting data into the Cache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Cache}
+\label{cache}
+
+The Cache is a plus one feature of the XZES40 application.
+The Cache speeds up document transformation by storing and retrieving previously parsed documents.
+
+In practice the Cache will operate much the same as a \gls{hash-map} does, storing data at a location given a key which can also be used to retrieve the data.
+We will using keyList which is provided from XercessC.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The program heavily depends on the Cache.
+The Cache can store, delete, and retrieve \gls{dom} object from the in-memory cache 
+
+\textbf{Storing data}
+
+This is the major element of the Cache.
+
+The Cache stores data from the user, primarily parsed \gls{dom} data to avoid re-compiling files.
+
+\textbf{Deleting data}
+
+This provides the ability to remove items from the Cache for whatever reason.
+
+\textbf{Retrieving data}
+
+This allows users to fetch information stored in the Cache given the object's key.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Composition}
+
+Below are few of the components making up the Cache.
+
+\begin{itemize}
+    \item The Cache stores input data in a \gls{struct} along with the last time it was accessed and they key used to access the data.
+    \item The Cache can retrieve the data via searching the associated key.
+    \item The Cache can delete data corresponding with a key.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Logical}
+
+XZES40 handles object as a special structure.
+The Cache saves that object in the following format.
+
+\textbf{Key}
+
+This is a hash value associated with a cached object.
+This value is for retrieving the data from the Cache.
+
+\textbf{Content}
+
+The content is the parsed or transformed \gls{dom} object.
+
+\begin{lstlisting}
+struct node {
+  dom data;
+  string key;
+  date last_used;
+}
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Information}
+
+If an object is not in the Cache, the Cache stores the object into the in-memory cache. 
+Objects are removed from the cache via the Cache class' delete method.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{State Dynamics}
+
+The Cache handles the following state changes in the following ways.
+
+\begin{itemize}
+    \item {
+      When the Cache starts it allocates a block of memory for storage.
+     }
+    \item {
+      If an item is being set the cache ignores previously existing data.
+      It is the developers duty to ensure important data is not being overwritten.
+    }
+    \item {
+      When data is being read the state of that item in cache is assumed not to change.
+      If the item is not found it returns an empty object.
+    }
+    \item  When an item is deleted it returns a SUCCESS status if the object existed and is not deleted, and a FAILURE status if the object did not exist in the cache before the call.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interactions}
+
+The parser sends a parsed \gls{dom} object to the Cache. 
+The Cache will check the flies if it is exist in the memory. 
+If the file exists in the memory, the Cache retrieves the \gls{dom} object from the Cache and return to the Document class. 
+If the file does not exist in the memory, the Document class continues to process the file, and stores parsed file into the Cache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Algorithms}
+
+The Cache can be divided into five major function.
+The First function is \textbf{set}, second is \textbf{get}, third is \textbf{dump}, fourth is \textbf{load}, and fifth is \textbf{delete}.
+
+\textbf{Set}
+
+Stores an object at a location in the allocated memory block based on the an \gls{md5} hash of the ``key'' parameter given.
+
+\textbf{Get}
+
+This function retrieves the \gls{dom} object from the cache by the key of the parsed file.
+
+\begin{enumerate}
+    \item If there is key exist in the cache, \textbf{return} the \gls{dom} object at that location.
+    \item If the key does not exist in the cache, \textbf{return} an empty storage struct object.
+\end{enumerate}
+
+\textbf{Delete}
+
+This function delete the \gls{dom} object from the cache by the key of the parsed file.
+
+\begin{enumerate}
+    \item The Delete receives a key to delete the data it's located at.
+    \item If there is key exist in the cache, the Delete deletes this \gls{dom} object in the cache, and \textbf{return} that there is successfully delete.
+    \item If the keys is not key in the cache, \textbf{return} is no \gls{dom} object inside of cache.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Resources}
+
+The Cache needs a large memory allocation to function optimally.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Dependencies}
+
+The Cache depends on the Document and the Transformer to populate it.
+The Document class sends a file to the Cache for checking if file exists in the Cache.
+The Document class also can send a parsed \gls{dom} object for storing into the Cache if file does not exist in the Cache.
+The Cache may either return a \gls{dom} object to the Transformer, or the cache return null if the \gls{dom} object is not in the Cache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+Below are the major interfaces for the cache component of XZES40-Transformer.
+
+\textbf{int document\_cache( dom\_object file )} 
+
+This checks the \gls{dom} object if it exist in the Cache.
+
+\begin{itemize}
+    \item If it's not in the cache, return fail. 
+    \item If it is in the cache, return true.
+\end{itemize}
+
+\textbf{dom\_object set\_cache( dom\_object file )} 
+
+This receives object file and store it into the memory.
+
+\textbf{dom\_object delete\_cache( dom\_object file )}
+
+This deletes data from the Cache.
+
+\begin{itemize}
+    \item If the \gls{dom} object exists in the cache, return true.
+    \item If the \gls{dom} object does not exist in the Cache, return error.
+\end{itemize}
+
+\textbf{dom\_object get\_cache( dom\_object file )} 
+
+This retrieves data from the cache.
+
+\begin{itemize}
+    \item If the \gls{dom} object exists in the cache, return the \gls{dom} object.
+    \item If the \gls{dom} object does not exist in the Cache, return error.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Parallel Computation}
+\label{parallel-computation}
+
+In addition to the Cache component of XZES40-Transformer (\ref{cache}), the application will also carry out certain computations in parallel to further leverage the computing resources available to it and compile documents even faster.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The Parallel Computation component of the application carries out the following operations in parallel to speed up documentation transformations.
+
+\textbf{Document Parsing}
+
+This will be carried out in parallel.
+These operations are logically independent so they can be carried out simultaneously without affecting data integrity.
+
+\textbf{User Requests} 
+
+This will also be carried out in Parallel, handled by Apache.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Dependencies}
+
+The Parallel Computation component of the application will be carried out at the high level by Apache delegating parsing jobs, see the \gls{web-api} subsubsection for more information \ref{web-api}.
+the application will also carry out parallel computation internally (C++) using the MPI library.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interactions}
+
+Our MPI-based thread computing will operate mostly autonomously, except when putting data into and fetching data from the application Cache (\ref{cache}).
+With the exception of interacting with the Cache each parsing thread will not interact with other internal components of the application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Algorithms}
+
+One major concern with handling a cache by multiple threads and processes in parallel is avoiding data corruption.
+This is not a problem we have yet solved and further revisions of this document will elaborate on how we will handle this dilemma.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+When documents are being parsed each parsed document will spawn it's own thread.
+This functionality is in the Document class component of the application in subsubsection \ref{parser}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Daemon}
+\label{daemon}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+Because the application needs to be available continuously, and because it needs to store objects in an in-memory Cache, the application is daemonized.
+This means that it continues to run in a suspended state when it is not actively performing document transformations.
+When it does receive an incoming request it spawns a thread, does the transformation, and closes the thread.
+This allows multiple document transformations to happen in parallel conveniently.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Composition}
+
+The daemon is composed of two main components:
+
+\begin{itemize}
+  \item {
+    A parent thread which will wait for a signal to handle a request.
+    This signal is accompanied with some context for what task needs to be performed, i.e., a document transformation.
+  }
+  \item {
+    A child thread is spawned for each incoming signal.
+    The child process exits at the end of it's transformation after returning the transformed document or an error which is propagated up through the parent process to the signaling process.
+  }
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The interface to the daemon is the same as that of the daemon.
+A CLI on the host running the daemon will accept an XML and XSL document as input, pass these to the daemon, and respond with an error or transformed document.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{User Interface}
+\label{user-interface}
+
+The Document Transformer is fine and great, but without a user interface it's not useful.
+The following two subsubsections, the \gls{web-api} (\ref{web-api}), Website interface (\ref{website}), and \gls{cli} (\ref{cli}) together outline the ways users will will interact with the system described in the previous subsubsection.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{\gls{web-api}}
+\label{web-api}
+
+The \gls{web-api} is the standardized interface between the user interfaces and an instance of the application running on a host, communicating over \gls{http}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The users for the \gls{web-api} are those who use the application from the \gls{cli} (\ref{cli}) and (Website \ref{website}).
+Both interfaces interact with the XZES40-Transformer host via standard \gls{http} request methods.
+But nobody should use the \gls{api} directly as a \gls{ui} is much easier than crafting an \gls{http} POST request.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Composition}
+
+The \gls{web-api}is composed of the following components:
+
+\begin{enumerate}
+  \item  An \gls{apache} runs on the remote host.\cite{apache-server}
+  \item The server manages a \gls{python} \gls{cgi} script which handles accepting requests and sending responses.
+  \item The \gls{python} script calls the XZES40-Transformer application locally, passing input documents from a POST request and sending response files via the \gls{cgi} interface.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Dependencies}
+
+The \gls{web-api} internally depends on an XZES40-Transformer binary which accepts an input \gls{xml} file, and input \gls{xslt} file, and writes a transformed file to disk in a predictable location.
+The binary should also exit with predictable exit codes to communicate any errors or successes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The \gls{web-api} communicates with remote clients via a standard \gls{http} \gls{api}.
+Below are the requests a client can send and the possible responses:
+
+\textbf{POST /api/}
+
+This is a request sent to the \gls{api} endpoint (/api/) with the intention of getting two input files transformed into a new document.
+This can respond in the following ways.
+
+\begin{description}
+  \item {
+      \textbf{200 OK}  Means the transformation was successful.
+        This response includes a body containing the transformed file and a \gls{uri} to re-download the response file.
+    }
+    \item {
+      \textbf{400 USER ERROR} Means that the user sent malformed documents.
+        This can include a document which does not follow the \gls{xml}/\gls{xslt} standard to a document which does not have a readable character encoding.
+        This response includes a body containing an appropriately specific error.
+    }
+    \item {
+      \textbf{500 SERVER ERROR} Means that the server experienced an internal error while processing the request.
+         This includes fatal XZES40-Transformer errors.
+        This response includes a body containing an appropriately specific error.
+    }
+\end{description}
+
+The POST request is a request with a Form containing input documents in fields titled \gls{xml} and \gls{xslt} for an \gls{xml} 1.0 formatted document and an \gls{xslt} 1.0 formatted document respectively.
+
+\textbf{GET /api/}
+
+This is a request sent to the \gls{api} endpoint (/api/) with the intention of getting a status of the server. This can respond in the following ways:
+
+\begin{description}
+  \item \textbf{200 OK} Means the \gls{web-api} endpoint is active and functioning correctly.
+    \item \textbf{404 NOT FOUND} Means that the \gls{web-api} endpoint is not configured correctly or the user is accessing a page which is not available.
+    \item \textbf{503 SERVICE UNAVAILABLE} Means that the \gls{web-api} is setup correctly, but the application on the remote host is not operating correctly.
+\end{description}
+
+The GET request is an empty GET request to the servers ``/api/'' endpoint.
+
+\textbf{\gls{python} Interfaces}
+
+The following interfaces are used for implementing the above \gls{http} interfaces.
+
+\textbf{process\_request(http-request req)}
+
+This method is used to receive an \gls{http} \gls{api} request.
+It does this by reading the request header and deciding based on that to carry out one of the above responses.
+In the case of a POST request it uses an ``exec'' call to the local XZES40-Transformer application binary and responds with the error / output file of that application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Resources}
+
+The \gls{web-api} has the following external dependencies:
+
+\begin{itemize}
+  \item The \textbf{\gls{apache}} is used to process \gls{http} requests by running the \gls{python} \gls{cgi} script.
+    \item \textbf{\gls{python} 2.7+} is the programming language the \gls{web-api} is written in.
+    \item \textbf{cgi} is a \gls{python} library for processing web requests in \gls{python}.
+    \item \textbf{cgitb} is a \gls{python} library for developing with the cgi library.
+    \item \textbf{mod\_wsgi} is an Apache module for interacting with \gls{python}.
+    \item \textbf{mod\_python} is another Apache module for interacting with \gls{python}.
+\end{itemize}
+
+They should be installed via a system package manager or the \gls{python} package manager (whichever is appropriate) for the \gls{web-api} to operate correctly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Website}
+\label{website}
+
+The website interface is the major user interface for the XZES40 application.
+Website interface is a \gls{gui} interface for user.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The Website interface is common interface for application.
+User can uses website to complete request with few of instructions.
+User can upload the \gls{xml}/\gls{xslt} files that they want, and the website will give the feed back.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Composition}
+
+The web interface to access the application in a browser.
+Here is components of the \gls{web-ui}.
+
+\begin{itemize}
+    \item An upload field for the \textbf{\gls{xml}} file.
+    \item An upload field for the \textbf{\gls{xslt}} file.
+    \item A button for user send the request to server via \textbf{POST} method.
+    \item {
+       After user sends a request to server the website will respond with a message to user.
+        This message may be error or successfully upload or generate download link.
+    }
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{State Dynamics}
+
+There are few of states for website.
+
+\begin{itemize}
+    \item If user upload bad files the website gives feedback that the files were bad.
+    \item If user upload files and server transforming the documents the website gives the feedback that user upload files successfully.
+    \item If user uploads files and server is down the website gives the warning that transformation service is not working.
+    \item If user uploads good files and the server successfully transforms the documents the user is given a download link to the new file.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interactions}
+
+The initialization status of website is waiting for user upload files.
+After user select flies that they want upload and click the submit button.
+Website will send the request to server via the \gls{web-api}.
+There are many possible feedback as following.
+
+\begin{itemize}
+    \item If the files uploaded are bad the website pops up a warning about the malformed files.
+    \item  If the user uploads both an \gls{xml} and \gls{xslt} file the user is alerted that the request is good to go and that the website will generate a download link for them.
+    \item If the connection is broken the website will give them a warning that user should check the connection between client and server.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The Web interface is XZES40 main interface for user.
+The web interface asks user to upload \gls{xml} files and \gls{xslt} files, and gives the feedback of result.
+Here is the diagram for website interface.
+
+% \textbf{Web interface Diagram}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{\gls{cli}}
+\label{cli}
+
+The \gls{cli} is used to interact with the system via a text-based terminal/shell interface.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The users of this interface are individuals who either prefer the \gls{cli} over a web interface or for testing purposes as automating tasks with the \gls{cli} is very common.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Composition}
+
+The \gls{cli}, written in \gls{python}, and will be composed of the following components.
+
+\begin{itemize}
+  \item The main function parses command-line arguments specified below in the ``Interfaces'' part of this subsubsection.
+    \item A query is built for the server including the \gls{xml}and \gls{xslt} documents to the specified server.
+    \item The query is sent to the server in a POST request.
+    \item When the response is received either an error message is displayed to the user or a file is saved locally.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Resources}
+
+The \gls{cli} depends on the following system dependencies:
+
+\begin{itemize}
+  \item {Python 2.7+} is the programming language it will be implemented in, so a Python runtime will be necessary for the application to run.
+    \item {Requests} is the standard Python library for interacting with servers over \gls{http}.
+    \item {A terminal and \gls{unix} compliant shell} will also be necessary to access the application via the \gls{cli}.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The \gls{cli} has the following options available at the command-line:
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40
+    --server=<server-url[:port]> # API endpoint and port to be used.
+    --xml=<input-file>.xml       # Input XML file
+    --xslt=<style-sheet>.xslt    # Input XSLT file
+    \end{lstlisting}
+    \caption{\gls{cli} Flags. All fields encased in chevrons symbols are required. All fields with square brackets are optional.}
+\end{figure}
+
+\textbf{Example Use-cases}
+
+The following are examples of the \gls{cli} in use:
+
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40 --server=http://xzes40.example.com:8080 \
+         --xml=input-file.xml \
+         --xslt=style.xslt
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Downloading transformed document to ./xzes40-transformer-2016-11-22.xml
+    \end{lstlisting}
+    \caption{``Happy path'' use-case without specifying return file name.}
+\end{figure}
+
+
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40 --server=http://xzes40.example.com:8080 \
+         --xml=input-file.xml \
+         --xslt=style.xslt \
+         --output=transformed-doc.xml
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Downloading transformed document to ./transformed-doc.xml
+    \end{lstlisting}
+   \caption{``Happy path'' use-case with return file name.}
+\end{figure}
+
+\begin{figure}
+    \begin{lstlisting}
+$ xzes40 --server=http://xzes40.example.com:8080 \
+         --xml=input-file.xml \
+         --xslt=style.xslt \
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Server responded with error. One of your documents is malformed.
+    \end{lstlisting}
+    \caption{``Un-happy path'' with malformed document.}
+\end{figure}
+
+
+``Un-happy path'' with bad host.
+\begin{figure}
+\begin{lstlisting}
+$ xzes40 --server=http://fakesite.com:8080 \
+         --xml=input-file.xml --xslt=style.xslt \
+Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
+Unable to reach server. Is the host/port correct?
+\end{lstlisting}
+\caption{``Un-happy path'' with bad host.}
+\end{figure}
+
+\begin{figure}
+\begin{lstlisting}
+$ xzes40  --xml=input-file.xml--xslt=style.xslt
+Please specify a host
+\end{lstlisting}
+\caption{``Un-happy path'' with no host.}
+\end{figure}
+
+\begin{figure}
+\begin{lstlisting}
+$ xzes40  --server=http://xzes40.example.com:8080
+Please specify an input xml and/or xslt document.
+\end{lstlisting}
+\caption{``Un-happy path'' with missing input document.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{System Requirements}
+\label{system-requirements}
+
+The XZES40-Transformer will be required to work on the Debian Linux system.
+Once development on Debian is completed the application will be ported to other \gls{os} platforms.
+Our team will release \gls{debian}, \gls{centos}, \gls{bsd} and \gls{windows} packages.
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Installation Packages}
+\label{installation-packages}
+
+For installation convenience the XZES40 project will provide a \gls{linux}, \gls{bsd}, and \gls{windows} installation packages.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+The user can directly download installation packages through the internet and install the XZES40-Transformer on their local systems.
+We will create the Debian package initially.
+After this, we will create the \gls{centos}, \gls{bsd}, and \gls{windows} packages.
+We will upload those packages to the internet and the users can directly download the packages in their operation system.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Resources}
+
+The following tools will be used to create the installation packages. 
+\begin{figure}
+\begin{center}                                                                       
+    \begin{tabular}{ | p{2.5cm} | p{5cm} | p{5cm} | }
+    \hline
+      Packages & Tools & Description\\ \hline
+      \gls{linux} \& \gls{bsd} Packages  & 
+      \begin{itemize}
+      \item \gls{fpm}
+      \end{itemize}
+      & \begin{itemize}
+      \item Translates packages from one format to another
+      \item Allows re-use of other system's packages
+      \end{itemize}
+      \\ \hline
+      \gls{windows} Packages & 
+      \begin{itemize}
+      \item \gls{wix}
+      \end{itemize}
+      & \begin{itemize}
+      \item It is a open source project.
+      \item It is more stable and security than other tools.
+      \item It has steed
+      \end{itemize}
+      \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Installation Packages Resources}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{\gls{os-api}}
+\label{os-agnostic-api}
+
+The \gls{os-api} will be the programs interface with the \gls{os}.
+It will be created to make porting the application easier. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Logical}
+
+Any operating system specific operation will be wrapped by the \gls{api}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interactions}
+
+The application will interact with the host system via an \gls{os-api}.
+This means that all operating system specific operations (e.g., read, write, seek, etc) will be done via an \gls{api}.
+When the application is compiled on a new target platform (e.g., \gls{linux}, \gls{bsd}, \gls{windows}) a new platform \gls{api} must be created for compatibility.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Interfaces}
+
+The \gls{os-api} interface is for the developer.
+This interface performs operations by asking the \gls{os-api} to carry out the task and that request is translated to the system-specific system-call. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Performance Benchmark}
+\label{performance-benchmark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Context}
+
+We will run test against similar application to determine how fast XZES40 should be.
+Throughout development we will put our application through the same paces and compare which is faster.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Resources}
+
+We will be bench-marking these applications specifically for the following reasons.
+
+\begin{figure}
+  \centering
+  \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    \gls{xalan} \gls{cli}&
+    \begin{itemize}
+      \item \gls{xalan} uses \gls{xerces} to parse \gls{xml} documents and \gls{xslt}.
+      \item The project provides an open source \gls{cli} program to test the project libraries.
+      \item Free and Open Source
+    \end{itemize}\\ \hline
+    Altova &
+    \begin{itemize}
+      \item To meet industry demands for an ultra-fast processor.
+      \item It offers powerful, flexible options for developers including cml, python.
+      \item Superior error reporting capabilities include reporting of multiple errors, detailed error descriptions.
+    \end{itemize} \\ \hline
+  \end{tabular}
+  \caption{Bench-marking Resources}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Design Rationale}
+
+This subsubsection explains why certain design decisions were made and ``connects the pieces'' of the application.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Cache Decisions}
+
+The reason the Cache uses an in-memory system rather than a database or a file-based cache is purely for performance reasons.
+Using an in-memory cache over a file-based one should yield faster performance.
+As a compromise the cache is dumped to a file periodically to save the state of the cache in case the application daemon (which holds the cache) is restarted.
+
+This may cause problems as the service may run out of memory.
+In an attempt to mitigate this a Garbage Collector may be built which is triggered when a certain percentage of the application's allocated memory is used, or on certain time intervals.
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{\gls{web-api} Decisions}
+
+The \gls{web-api} connects the application to the outside world in an ideally simple to implement and quick to operate fashion.
+The application uses Apache to handle incoming requests, these are passed to a \gls{cgi} script which could be written in anything, we chose \gls{python} because it is easy to write, maintain, and is well supported.
+
+\gls{python} is called by \gls{apache} which then in turn, based on the request, either returns an application status or calls the XZES40 application locally.
+In this way \gls{python} with \gls{apache} is a simple, well supported set of tools which expose the application to the outside world.
+
+These tools were not necessarily chosen for their speed, and so a redesign may be necessary if they create a bottle-neck in the request pipeline.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Packaging Decisions}
+
+This document outlines the use of \gls{fpm} to create its \gls{linux} and \gls{unix} packages.
+This decision was made for convenience and to allow for quick iteration on the package.
+In doing research there \textit{are} other tools which can be used to create packages on \gls{centos}, \gls{debian}, and \gls{bsd} but they are very system specific and so would make iterating on the package very difficult, and updates to the software a pain to package.
+Using \gls{fpm} we can even automate the build of packages on our \gls{unix}-like systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Bench-marking decisions}
+
+To demonstrate the competitiveness of the XZES40-Transformer application we chose to compare the performance of this application against the Xalan C++ and the Altova application.
+
+This feels like a fair and balanced comparison as we hope to be competitive with the Altova application but need to ensure we are at least better than the Xalan C++.

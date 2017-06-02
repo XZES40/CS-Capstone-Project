@@ -1,5 +1,12 @@
 \input{preamble}
 
+\makeglossaries
+
+\renewcommand{\glossarysection}[2][]{}
+
+\newpsstyle{Important}{fillstyle=solid, fillcolor=red}
+\newpsstyle{NotImportant}{fillstyle=vlines }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % You are making this final notebook for several reasons: 
 % > This documents what you did and how you did it.
@@ -45,6 +52,10 @@
 \tableofcontents
 
 \input{sections/final-report/introduction}
+
+\input{sections/glossary}
+
+\input{sections/references}
 
 \input{sections/final-report/requirements}
 

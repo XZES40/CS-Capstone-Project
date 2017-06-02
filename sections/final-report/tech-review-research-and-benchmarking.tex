@@ -1,0 +1,56 @@
+% Section One: Research and Benchmarking
+% Owned by Zixun Lu 
+%\subsubsubsubsection{Research and Benchmarking}
+%The first application necessary for XML data processing are XML parsers and XML validators. The key aim is to check correctness of the input data, i.e. their conformance to either W3C recommendations or respective XML schemes. Hence, the benchmarks usually involve sets of correct and incorrect data and the goal is to test whether the application under test recognizes them correctly.
+%\paragraph{XML Conformance Test Suites}
+%Binary tests contain a set of documents of one of the following categories: valid documents, invalid documents, non-well-formed documents, well-formed errors tied to external entity and documents with optional errors. Depending on the category, the tested parser must either accept or reject the document correctly (therefore, the tests are called binary). The expected behavior naturally differs if the tested parser is validating or non-validating. On the other hand, the output tests enable to test whether the respective applications report information as required by the recommendation. Again, validating processors are required to report more information than non-validating ones.
+%\paragraph{}
+
+%\paragraph{}
+\subsubsection{Research and Benchmarking}
+
+\paragraph{Options}
+
+\paragraph{Goals for use in design}
+
+Our team will do the research and benchmarking to grantee that our application is fast enough.
+
+\paragraph{Criteria being evaluated}
+
+We will test some number of requests against a comparable to find which transformers use the time less.
+Throughout development we will put our application through the same paces and compare which is faster.
+
+\paragraph{Comparison breakdown}
+
+\begin{center}
+  \begin{tabular}{ | l | p{10cm} |}
+    \hline
+    Technology & Description  \\ \hline
+    Xalan CLI \cite{Xalan-C} &
+    \begin{itemize}
+      \item Xalan-C++ uses Xerces-C++ to parse XML documents and XSL stylesheets.
+      \item The project provides an open source CLI program to test the project libraries.
+      \item Free and Open Source
+      \item It works on the Debian operation system. 
+    \end{itemize}\\ \hline
+    Altova \cite{Altova} &
+    \begin{itemize}
+      \item To meet industry demands for an ultra-fast processor.
+      \item It offers powerful, flexible options for developers including cml, python.
+      \item Superior error reporting capabilities include reporting of multiple errors, detailed error descriptions.
+      \item It only works in the Windows operation system. 
+    \end{itemize} \\ \hline
+  \end{tabular}
+\end{center}
+
+\paragraph{Discussion}
+
+Xerces is a simple CLI application developed by the Xerces project to test the library.
+This is very similar to our program as it is open source, uses the same libraries, but lacks the caching we will implement.
+
+RaptorXML is built from the ground up to be optimized for the latest standard and parallel computing environments.
+It is proprietary tool which we may try to out-perform as a stretch goal, but to start with out application will not try to out-perform.
+
+\paragraph{Selection}
+
+We will compare our application to the Xalan-C CLI as it is the closest competitor to our application.

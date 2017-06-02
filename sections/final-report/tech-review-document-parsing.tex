@@ -1,0 +1,68 @@
+\subsubsection{XML/XSLT Document Parsing (Elijah C. Voigt)}
+
+XML document compilation is the process by which an XML formatted document is taken and parsed into an in-memory object.
+The library we will be using, as requested by or client, will be the Xerces-C/C++ XML parser library; this review will evaluate that library.
+The other point of wiggle-room we have is in what way we parse and store the document in memory.
+
+\paragraph{Options}
+
+For this requirement we will review the C/C++ library that we were requested to use by our client, and two XML parsing techniques we may use.
+The two techniques for parsing an XML document include SAX and DOM, the library we need to use is able to perform both methods.
+These are both designed with specific use-cases in mind, however the method we ought to use is not so simply chosen.
+
+\paragraph{Goals for use in design}
+
+With the goal of optimizing peformance in mind we will choose the parsing option which is fastest for our application.
+This is not as simple as choosing the one which is known for being fastest, because we will also be caching documents and performing parallel computations which may pull the needle toward one method of compiliation over another.
+
+\paragraph{Criteria being evaluated}
+
+We will be evaluating the parsing method which is likely to perform best in our application given that we will be caching documents and compiling them in parallel.
+
+\paragraph{Comparison breakdown}
+
+\begin{center}
+  \begin{tabular}{ | l | p{10cm} | }
+    \hline
+    Technology & Description  \\ \hline
+    Xerces-C/C++ \cite{xerces} &
+    \begin{itemize}
+      \item Requested to be used by our client.
+      \item Implements DOM parsing.
+      \item Implements SAX parsing.
+      \item Feature Rich.
+    \end{itemize}\\ \hline
+    DOM parsing \cite{dom-vs-sax} &
+    \begin{itemize}
+      \item Memory intensive.
+      \item Ideal for carrying out many operations on a document.
+    \end{itemize}\\ \hline
+    SAX parsing \cite{dom-vs-sax} &
+    \begin{itemize}
+      \item Memory light.
+      \item Event-based processing.
+      \item Ideal for minimal transformations.
+    \end{itemize}\\ \hline
+  \end{tabular}
+\end{center}
+
+\paragraph{Discussion}
+
+DOM parsing is know for being memory intensive and slower in simple cases.
+It is also know for being ideal in applications like updating a web-page where many operations happen to a document.
+It is not necessarily ideal for simple document transformation, but does produce a complete parsed object which we can cache easily.
+
+SAX parsing is known for being better than DOM parsing in that it parses a document in an event based method, giving it a smaller memory footprint and shorter time-to-transform.
+Simple transformations are common use-cases for SAX parsing.
+SAX does not produce an object model and instead uses callbacks to perform document transformations.
+
+\paragraph{Selection}
+
+We will be using the Xerces-C/C++ library to accomplish the task of XML document parsing.
+It is feature rich enough to give us leeway in our development where we need it
+The library is also lean enough that it should not affect performance negatively.
+
+As for choosing between SAX parsing vs DOM parsing, we will most likely choose DOM parsing since it fits our application's caching requirement well.
+DOM parsing produces an easily cached tree object which we can store and retrieve for later operations.
+SAX parsing is faster than DOM parsing, but the time saved by using a cached object instead of re-parsing an XML/XSLT document dependency will likely outweigh the benefits of SAX parsing.
+It may be worth-while to investigate using SAX parsing early on in development if we find a notable performance boost, so some amount of SAX proof of concept work should be done for the sake of being thorough, but DOM parsing will be the targeted document parsing method.
