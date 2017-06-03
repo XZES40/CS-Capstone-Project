@@ -16,3 +16,106 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A discussion of what had to change over the course the year.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The design of the application changed in a few minor ways during the course of development.
+Some of these changes were a narrowing of the design while others were entirely added or removed components.
+This section outlines those changes and why they were made.
+
+\subsubsection{Daemon}
+
+The application daemon, the constant running process which processes incoming requests and returns a compiled document, was ill-planned early on in development.
+The ill-definition came mostly from a lack of understanding of how the caching process would work; it was undetermined if we would depend on a truly in-memory caching system or depend on some other system, like Redis, to store serialized files.
+
+Once our client made clear that we should use an in-memory cache we were then tasked with determining the best way to execute this idea.
+We started by implementing UNIX sockets as a means of communication between our Python written CGI script and the C/C++ written daemon.
+This was shortly converted into a localhost network socket for convenience.
+
+After we got communication between the Web API script and daemon we were then tasked with crafting an even loop and preventing race conditions.
+This touched every aspect of the C/C++ code, requiring a heavy re-write of the existing ``main'' daemon code as well as some components of the caching.
+The jist of this even loop is:
+
+\begin{enumerate}
+  \item Setup networking connection with API script.
+  \item Enter while loop.
+  \item Enter for loop. Each loop here represents a thread being spawned.
+  \begin{enumerate}
+    \item Receive a request. Format of request is specified in the next section.
+    \item Lock cache.
+    \item Process request.
+    \item Unlock cache.
+    \item Wait for another request.
+  \begin{enumerate}
+  \item After five requests have been processed, clean the threads and start the while loop again.
+\end{enumerate}
+
+\subsubsection{Web API}
+
+The web API is used to access the application over an HTTP(S) connection.
+It is processed as an Apache CGI script written in Python.
+
+When a request comes it it is formatted as an HTTP Form with the following fields and values:
+
+\begin{itemize}
+  \item xml: Content of XML input file.
+  \item xsl: Contnet of XSLT input file.
+  \item params: A JSON formatted key:value pair of custom parameters (discussed further in the next subsection).
+\end{itemize}
+
+This is processed using the CGI script library.
+The input files are hashed, the resulting hash is each file's name; the files are saved on disk to ``/tmp/xzes/...''.
+The two files and their parameters are concatenated and hashed together, this is the job ID and filename of the output file.
+A quick check is made to see if this combination of files and parameters has already been processed.
+If it has, the previously processed (and already locally saved) file is returned.
+If the output file does not already exist, the job continues.
+
+The job request is formatted as ``job_id,/path/to/input.xml,/path/to/input.xslt/path/to/output.xml,param1,`val1',param2,`val2',...`.
+The serialized request is sent over a local network to the C++ daemon and processed.
+Since both the API script and daemon are on the same machine the files are opened directly from disk and the output file is written to the same directory.
+
+When the request is over the daemon responds with a string ``job_id,/path/to/output.xml,errors if any''.
+The connection is then closed and the API send the file back to the user that made the request.
+
+\subsubsection{Custom parameter and file passing}
+
+One \textit{very} late addition to the application was custom parameter and additional file passing to the application.
+The former is when a user sends a key:value pair to the transformer, each instance of the XML variable ``key'' is replaced with ``value'', usually being replaced with pre-defined default.
+The latter is when a user sends an additional(s) file to the transformer which are required for the transformation to take place; these can be thought of as header files.
+
+The parameter passing was defined in the above section.
+Essentially the parameters are parsed by the web form (discussed below), serialized in JSON, and sent to the API to be decoded in python.
+
+The file passing was not designed as it was never feasible to add this feature to the application.
+
+\subsubsection{Interface (web)}
+
+The web interface is written in stock HTML, CSS, JavaScript, and jQuery.
+
+\begin{itemize}
+  \item The page is a single form consisting of two fields, one to upload the XML file and the other to upload the XSL file, an ``add parameter'' button, and a ``submit form'' button.
+  \item That buttons adds a field for the key:value pair passed to the XML transformer.
+  \item When the form is ``submitted'' jQuery processes the form, serializes the parameters into JSON, and sends it asynchronously to the API endpoint ``/cgi-bin/''.
+  \item If the transformation is a success, a button prompting the user to download the file and another to preview the file in the browser appear in the page.
+  \item If the transformation is not a success an error message passed from the transformer is displayed instead.
+\end{itemize}
+
+\subsubsection{Interface (CLI)}
+
+The CLI interface was never developed in favor of the web interface.
+
+As it turns out the web interface was only marginally more difficult to develop than the CLI.
+
+A CLI used for testing does exist in the source repository.
+
+\subsubsection{Installation packages}
+
+In addition to the CLI, the administrator installation package was never pursued.
+
+Bash scripts were used to provision a development VM, these may be used to \textit{create} a development package, but one was not created for either Debian nor the other [stretch goal] targets.
+
+This requirement was not explicitly dropped, just not pursued because of development constraints.
+
+\subsubsection{OS Agnostic C/C++ API}
+
+As development efforts were stretched thin, the dream of writing an OS agnostic API for system calls was not pursued as well.
+
+This requirement was not explicitly dropped, just not pursued because of development constraints.

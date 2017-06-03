@@ -1,7 +1,7 @@
 \section{Project requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introduction.
-% What the project reqiurements are.
+% What the project requirements are.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Preliminary project requirements}
@@ -29,6 +29,17 @@
 % | 3 | Requirement | What happened to it | Comments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+This section outlines requirements added to the project during development.
+
+\begin{center}
+  \begin{tabular}{ c| c | c | c }
+/bin/bash: gt: command not found
+    \hline \\
+    1 & Parameter passing & & \\
+    2 & Additional file passing & & \\
+  \end{tabular}
+\end{center}
+
 \subsection{Updated requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % What existing requirements were changed?
@@ -39,6 +50,17 @@
 % | 3 | Requirement | What happened to it | Comments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+This section outlines requirements which changed during development.
+
+\begin{center}
+  \begin{tabular}{ c | c | c | c }
+    \# & Requirements & What happened & Comments \\
+    \hline \\
+    1 & Daemon & This requirement was more complex than initially expected, there was confusion about the complexity of this component. We were originally unclear about weather we needed to run a daemon for our in-memory cache, or if we could store the cache in a separate application like Redis. & \\
+    2 & CLI Interface & A CLI Interface was not explicitly created for the application, however one was created for testing purposes. & With small changes this interface may be created if further development takes place \\
+  \end{tabular}
+\end{center}
+
 \subsection{Removed requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % What existing requirements were deleted?
@@ -48,3 +70,16 @@
 % | 2 | Requirement | What happened to it | Comments
 % | 3 | Requirement | What happened to it | Comments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This section outlines requirements which were removed during development.
+
+\begin{center}
+  \begin{tabular}{ c | c | c | c }
+    \# & Requirements & What happened & Comments \\
+    \hline \\
+    1 & Installation Package &
+      This requirement was not explicitly removed from the requirements list, however no effort was made to complete this component of the project. & 
+      Neither the core requirements, a Debian package, nor the stretch goals, a Windows, CentOS, and BSD package, were pursued.
+      The client agreed that as a prototype an installation package was not required to call the project as success. \\
+  \end{tabular}
+\end{center}
