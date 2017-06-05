@@ -4,6 +4,9 @@
 % What the project requirements are.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Before development can take place the team responsible for a project collects the necessary requirements for a project and criteria for success.
+These are what the client ought to ``grade'' the final product against to judge ``Was this project a success?''
+
 \subsection{Preliminary project requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Your original Requirements Document.
@@ -33,7 +36,6 @@ This section outlines requirements added to the project during development.
 
 \begin{center}
   \begin{tabular}{ c| c | c | c }
-/bin/bash: gt: command not found
     \hline \\
     1 & Parameter passing & & \\
     2 & Additional file passing & & \\
@@ -56,8 +58,8 @@ This section outlines requirements which changed during development.
   \begin{tabular}{ c | c | c | c }
     \# & Requirements & What happened & Comments \\
     \hline \\
-    1 & Daemon & This requirement was more complex than initially expected, there was confusion about the complexity of this component. We were originally unclear about weather we needed to run a daemon for our in-memory cache, or if we could store the cache in a separate application like Redis. & \\
-    2 & CLI Interface & A CLI Interface was not explicitly created for the application, however one was created for testing purposes. & With small changes this interface may be created if further development takes place \\
+    1 & Daemon & This requirement was more complex than initially expected, there was confusion about the complexity of this component. We were originally unclear about weather we needed to run a daemon for our in-memory cache, or if we could store the cache in a separate application like Redis. & \\ \hline
+    2 & CLI Interface & A CLI Interface was not explicitly created for the application, however one was created for testing purposes. & With small changes this interface may be created if further development takes place \\ \hline
   \end{tabular}
 \end{center}
 
@@ -75,11 +77,11 @@ This section outlines requirements which were removed during development.
 
 \begin{center}
   \begin{tabular}{ c | c | c | c }
-    \# & Requirements & What happened & Comments \\
-    \hline \\
+    \hline
+    \# & Requirements & What happened & Comments \\ \hline
     1 & Installation Package &
       This requirement was not explicitly removed from the requirements list, however no effort was made to complete this component of the project. & 
       Neither the core requirements, a Debian package, nor the stretch goals, a Windows, CentOS, and BSD package, were pursued.
-      The client agreed that as a prototype an installation package was not required to call the project as success. \\
+      The client agreed that as a prototype an installation package was not required to call the project as success. \\ \hline
   \end{tabular}
 \end{center}

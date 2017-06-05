@@ -37,27 +37,31 @@ The fourth option is to use the in-memory key-value store Redis \cite{redis} whi
     \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
-    Memory&
+
+    Memory &
     \begin{itemize}
       \item Application check data from memory, and put cache into memory.
       \item Retrieving data from memory is the faster way.
-    \end{itemize}\\ \hline
-    Temporary binary file&
+    \end{itemize} \\ \hline
+
+    Temporary binary file &
     \begin{itemize}
       \item Application loads binary file when it starts. After we close it, application save binary file in external storage driver.
       \item Loading temporary binary file spend time, so it is slower than memory.
-    \end{itemize}\\ \hline
+    \end{itemize} \\ \hline
+
     Database &
     \begin{itemize}
       \item Application access data from database.
       \item It takes time to create and manage a database.
-    \end{itemize}\\ \hline
+    \end{itemize} \\ \hline
+
     Redis &
     \begin{itemize}
       \item Objects to be serialized before being cached.
       \item Adding an additional dependency to the project.
       \item Less development time spent daemonizing and designing in-memory caching system.
-    \end{itemize}\\ \hline
+    \end{itemize} \\ \hline
     \end{tabular}
 \end{center}
 

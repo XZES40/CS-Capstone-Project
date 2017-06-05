@@ -44,7 +44,7 @@ The jist of this even loop is:
     \item Process request.
     \item Unlock cache.
     \item Wait for another request.
-  \begin{enumerate}
+  \end{enumerate}
   \item After five requests have been processed, clean the threads and start the while loop again.
 \end{enumerate}
 
@@ -68,11 +68,11 @@ A quick check is made to see if this combination of files and parameters has alr
 If it has, the previously processed (and already locally saved) file is returned.
 If the output file does not already exist, the job continues.
 
-The job request is formatted as ``job_id,/path/to/input.xml,/path/to/input.xslt/path/to/output.xml,param1,`val1',param2,`val2',...`.
+The job request is formatted as ``job\_id,/path/to/input.xml,/path/to/input.xslt/path/to/output.xml,param1,`val1',param2,`val2',...`.
 The serialized request is sent over a local network to the C++ daemon and processed.
 Since both the API script and daemon are on the same machine the files are opened directly from disk and the output file is written to the same directory.
 
-When the request is over the daemon responds with a string ``job_id,/path/to/output.xml,errors if any''.
+When the request is over the daemon responds with a string ``job\_id,/path/to/output.xml,errors if any''.
 The connection is then closed and the API send the file back to the user that made the request.
 
 \subsubsection{Custom parameter and file passing}

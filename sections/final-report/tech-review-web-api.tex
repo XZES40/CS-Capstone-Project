@@ -32,24 +32,28 @@ How we handle that is important to consider.
   \begin{tabular}{ | l | p{10cm} |}
     \hline
     Technology & Description  \\ \hline
+
     Apache CGI Script \cite{cgi-tutorial} &
     \begin{itemize}
       \item HTTP requests are handled by the Apache web-server.
       \item XZES functionality is called by ``shelling out'' to the program and returning the results.
       \item Apache CGI Script requires a running Apache Server on the host.
-    \end{itemize}\\ \hline
+    \end{itemize} \\ \hline
+
     Kore web-app framework \cite{kore-io} \cite{kore-feature} &
     \begin{itemize}
       \item HTTP Requests are handled by the Kore framework.
       \item XZES functionality is called natively with C code.
       \item Kore web-app framework acts as an independent daemon.
-    \end{itemize}\\ \hline
+    \end{itemize} \\ \hline
+
     Flask web-app framework \cite{flask-site} &
     \begin{itemize}
       \item HTTP Requests are handled by the Flask framework.
       \item XZES functionality is called either natively or by using \inlinecode{exec} to ``shell out''.
       \item Flask web-app framework can act as an independent daemon or be managed by Apache.
-    \end{itemize}\\ \hline
+    \end{itemize} \\ \hline
+
   \end{tabular}
 \end{center}
 
