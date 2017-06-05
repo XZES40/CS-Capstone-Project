@@ -20,10 +20,9 @@ ps: $(PSF)
 $(TRG): %.dvi: %.tex $(EXAMPLES)
 	$(LATEX) $<
 	$(BIBTEX) $(<:%.tex=%)
+	- $(GLOSSARIES) $(<:%.tex=%)
 	$(LATEX) $<
-	$(GLOSSARIES) $(<:%.tex=%)
 	$(LATEX) $<
-	# $(LATEX) $<
 
 $(PSF): %.ps: %.dvi
 	$(DVIPS) -R -Poutline $< -o $@
