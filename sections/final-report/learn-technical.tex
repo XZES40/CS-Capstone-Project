@@ -1,0 +1,44 @@
+\section{Learning: Technical}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How did you learn new technology?
+% > What web sites were helpful? (Listed in order of helpfulness.)
+% > What, if any, reference books really helped?
+% > Were there any people on campus that were really helpful?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following subsections outline material and individuals who helped us with technical tasks.
+
+\subsection{C/C++ Technologies}
+
+In writing C/C++ we used many technologies and read a \textit{lot} of documentation.
+
+For the Xerces and Xalan libraries (used for XML transformation) we used the online documentation \\ (\url{http://xml.apache.org/xalan-c/}, \url{https://xerces.apache.org/xerces-c/}) as well as examples included in the source tree of those projects as reference when writing our own code that used these libraries.
+Examples were the main source of truth and proved very helpful.
+
+\subsection{Tex Technologies}
+
+In writing documentation we used LaTex technologies and Markdown language.
+The main resource for the LaTex is that we learn from the shareLaTex (\url{https://www.sharelatex.com/project}), and we learned the Markdown language from the GitHub documentation page.
+
+\subsection{API technologies}
+
+The web API used Apache HTTPD and the Python CGI library.
+The Apache documentation (\url{https://httpd.apache.org/docs/}) and Python CGI library documentation (\url{https://docs.python.org/2/library/cgi.html}) were the main sources documentation used for crafting this task.
+
+\subsection{Web technologies}
+
+In developing the website a lot of Javascript and jQuery was used.
+The main source of information for jQuery was the project documentation, found at \url{http://api.jquery.com/}.
+
+\subsection{Platform technologies}
+
+In building an application for Linux there were a few notable learning curves we did not expect.
+
+For development we use Vagrant.
+This tool was useful but also caused some headaches early on with strange errors to do with mounting directories into the development VM.
+\footnote{We wanted to mount the directory in the VM so we could simply spin up the development VM, write code on our computers with our favorite IDEs, and just use the VM to build and test without requiring constant re-provisioning or manual copy/pasting of the code into the VM.}
+The vagrant documentation (vagrantup.com) and online reference material (stackoverflow.com) were very helpful in debugging these problems.
+
+In developing for Linux Elijah created a systemd service so that the application would be managed, and more importantly monitored and rebooted, by the Linux service manager.
+Systemd units are not the easiest thing in the world to write, but the systemd documentation was very helpful.
+This can be found online at \\ \url{https://www.freedesktop.org/wiki/Software/systemd/}.

@@ -1,0 +1,65 @@
+\section{Technology review}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction; what a technology review is.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In creating a piece of software it is best to look around, see what exists, and make an informed decisions about the tools you should use to carry out the project.
+This section outlines those technologies investigated and the reason the tools chosen were used.
+
+\subsection{Preliminary technology review}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Your tech review, in its original form.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This is the preliminary technology review with minimal edits.
+It includes the original references page for authenticity.
+
+\input{sections/final-report/tech-review-introduction.tex}
+\input{sections/final-report/tech-review-research-and-benchmarking.tex}
+\input{sections/final-report/tech-review-document-parsing.tex}
+\input{sections/final-report/tech-review-document-transformation.tex}
+\input{sections/final-report/tech-review-document-caching.tex}
+\input{sections/final-report/tech-review-parallel-processing.tex}
+\input{sections/final-report/tech-review-web-api.tex}
+\input{sections/final-report/tech-review-cli.tex}
+\input{sections/final-report/tech-review-web-interface.tex}
+\input{sections/final-report/tech-review-linux-package.tex}
+\input{sections/final-report/tech-review-bsd-package.tex}
+\input{sections/final-report/tech-review-windows-package.tex}
+\input{sections/final-report/tech-review-conclusion.tex}
+
+\subsection{Changes to technologies used}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Did you change your mind about any technologies?
+% What had to change?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Interface (web) technologies}
+
+In the course of development we did not do a particularly good job of defining how we ought to create the web front-end.
+As a result it was thrown together fairly quickly a few weeks before the final deadline.
+The tools used in this component were not explicitly researched, but they were well thought out before development.
+
+Specifically we used jQuery to perform asynchronous calls to the Apache CGI script, FileSaver.js and Blob.js (discussed further in the project's Markdown documentation) to download the resulting files to the users computer, and raw HTML5 and CSS3 to format the page.
+These technologies worked well and are industry standard tools for small front-end web pages like this one.
+
+\subsubsection{Cache}
+
+The cache ended up using a Key-value library provided to us by our client already in the Xerces/Xalan code-bases.
+This was well-defined early on because we had not yet decided if we were going to write a cache system in-memory ourselves or use a different tool like Redis.
+The key-value scheme worked well and was very performed well in testing.
+
+\subsubsection{Parallel/Daemon}
+
+Although we discussed using higher levels of abstraction for creating forking processes.
+We ended up just using the system default Linux POSIX threads as this was the technology we were most comfortable with.
+
+\subsubsection{Vagrant}
+
+We expected to use VirtualBox for development but ended up using Vagrant as this was the tool one of the developers was most comfortable with and he was willing to put in extra effort to make this system robust enough for the project's needs.
+This ended up helping the team write setup scripts, used by Vagrant to setup a "one command" testing environment, which can be used at a later date for creating a system package.
+
+The Vagrant environment automatically downloads the required operating system (Debian), installs the required packages, copies over the required configuration files (in Apache and systemd), and starts the web server.
+Users who want to contribute can run the service locally just need to install Vagrant and run `vagrant up' to get a development environment; further change are automatically copied into the VM and they can compile code in the os by running `vagrant ssh' and running `make' in the VM.
+
+This tool was used for its robust features, simple interface, and cross platform compatibility.

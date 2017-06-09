@@ -1,0 +1,33 @@
+\section{Introduction}
+
+% An introduction to the project.
+% > Why was it requested?
+% > What is its importance?
+
+% > Who was/were your client(s)?
+% > Who requested it?
+% > What was the role of the client(s)?
+%   (I.e., did they supervise only, or did they participate in doing development) 
+
+The \textit{High Performance XML/XSLT Transformation Server} project was proposed by Steven Hathaway in affiliation with the Apache Software Foundation.
+The original task was described as ``Create a high-performance \gls{xml}/\gls{xslt} document transformation server to perform large and repetitive document transformation tasks in a timely manner.
+The source libraries will be the Apache Xerces-C and Apache Xalan-C products.
+The server should also include support ICU (International Components for Unicode) in \gls{xml} parsers and document serialization.''
+The original deliverables were ``[...] a client program that can demonstrate several document transformations using the services of an \gls{xml}/\gls{xslt} transformation server.'' 
+
+An \gls{xml} transformer is an application which takes in two or more structured input files, specifically \gls{xml} files and \gls{xslt} (XML Style Sheets), processes the transformations specified in the \gls{xslt} file, and outputs the resulting \gls{xml} file.
+For the purposes of this project it is not entirely important to understand the underlying transformations taking place, since the objective of the project was to implement a web service using existing [Apache maintained] libraries and tools, not to re-implement an \gls{xml} transformer library.
+
+The application's importance comes mainly from large enterprise needs for \gls{xml} document transformation.
+Many organizations depend on \gls{xml} data transformations for a variety of tasks, but tend to perform these tasks on local hardware.
+By creating an Open Source application which can offload this computation, employees can get more work done (A) not installing an XML transformer application locally and (B) not using their local machine to carry out computation heavy \gls{xml} transformations.
+
+Steven played a role in the development of the application, making himself available for meetings but not actively mentoring the development team. He did explicitly make himself available for mentor ship if members of the development team needed.
+
+\subsection{Development team}
+% > Who are the members of your team?
+% > What were their roles?
+
+The development team consisted of Zixun Lu, Shuai Peng, and Elijah C. Voigt.
+All three students were seniors in the Computer Science program at OSU.
+Zixun and Shuai were exchange students from China; Elijah was a local Oregonian.
