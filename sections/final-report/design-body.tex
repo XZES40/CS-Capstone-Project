@@ -3,36 +3,36 @@
 
 The following is a list of \textbf{required} project components ordered by importance:
 
-\begin{figure}
-\begin{center}
-    \begin{tabular}{ | l | r | }
-    \hline
-      Component & Owner \\ \hline
-      Document Transformer & Elijah C. Voigt \\ \hline
-      Website Interface & Shuai Peng \\ \hline
-      Web API & Elijah C. Voigt \\ \hline
-      Document Cache & Shuai Peng \\ \hline
-      Daemon Process & Elijah C. Voigt \\ \hline
-      Parallel Document Transformation & Shuai Peng\\ \hline
-      Benchmarking & Zixun Lu \\ \hline
-      Debian Software Package & Zixun Lu \\ \hline
-    \end{tabular}
-\end{center}
-\caption{Required project components ordered by importance}
+\begin{figure}[H]
+  \begin{center}
+      \begin{tabular}{ | l | r | }
+      \hline
+        Component & Owner \\ \hline
+        Document Transformer & Elijah C. Voigt \\ \hline
+        Website Interface & Shuai Peng \\ \hline
+        Web API & Elijah C. Voigt \\ \hline
+        Document Cache & Shuai Peng \\ \hline
+        Daemon Process & Elijah C. Voigt \\ \hline
+        Parallel Document Transformation & Shuai Peng\\ \hline
+        Benchmarking & Zixun Lu \\ \hline
+        Debian Software Package & Zixun Lu \\ \hline
+      \end{tabular}
+  \end{center}
+  \caption{Required project components ordered by importance}
 \end{figure}
 
-\begin{figure}
-\begin{center}
-    \begin{tabular}{ | l | r | }
-    \hline
-      Component & Owner \\ \hline
-      CLI Interface & Elijah C. Voigt \\ \hline
-      CentOS Linux software package & Elijah C. Voigt \\ \hline
-      Windows software package & Shuai Peng \\ \hline
-      FreeBSD software package & Elijah C. Voigt  \\ \hline
-    \end{tabular}
-\end{center}
-\caption{Stretch goal project components ordered by importance}
+\begin{figure}[H]
+  \begin{center}
+      \begin{tabular}{ | l | r | }
+      \hline
+        Component & Owner \\ \hline
+        CLI Interface & Elijah C. Voigt \\ \hline
+        CentOS Linux software package & Elijah C. Voigt \\ \hline
+        Windows software package & Shuai Peng \\ \hline
+        FreeBSD software package & Elijah C. Voigt  \\ \hline
+      \end{tabular}
+  \end{center}
+  \caption{Stretch goal project components ordered by importance}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,10 +45,10 @@ This subsubsection outlines the views and viewpoints related to the Document Tra
 These components relate to core functionality of the application:
 
 \begin{enumerate}
-\item Taking input \gls{xml} and \gls{xslt} documents
-\item Parsing them into \gls{dom} objects
-\item Transforming those into a new \gls{xml} document
-\item Returning the final product to a user
+  \item Taking input \gls{xml} and \gls{xslt} documents
+  \item Parsing them into \gls{dom} objects
+  \item Transforming those into a new \gls{xml} document
+  \item Returning the final product to a user
 \end{enumerate}
 
 This subsubsection does not necessarily outline how users interact with the application, for that one should see the User Interface subsubsection (\ref{user-interface}).
@@ -108,7 +108,7 @@ The Transformer deals heavily with state dynamics in ways: transforming document
 
 The Transformer does not directly handle transforming documents, this task is delegated to the \gls{xalan} library. \cite{xalan-library}
 The transformer takes two or more documents as input: an \gls{xml} \gls{dom} file and an \gls{xslt} object.
-The input documents are transformed by the \gls{xalan} library and the resulting document is eventually returned by the writer (\ref{writer}) via the \gls{api} (\ref{web-api}).
+The input documents are transformed by the \gls{xalan} library and the resulting document is eventually returned by the writer (\ref{writer}) via the \gls{ } (\ref{web-api}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \textbf{Interactions}
@@ -235,7 +235,7 @@ This value is for retrieving the data from the Cache.
 
 The content is the parsed or transformed \gls{dom} object.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Psuedocode for the caching generic object ``node''.}]
 struct node {
   dom data;
   string key;
@@ -648,7 +648,7 @@ The \gls{cli} depends on the following system dependencies:
 \textbf{Interfaces}
 
 The \gls{cli} has the following options available at the command-line:
-\begin{figure}
+\begin{figure}[H]
     \begin{lstlisting}
 $ xzes40
     --server=<server-url[:port]> # API endpoint and port to be used.
@@ -662,8 +662,8 @@ $ xzes40
 
 The following are examples of the \gls{cli} in use:
 
-\begin{figure}
-    \begin{lstlisting}
+\begin{figure}[H]
+    \begin{lstlisting}[caption={}]
 $ xzes40 --server=http://xzes40.example.com:8080 \
          --xml=input-file.xml \
          --xslt=style.xslt
@@ -674,19 +674,19 @@ Downloading transformed document to ./xzes40-transformer-2016-11-22.xml
 \end{figure}
 
 
-\begin{figure}
-    \begin{lstlisting}
+\begin{figure}[H]
+   \begin{lstlisting}
 $ xzes40 --server=http://xzes40.example.com:8080 \
          --xml=input-file.xml \
          --xslt=style.xslt \
          --output=transformed-doc.xml
 Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
 Downloading transformed document to ./transformed-doc.xml
-    \end{lstlisting}
+   \end{lstlisting}
    \caption{``Happy path'' use-case with return file name.}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \begin{lstlisting}
 $ xzes40 --server=http://xzes40.example.com:8080 \
          --xml=input-file.xml \
@@ -699,30 +699,30 @@ Server responded with error. One of your documents is malformed.
 
 
 ``Un-happy path'' with bad host.
-\begin{figure}
-\begin{lstlisting}
+\begin{figure}[H]
+  \begin{lstlisting}
 $ xzes40 --server=http://fakesite.com:8080 \
          --xml=input-file.xml --xslt=style.xslt \
 Sending input-file.xml and style.xslt to the http://xzes40.example.com:8080
 Unable to reach server. Is the host/port correct?
-\end{lstlisting}
-\caption{``Un-happy path'' with bad host.}
+  \end{lstlisting}
+  \caption{``Un-happy path'' with bad host.}
 \end{figure}
 
-\begin{figure}
-\begin{lstlisting}
+\begin{figure}[H]
+  \begin{lstlisting}
 $ xzes40  --xml=input-file.xml--xslt=style.xslt
 Please specify a host
-\end{lstlisting}
-\caption{``Un-happy path'' with no host.}
+  \end{lstlisting}
+  \caption{``Un-happy path'' with no host.}
 \end{figure}
 
-\begin{figure}
-\begin{lstlisting}
+\begin{figure}[H]
+  \begin{lstlisting}
 $ xzes40  --server=http://xzes40.example.com:8080
 Please specify an input xml and/or xslt document.
-\end{lstlisting}
-\caption{``Un-happy path'' with missing input document.}
+  \end{lstlisting}
+  \caption{``Un-happy path'' with missing input document.}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -754,8 +754,8 @@ We will upload those packages to the internet and the users can directly downloa
 \textbf{Resources}
 
 The following tools will be used to create the installation packages. 
-\begin{figure}
-\begin{center}                                                                       
+\begin{figure}[H]
+  \begin{center}                                                                       
     \begin{tabular}{ | p{2.5cm} | p{5cm} | p{5cm} | }
     \hline
       Packages & Tools & Description \\ \hline
@@ -824,7 +824,7 @@ Throughout development we will put our application through the same paces and co
 
 We will be bench-marking these applications specifically for the following reasons.
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \begin{tabular}{ | l | p{10cm} |}
     \hline

@@ -21,33 +21,36 @@ We will be evaluating the parsing method which is likely to perform best in our 
 
 \paragraph{Comparison breakdown}
 
-\begin{center}
-  \begin{tabular}{ | l | p{10cm} | }
-    \hline
-    Technology & Description  \\ \hline
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{ | l | p{10cm} | }
+      \hline
+      Technology & Description  \\ \hline
 
-    Xerces-C/C++ \cite{xerces} &
-    \begin{itemize}
-      \item Requested to be used by our client.
-      \item Implements DOM parsing.
-      \item Implements SAX parsing.
-      \item Feature Rich.
-    \end{itemize} \\ \hline
+      Xerces-C/C++ \cite{xerces} &
+      \begin{itemize}
+        \item Requested to be used by our client.
+        \item Implements DOM parsing.
+        \item Implements SAX parsing.
+        \item Feature Rich.
+      \end{itemize} \\ \hline
 
-    DOM parsing \cite{dom-vs-sax} &
-    \begin{itemize}
-      \item Memory intensive.
-      \item Ideal for carrying out many operations on a document.
-    \end{itemize} \\ \hline
+      DOM parsing \cite{dom-vs-sax} &
+      \begin{itemize}
+        \item Memory intensive.
+        \item Ideal for carrying out many operations on a document.
+      \end{itemize} \\ \hline
 
-    SAX parsing \cite{dom-vs-sax} &
-    \begin{itemize}
-      \item Memory light.
-      \item Event-based processing.
-      \item Ideal for minimal transformations.
-    \end{itemize} \\ \hline
-  \end{tabular}
-\end{center}
+      SAX parsing \cite{dom-vs-sax} &
+      \begin{itemize}
+        \item Memory light.
+        \item Event-based processing.
+        \item Ideal for minimal transformations.
+      \end{itemize} \\ \hline
+    \end{tabular}
+  \end{center}
+  \caption{Technology evaluated for XML document parsing.}
+\end{table}
 
 \paragraph{Discussion}
 

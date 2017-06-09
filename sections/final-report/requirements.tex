@@ -34,14 +34,17 @@ These are what the client ought to ``grade'' the final product against to judge 
 
 This section outlines requirements added to the project during development.
 
-\begin{center}
-  \begin{tabular}{ c | c | p{7cm} | p{6cm} }
-    \hline 
-    \# & Requirements & What happened & Comments \\ \hline
-    1 & Parameter passing & This is a simple parameter passing requirement that is required by client in spring term. It just pass the parameter to our transformer, so transformer know what the output looks like & \\ \hline
-    2 & Additional file passing & Some XML file and XSLT file require the DTD file which is a database file, so we add this function to our transformer, because we need benchmark our program.& \\ \hline
-  \end{tabular}
-\end{center}
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{ | c | c | p{7cm} | p{6cm} | }
+      \hline 
+      \# & Requirements & What happened & Comments \\ \hline
+      1 & Parameter passing & This is a simple parameter passing requirement that is required by client in spring term. It just pass the parameter to our transformer, so transformer know what the output looks like & \\ \hline
+      2 & Additional file passing & Some XML file and XSLT file require the DTD file which is a database file, so we add this function to our transformer, because we need benchmark our program.& \\ \hline
+    \end{tabular}
+  \end{center}
+  \caption{Added requirements and rationales.}
+\end{table}
 
 \subsection{Updated requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,14 +58,17 @@ This section outlines requirements added to the project during development.
 
 This section outlines requirements which changed during development.
 
-\begin{center}
-  \begin{tabular}{ c | c | p{7cm} | p{6cm} }
-    \hline
-    \# & Requirements & What happened & Comments \\ \hline
-    1 & Daemon & This requirement was more complex than initially expected, there was confusion about the complexity of this component. We were originally unclear about weather we needed to run a daemon for our in-memory cache, or if we could store the cache in a separate application like Redis. & \\ \hline
-    2 & CLI Interface & A CLI Interface was not explicitly created for the application, however one was created for testing purposes. & With small changes this interface may be created if further development takes place \\ \hline
-  \end{tabular}
-\end{center}
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{ | c | c | p{7cm} | p{6cm} | }
+      \hline
+      \# & Requirements & What happened & Comments \\ \hline
+      1 & Daemon & This requirement was more complex than initially expected, there was confusion about the complexity of this component. We were originally unclear about weather we needed to run a daemon for our in-memory cache, or if we could store the cache in a separate application like Redis. & \\ \hline
+      2 & CLI Interface & A CLI Interface was not explicitly created for the application, however one was created for testing purposes. & With small changes this interface may be created if further development takes place \\ \hline
+    \end{tabular}
+  \end{center}
+  \caption{Updated requirements and rationales.}
+\end{table}
 
 \subsection{Removed requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,13 +82,16 @@ This section outlines requirements which changed during development.
 
 This section outlines requirements which were removed during development.
 
-\begin{center}
-  \begin{tabular}{ c | c | p{7cm} | p{6cm} }
-    \hline
-    \# & Requirements & What happened & Comments \\ \hline
-    1 & Installation Package &
-      This requirement was not explicitly removed from the requirements list, however no effort was made to complete this component of the project. & 
-      Neither the core requirements, a Debian package, nor the stretch goals, a Windows, CentOS, and BSD package, were pursued.
-      The client agreed that as a prototype an installation package was not required to call the project as success. \\ \hline
-  \end{tabular}
-\end{center}
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{ | c | c | p{7cm} | p{6cm} | }
+      \hline
+      \# & Requirements & What happened & Comments \\ \hline
+      1 & Installation Package &
+        This requirement was not explicitly removed from the requirements list, however no effort was made to complete this component of the project. & 
+        Neither the core requirements, a Debian package, nor the stretch goals, a Windows, CentOS, and BSD package, were pursued.
+        The client agreed that as a prototype an installation package was not required to call the project as success. \\ \hline
+    \end{tabular}
+  \end{center}
+  \caption{Removed requirements and rationales.}
+\end{table}

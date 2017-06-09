@@ -57,7 +57,7 @@ When a request comes it it is formatted as an HTTP Form with the following field
 
 \begin{itemize}
   \item xml: Content of XML input file.
-  \item xsl: Contnet of XSLT input file.
+  \item xsl: Content of XSLT input file.
   \item params: A JSON formatted key:value pair of custom parameters (discussed further in the next subsection).
 \end{itemize}
 
@@ -68,7 +68,7 @@ A quick check is made to see if this combination of files and parameters has alr
 If it has, the previously processed (and already locally saved) file is returned.
 If the output file does not already exist, the job continues.
 
-The job request is formatted as ``job\_id,/path/to/input.xml,/path/to/input.xslt/path/to/output.xml,param1,`val1',param2,`val2',...`.
+The job request is formatted as ``job\_id,  /path/to/input.xml, /path/to/input.xslt/path/to/output.xml, param1, `val1', param2, `val2', ...`.
 The serialized request is sent over a local network to the C++ daemon and processed.
 Since both the API script and daemon are on the same machine the files are opened directly from disk and the output file is written to the same directory.
 

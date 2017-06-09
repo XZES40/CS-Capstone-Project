@@ -22,30 +22,33 @@ The tool chosen should be free, relatively painless to use, and require minimal 
 
 \paragraph{Comparison breakdown}
 
-\begin{center}
-  \begin{tabular}{ | l | p{10cm} |}
-    \hline
-    Technology & Description  \\ \hline
-    Poudriere \cite{poudriere-tutorial} &
-    \begin{itemize}
-      \item Creates builds for multiple platforms including other versions of FreeBSD and other CPU architectures.
-      \item Builds packages in parallel.
-      \item Free.
-    \end{itemize}\\ \hline
-    FPM \cite{fpm-home} &
-    \begin{itemize}
-      \item Translates packages from one format to another.
-      \item Allows re-use of other system's packages.
-      \item Free.
-    \end{itemize}\\ \hline
-    pkg-create \cite{pkg-create-man} &
-    \begin{itemize}
-      \item Simple to use.
-      \item Installed on most FreeBSD systems.
-      \item Free.
-    \end{itemize}\\ \hline
-  \end{tabular}
-\end{center}
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{ | l | p{10cm} |}
+      \hline
+      Technology & Description  \\ \hline
+      Poudriere \cite{poudriere-tutorial} &
+      \begin{itemize}
+        \item Creates builds for multiple platforms including other versions of FreeBSD and other CPU architectures.
+        \item Builds packages in parallel.
+        \item Free.
+      \end{itemize}\\ \hline
+      FPM \cite{fpm-home} &
+      \begin{itemize}
+        \item Translates packages from one format to another.
+        \item Allows re-use of other system's packages.
+        \item Free.
+      \end{itemize}\\ \hline
+      pkg-create \cite{pkg-create-man} &
+      \begin{itemize}
+        \item Simple to use.
+        \item Installed on most FreeBSD systems.
+        \item Free.
+      \end{itemize}\\ \hline
+    \end{tabular}
+  \end{center}
+  \caption{Tools considered for the use of system package creation.}
+\end{table}
 
 \paragraph{Discussion}
 
